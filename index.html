@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotPage - Your Personal Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Search -->
+        <header class="header">
+            <h1 class="logo">HotPage</h1>
+            <div class="search-box">
+                <select id="searchEngine" class="search-engine">
+                    <option value="google">Google</option>
+                    <option value="duckduckgo">DuckDuckGo</option>
+                    <option value="bing">Bing</option>
+                </select>
+                <input type="text" id="searchInput" class="search-input" placeholder="Quick search...">
+                <button onclick="performSearch()" class="search-btn">Search</button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Grid -->
+        <main class="dashboard">
+            <!-- Shortcuts Section -->
+            <section class="widget shortcuts-widget">
+                <h2>Shortcuts</h2>
+                <div id="shortcutsList" class="shortcuts-list"></div>
+                <button onclick="showAddShortcutModal()" class="btn-add">+ Add Shortcut</button>
+            </section>
+
+            <!-- Weather Widget -->
+            <section class="widget weather-widget">
+                <h2>Weather</h2>
+                <div id="weatherContent" class="weather-content">
+                    <input type="text" id="cityInput" placeholder="Enter city name" class="city-input">
+                    <button onclick="getWeather()" class="btn-small">Get Weather</button>
+                    <div id="weatherDisplay" class="weather-display"></div>
+                </div>
+            </section>
+
+            <!-- Currency Converter -->
+            <section class="widget currency-widget">
+                <h2>Currency Converter</h2>
+                <div class="converter">
+                    <input type="number" id="currencyAmount" placeholder="Amount" value="1" class="input-small">
+                    <select id="fromCurrency" class="select-small">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                    </select>
+                    <span>→</span>
+                    <select id="toCurrency" class="select-small">
+                        <option value="EUR">EUR</option>
+                        <option value="USD">USD</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                    </select>
+                    <button onclick="convertCurrency()" class="btn-small">Convert</button>
+                </div>
+                <div id="currencyResult" class="result"></div>
+            </section>
+
+            <!-- Crypto Data -->
+            <section class="widget crypto-widget">
+                <h2>Crypto Prices</h2>
+                <div id="cryptoList" class="crypto-list">
+                    <p class="info-text">Loading crypto prices...</p>
+                </div>
+                <button onclick="refreshCrypto()" class="btn-small">Refresh</button>
+            </section>
+
+            <!-- RSS Feeds -->
+            <section class="widget rss-widget">
+                <h2>RSS Feeds</h2>
+                <input type="text" id="rssUrl" placeholder="Add RSS feed URL" class="input-full">
+                <button onclick="addRssFeed()" class="btn-small">Add Feed</button>
+                <div id="rssFeedsList" class="rss-list"></div>
+            </section>
+
+            <!-- Sticky Notes -->
+            <section class="widget notes-widget">
+                <h2>Sticky Notes</h2>
+                <textarea id="notesArea" class="notes-area" placeholder="Write your notes here..."></textarea>
+                <button onclick="saveNotes()" class="btn-small">Save Notes</button>
+            </section>
+
+            <!-- Todo List -->
+            <section class="widget todo-widget">
+                <h2>Todo List</h2>
+                <div class="todo-input-group">
+                    <input type="text" id="todoInput" placeholder="Add a new task..." class="input-full">
+                    <button onclick="addTodo()" class="btn-add">+ Add</button>
+                </div>
+                <ul id="todoList" class="todo-list"></ul>
+            </section>
+
+            <!-- Pomodoro Timer -->
+            <section class="widget pomodoro-widget">
+                <h2>Pomodoro Timer</h2>
+                <div class="timer-display">
+                    <div id="timerDisplay" class="timer-text">25:00</div>
+                    <div class="timer-controls">
+                        <button onclick="startTimer()" class="btn-timer" id="startBtn">Start</button>
+                        <button onclick="pauseTimer()" class="btn-timer" id="pauseBtn">Pause</button>
+                        <button onclick="resetTimer()" class="btn-timer">Reset</button>
+                    </div>
+                    <div class="timer-settings">
+                        <label>Work: <input type="number" id="workMinutes" value="25" min="1" max="60" class="timer-input"> min</label>
+                        <label>Break: <input type="number" id="breakMinutes" value="5" min="1" max="30" class="timer-input"> min</label>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for adding shortcuts -->
+    <div id="shortcutModal" class="modal">
+        <div class="modal-content">
+            <h3>Add Shortcut</h3>
+            <input type="text" id="shortcutName" placeholder="Name" class="input-full">
+            <input type="url" id="shortcutUrl" placeholder="URL (https://...)" class="input-full">
+            <div class="modal-buttons">
+                <button onclick="addShortcut()" class="btn-primary">Add</button>
+                <button onclick="closeShortcutModal()" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
