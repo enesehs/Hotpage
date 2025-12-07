@@ -7,6 +7,11 @@ const STORAGE_KEYS = {
     RSS_FEEDS: 'hotpage_rss_feeds'
 };
 
+// Constants
+const CRYPTO_REFRESH_INTERVAL = 60000; // 60 seconds
+const DEFAULT_WORK_MINUTES = 25;
+const DEFAULT_BREAK_MINUTES = 5;
+
 // Initialize app on load
 document.addEventListener('DOMContentLoaded', function() {
     loadShortcuts();
@@ -24,6 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add enter key support for todo
     document.getElementById('todoInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') addTodo();
+    });
+    
+    // Auto-save notes on typing
+    let notesTimeout;
+    document.getElementById('notesArea').addEventListener('input', function() {
+        clearTimeout(notesTimeout);
+        notesTimeout = setTimeout(() => {
+            localStorage.setItem(STORAGE_KEYS.NOTES, this.value);
+        }, 1000);
     });
 });
 
@@ -225,7 +239,7 @@ let cryptoUpdateInterval;
 async function initCrypto() {
     await refreshCrypto();
     // Auto-refresh every 60 seconds
-    cryptoUpdateInterval = setInterval(refreshCrypto, 60000);
+    cryptoUpdateInterval = setInterval(refreshCrypto, CRYPTO_REFRESH_INTERVAL);
 }
 
 async function refreshCrypto() {
@@ -330,12 +344,14 @@ function saveNotes() {
     localStorage.setItem(STORAGE_KEYS.NOTES, notes);
     
     // Visual feedback
-    const btn = event.target;
-    const originalText = btn.textContent;
-    btn.textContent = 'Saved!';
-    setTimeout(() => {
-        btn.textContent = originalText;
-    }, 1500);
+    const saveButton = document.querySelector('.notes-widget button');
+    if (saveButton) {
+        const originalText = saveButton.textContent;
+        saveButton.textContent = 'Saved!';
+        setTimeout(() => {
+            saveButton.textContent = originalText;
+        }, 1500);
+    }
 }
 
 // ==================== TODO LIST ====================
@@ -390,7 +406,7 @@ function deleteTodo(index) {
 
 // ==================== POMODORO TIMER ====================
 let timerInterval;
-let timerSeconds = 25 * 60; // 25 minutes default
+let timerSeconds = DEFAULT_WORK_MINUTES * 60;
 let isWorkSession = true;
 let isPaused = true;
 
@@ -454,8 +470,7 @@ function playNotification() {
     // Create a simple notification
     if ('Notification' in window && Notification.permission === 'granted') {
         new Notification('Pomodoro Timer', {
-            body: isWorkSession ? 'Work session completed! Time for a break.' : 'Break completed! Time to work.',
-            icon: '/favicon.ico'
+            body: isWorkSession ? 'Work session completed! Time for a break.' : 'Break completed! Time to work.'
         });
     } else if ('Notification' in window && Notification.permission !== 'denied') {
         Notification.requestPermission().then(permission => {
@@ -498,14 +513,3 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
-
-// Auto-save notes on typing
-document.addEventListener('DOMContentLoaded', function() {
-    let notesTimeout;
-    document.getElementById('notesArea')?.addEventListener('input', function() {
-        clearTimeout(notesTimeout);
-        notesTimeout = setTimeout(() => {
-            localStorage.setItem(STORAGE_KEYS.NOTES, this.value);
-        }, 1000);
-    });
-});
