@@ -1,0 +1,36 @@
+.clock {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  margin-top: 15vh;
+}
+
+.clock-time {
+  font-size: 5.5rem;
+  font-weight: 900;
+  font-family: var(--font-secondary);
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+  margin-bottom: var(--spacing-sm);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
+               0 4px 16px rgba(0, 0, 0, 0.2),
+               0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.clock-date {
+  font-size: 1.125rem;
+  color: var(--color-textSecondary);
+  font-family: var(--font-primary);
+  font-weight: 400;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+               0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .clock-time {
+    font-size: 4rem;
+  }
+
+  .clock-date {
+    font-size: 1rem;
+  }
+}

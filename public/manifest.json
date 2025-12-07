@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "HotPage - Customizable Homepage",
+  "version": "0.1.0",
+  "description": "A fully customizable browser homepage with widgets, themes, and personalization options",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "hotpage@enesehs.dev",
+      "strict_min_version": "109.0"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "storage",
+    "geolocation"
+  ]
+}

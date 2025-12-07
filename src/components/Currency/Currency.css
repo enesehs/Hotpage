@@ -1,0 +1,455 @@
+.currency-widget {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Main Card - Glassmorphism */
+.currency-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Widget Header - Shared Style */
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.widget-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.widget-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+}
+
+.weather-last-updated,
+.currency-last-updated,
+.rss-last-updated {
+  font-size: 0.75rem;
+  color: var(--color-textSecondary);
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.weather-last-updated::before,
+.currency-last-updated::before,
+.rss-last-updated::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: rgba(74, 222, 128, 0.7);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+}
+
+/* Widget Loading Bar - Shared Style */
+.widget-loading {
+  padding: var(--spacing-xl) 0;
+}
+
+.loading-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-bar-fill {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  animation: loading-slide 1.5s ease-in-out infinite;
+}
+
+@keyframes loading-slide {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Header */
+.currency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+/* Tabs - Glassmorphism style */
+.currency-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.currency-tab {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-textSecondary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.currency-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.currency-tab.active {
+  background: var(--color-primary);
+  color: #000;
+  border-color: var(--color-primary);
+  font-weight: 600;
+}
+
+.currency-tab svg {
+  width: 16px;
+  height: 16px;
+  opacity: 0.85;
+  color: currentColor;
+}
+
+.currency-tab.active svg {
+  opacity: 1;
+}
+
+/* Grid Layout - Max 5 columns, centered if less */
+.currency-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.currency-grid > .currency-item {
+  flex: 0 0 calc(20% - var(--spacing-sm));
+  max-width: calc(20% - var(--spacing-sm));
+  min-width: 130px;
+}
+
+/* Currency Item Card - Glassmorphism - Compact */
+.currency-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+
+/* Icon Container - Theme color */
+.currency-item-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  transition: all 0.3s ease;
+}
+
+
+
+.currency-item-icon svg {
+  width: 22px;
+  height: 22px;
+  color: currentColor;
+}
+
+/* Item Info */
+.currency-item-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.currency-item-name {
+  font-size: 0.7rem;
+  color: var(--color-textSecondary);
+  font-weight: 400;
+}
+
+.currency-item-code {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Rate */
+.currency-item-rate {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-top: 2px;
+}
+
+/* Change Badge - Glassmorphism */
+.currency-item-change {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--color-text);
+}
+
+.currency-item-change.positive {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.currency-item-change.negative {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.currency-item-change.neutral {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.currency-item-change svg {
+  width: 10px;
+  height: 10px;
+}
+
+/* Sparkline */
+.currency-sparkline {
+  width: 100%;
+  height: 28px;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+.currency-sparkline svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Loading State */
+.currency-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  gap: var(--spacing-md);
+  color: var(--color-textSecondary);
+}
+
+.currency-loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--color-text);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error State */
+.currency-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: var(--spacing-sm);
+  text-align: center;
+}
+
+.currency-error svg {
+  width: 40px;
+  height: 40px;
+  color: #f87171;
+}
+
+.currency-error p {
+  color: var(--color-textSecondary);
+  font-size: 0.9rem;
+}
+
+.currency-error button {
+  margin-top: var(--spacing-sm);
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: var(--font-primary);
+  transition: all 0.3s ease;
+}
+
+.currency-error button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Empty State */
+.currency-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: var(--spacing-sm);
+  text-align: center;
+  color: var(--color-textSecondary);
+}
+
+.currency-empty svg {
+  width: 40px;
+  height: 40px;
+  opacity: 0.4;
+}
+
+/* Footer - Removed, using header for last updated */
+.currency-footer {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .currency-grid > .currency-item {
+    flex: 0 0 calc(33.33% - var(--spacing-sm));
+    max-width: calc(33.33% - var(--spacing-sm));
+  }
+}
+
+@media (max-width: 600px) {
+  .currency-card {
+    padding: var(--spacing-md);
+  }
+
+  .currency-item {
+    padding: var(--spacing-sm);
+    min-height: 100px;
+  }
+
+  .currency-item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+  }
+
+  .currency-item-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .currency-item-rate {
+    font-size: 0.9rem;
+  }
+
+  .currency-tabs {
+    padding: 3px;
+  }
+
+  .currency-tab {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+  
+  .currency-header {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 450px) {
+  .currency-grid > .currency-item {
+    flex: 0 0 calc(50% - var(--spacing-sm));
+    max-width: calc(50% - var(--spacing-sm));
+  }
+}
+
+@media (max-width: 400px) {
+  .currency-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
