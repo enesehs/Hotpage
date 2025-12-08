@@ -43,7 +43,6 @@ export const SettingsPanel = ({
   const [draggedWidget, setDraggedWidget] = useState<string | null>(null);
   const importFileRef = useRef<HTMLInputElement | null>(null);
 
-  // Load images from IndexedDB
   useEffect(() => {
     const loadImages = async () => {
       try {
@@ -62,10 +61,8 @@ export const SettingsPanel = ({
   if (!isOpen) return null;
 
   const handleThemeChange = (themeName: string) => {
-    // Apply theme immediately for instant feedback
     const theme = getTheme(themeName, settings.customThemeColors);
     applyTheme(theme);
-    // Also update settings
     onSettingsChange({ theme: themeName });
   };
 
@@ -74,12 +71,10 @@ export const SettingsPanel = ({
       ...settings.customThemeColors,
       [colorKey]: colorValue,
     };
-    // Apply theme immediately for instant feedback
     if (settings.theme === 'custom') {
       const theme = getTheme('custom', newCustomColors as any);
       applyTheme(theme);
     }
-    // Update settings
     onSettingsChange({
       customThemeColors: newCustomColors as any
     });
@@ -267,31 +262,125 @@ export const SettingsPanel = ({
                 />
               </div>
 
-              <h3 style={{ marginTop: 'var(--spacing-xl)' }}>About</h3>
-              <div className="about-info">
-                <p><strong>HotPage</strong> v1.0.0</p>
-                <p>Customizable browser homepage with widgets</p>
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-textSecondary)', marginTop: 'var(--spacing-sm)' }}>
-                  Built with React 19 + Vite 7 + TypeScript
-                </p>
-                <p style={{ fontSize: '0.875rem', marginTop: 'var(--spacing-md)' }}>
-                  <strong>Developer:</strong>{' '}
-                  <a 
-                    href="https://enesehs.dev" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{ color: 'var(--color-primary)', textDecoration: 'none' }}
-                  >
-                    enesehs.dev
-                  </a>
-                </p>
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-textSecondary)', marginTop: 'var(--spacing-xs)' }}>
-                  © {new Date().getFullYear()} All rights reserved
+            <h3 style={{ marginTop: 'var(--spacing-xl)' }}>About</h3>
+            <div className="about-info">
+              <p><strong>HotPage v0.1 [Open Beta]</strong></p>
+              <p style={{ fontSize: '0.875rem', color: 'var(--color-textSecondary)' }}>
+                A customizable browser homepage with widgets and productivity tools.
+              </p>
+
+              <div style={{ marginTop: 'var(--spacing-md)' }}>
+                <p style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: 'var(--spacing-sm)' }}>Tech Stack</p>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--color-textSecondary)', margin: 0 }}>
+                  React 19 • Vite 7 • TypeScript
                 </p>
               </div>
 
+              <div style={{ marginTop: 'var(--spacing-md)' }}>
+                <p style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: 'var(--spacing-sm)' }}>Privacy</p>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--color-textSecondary)', margin: 0 }}>
+                  No tracking. No analytics. All data stays locally in your browser.
+                </p>
+              </div>
+
+              <div style={{ marginTop: 'var(--spacing-md)' }}>
+                <p style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: 'var(--spacing-sm)' }}>License</p>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--color-textSecondary)', margin: 0 }}>
+                  Licensed under the MIT License. You are free to use, modify, and distribute this software with attribution.
+                </p>
+              </div>
+
+              <div style={{ marginTop: 'var(--spacing-lg)' }}>
+                <p style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: 'var(--spacing-sm)' }}>Links</p>
+
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '6px' }}>
+                  <li>
+                    <a 
+                      href="https://github.com/enesehs/Hotpage"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ 
+                        fontSize: '0.8125rem',
+                        color: 'var(--color-primary)',
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M11.999 1C5.926 1 1 5.925 1 12c0 4.86 3.152 8.983 7.523 10.437c.55.102.75-.238.75-.53c0-.26-.009-.952-.014-1.87c-3.06.664-3.706-1.475-3.706-1.475c-.5-1.27-1.221-1.61-1.221-1.61c-.999-.681.075-.668.075-.668c1.105.078 1.685 1.134 1.685 1.134c.981 1.68 2.575 1.195 3.202.914c.1-.71.384-1.195.698-1.47c-2.442-.278-5.01-1.222-5.01-5.437c0-1.2.428-2.183 1.132-2.952c-.114-.278-.491-1.397.108-2.91c0 0 .923-.297 3.025 1.127A10.5 10.5 0 0 1 12 6.32a10.5 10.5 0 0 1 2.754.37c2.1-1.424 3.022-1.128 3.022-1.128c.6 1.514.223 2.633.11 2.911c.705.769 1.13 1.751 1.13 2.952c0 4.226-2.572 5.156-5.022 5.428c.395.34.747 1.01.747 2.037c0 1.47-.014 2.657-.014 3.017c0 .295.199.637.756.53C19.851 20.979 23 16.859 23 12c0-6.075-4.926-11-11.001-11"/></svg>
+                      Source Code
+                    </a>
+                  </li>
+
+                  <li>
+                    <a 
+                      href="https://buymeacoffee.com/enesehs"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ 
+                        fontSize: '0.8125rem',
+                        color: 'var(--color-primary)',
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="currentColor" d="M9.197 0L7.578 3.735H5.171v3.359h.921l.943 5.975H5.562L7.51 24.042l1.249-.015L10.015 32h11.891l.083-.531l1.172-7.443l1.188.015l1.943-10.973h-1.407l.937-5.975h1.011V3.734h-2.557L22.651-.001zm.704 1.073h12.057l1.025 2.375H8.868zm-3.666 3.73H25.76v1.228H6.235zm.604 9.333h18.183l-1.568 8.823l-7.536-.079l-7.511.079z"/></svg>
+                      Support the Project
+                    </a>
+                  </li>
+
+                    <li style={{ color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 512 512"
+                      preserveAspectRatio="xMidYMid meet"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    >
+                      <g transform="translate(0,512) scale(0.1,-0.1)" stroke="none">
+                        <path d="M1045 5105 c-263 -41 -477 -149 -671 -340 -160 -157 -254 -308 -319
+                        -515 -57 -182 -56 -150 -52 -1738 3 -1333 4 -1463 20 -1527 63 -257 159 -435
+                        330 -612 142 -147 295 -243 492 -309 200 -67 146 -65 1763 -61 1362 3 1462 4
+                        1532 21 257 61 458 174 631 354 170 176 266 354 325 602 17 70 18 175 21 1532
+                        4 1617 6 1563 -61 1763 -68 204 -164 354 -321 502 -196 186 -425 297 -688 332
+                        -121 17 -2897 13 -3002 -4z m1820 -1246 c613 -68 1045 -420 1172 -958 21 -88
+                        26 -140 30 -308 l6 -203 -1197 0 -1196 0 0 -45 c0 -25 7 -80 16 -122 66 -321
+                        273 -531 609 -619 175 -46 483 -45 655 2 233 63 411 189 482 339 l30 65 284 0
+                        c160 0 284 -4 284 -9 0 -5 -9 -40 -21 -77 -118 -386 -487 -653 -1034 -749
+                        -198 -35 -539 -36 -734 -4 -614 102 -1033 475 -1146 1019 -52 250 -30 595 52
+                        825 221 614 873 936 1708 844z"/>
+                        <path d="M2415 3459 c-108 -14 -239 -55 -339 -106 -112 -58 -243 -182 -299
+                        -283 -37 -68 -91 -218 -100 -282 l-6 -38 906 0 906 0 -7 60 c-36 316 -243 543
+                        -567 623 -141 35 -337 45 -494 26z"/>
+                      </g>
+                    </svg>
+
+
+                    <a 
+                      href="https://enesehs.dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ 
+                      fontSize: '0.8125rem',
+                      color: 'var(--color-primary)',
+                      textDecoration: 'none'
+                      }}
+                    >
+                      Developer Website
+                    </a>
+                    </li>
+                </ul>
+              </div>
+              <p style={{ fontSize: '0.75rem', color: 'var(--color-textSecondary)', marginTop: 'var(--spacing-md)' }}>
+                © {new Date().getFullYear()} Enesehs All rights reserved.
+              </p>
             </div>
-          )}
+            </div>)}
 
           {activeTab === 'appearance' && (
             <div className="settings-section">
@@ -547,13 +636,11 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingCity(true);
                     const cityPhotos = [
-                      // Pexels
                       'https://images.pexels.com/photos/2767815/pexels-photo-2767815.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1598073/pexels-photo-1598073.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/2166559/pexels-photo-2166559.jpeg?auto=compress&cs=tinysrgb&w=2400',
-                      // Unsplash
                       'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=2400&q=80',
                       'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=2400&q=80',
                       'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=2400&q=80',
@@ -599,13 +686,11 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingNature(true);
                     const naturePhotos = [
-                      // Pexels
                       'https://images.pexels.com/photos/709552/pexels-photo-709552.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1496373/pexels-photo-1496373.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1179229/pexels-photo-1179229.jpeg?auto=compress&cs=tinysrgb&w=2400',
-                      // Unsplash
                       'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=2400&q=80',
                       'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=2400&q=80',
                       'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=2400&q=80',
@@ -645,13 +730,11 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingCats(true);
                     const catPhotos = [
-                      // Pexels
                       'https://images.pexels.com/photos/1404819/pexels-photo-1404819.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1741205/pexels-photo-1741205.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1643457/pexels-photo-1643457.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/2071873/pexels-photo-2071873.jpeg?auto=compress&cs=tinysrgb&w=2400',
-                      // Unsplash
                       'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=2400&q=80',
                       'https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=2400&q=80',
                       'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=2400&q=80',
@@ -694,14 +777,12 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingIstanbul(true);
                     const istanbulPhotos = [
-                      // Pexels
                       'https://images.pexels.com/photos/1549326/pexels-photo-1549326.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/2042109/pexels-photo-2042109.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/3684396/pexels-photo-3684396.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1666362/pexels-photo-1666362.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/2042108/pexels-photo-2042108.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/2946816/pexels-photo-2946816.jpeg?auto=compress&cs=tinysrgb&w=2400',
-                      // Unsplash
                       'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=2400&q=80',
                       'https://images.unsplash.com/photo-1527838832700-5059252407fa?w=2400&q=80',
                       'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=2400&q=80',
@@ -742,12 +823,10 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingSpace(true);
                     const spacePhotos = [
-                      // Pexels
                       'https://images.pexels.com/photos/2150/sky-space-dark-galaxy.jpg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1252890/pexels-photo-1252890.jpeg?auto=compress&cs=tinysrgb&w=2400',
-                      // Unsplash
                       'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2400&q=80',
                       'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=2400&q=80',
                       'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=2400&q=80',
@@ -787,12 +866,10 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingOcean(true);
                     const oceanPhotos = [
-                      // Pexels
                       'https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1024967/pexels-photo-1024967.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/416676/pexels-photo-416676.jpeg?auto=compress&cs=tinysrgb&w=2400',
-                      // Unsplash
                       'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=2400&q=80',
                       'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=2400&q=80',
                       'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=2400&q=80',
@@ -847,11 +924,9 @@ export const SettingsPanel = ({
                       imageIds.push(id);
                     }
 
-                    // Reload images
                     const images = await imageStorage.getAllImages();
                     setBackgroundImages(images);
 
-                    // Update settings - set to image type
                     const firstNewId = imageIds[imageIds.length - files.length];
                     const url = await imageStorage.getImage(firstNewId);
                     onSettingsChange({
@@ -904,16 +979,13 @@ export const SettingsPanel = ({
                         const imageIds = settings.background.imageIds || [];
                         if (imageIds.length === 0) return;
                         
-                        // Get last shown image to avoid showing same image
                         const lastShownId = localStorage.getItem('hotpage_lastShownImageId');
                         let availableIds = imageIds.filter(id => id !== lastShownId);
-                        // If only one image or all filtered out, use all images
                         if (availableIds.length === 0) availableIds = imageIds;
                         const randomId = availableIds[Math.floor(Math.random() * availableIds.length)];
                         const randomUrl = await imageStorage.getImage(randomId);
                         
                         if (randomUrl) {
-                          // Save this image ID so it won't be shown next time
                           localStorage.setItem('hotpage_lastShownImageId', randomId);
                           onSettingsChange({
                             background: {
@@ -1080,7 +1152,6 @@ export const SettingsPanel = ({
               </p>
               
               <div className="widgets-grid">
-                {/* Quick Links Spacing Card */}
                 <div className={`widget-card ${settings.quickLinksSpacingWidget ? 'widget-card-active' : ''}`}>
                   <div className="widget-card-header">
                     <div className="widget-card-icon">
@@ -1103,7 +1174,6 @@ export const SettingsPanel = ({
                   </div>
                 </div>
 
-                {/* Weather Widget Card */}
                 <div className={`widget-card ${settings.widgets.weather?.enabled ? 'widget-card-active' : ''}`}>
                   <div className="widget-card-header">
                     <div className="widget-card-icon">
@@ -1181,7 +1251,6 @@ export const SettingsPanel = ({
                   )}
                 </div>
 
-                {/* Currency Widget Card */}
                 <div className={`widget-card ${settings.widgets.currency?.enabled ? 'widget-card-active' : ''}`}>
                   <div className="widget-card-header">
                     <div className="widget-card-icon">
@@ -1359,7 +1428,6 @@ export const SettingsPanel = ({
                   )}
                 </div>
 
-                {/* Quotes Widget Card */}
                 <div className={`widget-card ${settings.widgets.quotes?.enabled ? 'widget-card-active' : ''}`}>
                   <div className="widget-card-header">
                     <div className="widget-card-icon">
@@ -1382,7 +1450,6 @@ export const SettingsPanel = ({
                   </div>
                 </div>
 
-                {/* RSS Widget Card */}
                 <div className={`widget-card ${settings.widgets.rss?.enabled ? 'widget-card-active' : ''}`}>
                   <div className="widget-card-header">
                     <div className="widget-card-icon">
@@ -1641,7 +1708,6 @@ export const SettingsPanel = ({
                   )}
                 </div>
 
-                {/* Secret Links Widget Card */}
                 <div className={`widget-card ${settings.secretLinks?.enabled ? 'widget-card-active' : ''}`}>
                 <div className="widget-card-header">
                   <div className="widget-card-icon">
@@ -1669,7 +1735,6 @@ export const SettingsPanel = ({
                 </div>
                 </div>
 
-                {/* Sticky Notes Card */}
                 <div className={`widget-card widget-card-active`}>
                   <div className="widget-card-header" style={{ gap: 'var(--spacing-sm)' }}>
                     <div className="widget-card-icon">

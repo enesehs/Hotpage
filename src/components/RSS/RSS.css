@@ -17,7 +17,6 @@
   color: var(--color-text);
 }
 
-/* Widget Header - Shared Style */
 .widget-header {
   display: flex;
   align-items: center;
@@ -75,7 +74,6 @@
   }
 }
 
-/* Widget Loading Bar - Shared Style */
 .widget-loading {
   padding: var(--spacing-xl) 0;
 }
@@ -148,7 +146,6 @@
   }
 }
 
-/* Categories */
 .rss-categories {
   flex: 1;
   display: flex;
@@ -340,7 +337,6 @@
 }
 
 .rss-loading {
-  /* Deprecated - now using .widget-loading */
   height: 2px;
   width: 100%;
   background: linear-gradient(90deg, transparent, var(--color-primary), transparent);

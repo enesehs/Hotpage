@@ -18,7 +18,7 @@ export const Clock = ({ locale = 'system' }: ClockProps) => {
 
   const getLocale = () => {
     if (!locale || locale === 'system') {
-      return undefined; // Browser will use system default
+      return undefined;
     }
     return locale;
   };

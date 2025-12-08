@@ -2,8 +2,8 @@ import { useState } from 'react';
 import type { SecretLinksSettings, SecretLink } from '../../types/settings';
 import './SecretLinks.css';
 
-// chrome API is available when running as an extension; optional in browser
 declare const chrome: any;
+declare const browser: any;
 
 interface SecretLinksProps {
   settings: SecretLinksSettings;
@@ -115,7 +115,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
     e.preventDefault();
     if (!draggedLink) return;
 
-    // Find the link in root or folders
     let link = settings.rootLinks.find(l => l.id === draggedLink);
     let sourceFolderId: string | undefined;
 
@@ -131,7 +130,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
 
     if (!link) return;
 
-    // Remove from source
     let updatedRootLinks = settings.rootLinks;
     let updatedFolders = settings.folders;
 
@@ -145,7 +143,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
       updatedRootLinks = updatedRootLinks.filter(l => l.id !== draggedLink);
     }
 
-    // Add to target folder
     updatedFolders = updatedFolders.map(folder =>
       folder.id === folderId
         ? { ...folder, links: [...folder.links, { ...link!, folderId }] }
@@ -158,19 +155,38 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
 
   const openLink = (url: string) => {
     const openFallback = () => {
-      window.open(url, '_blank', 'noopener,noreferrer');
-      onClose();
+      if (window.open(url, '_blank', 'noopener,noreferrer')) {
+        onClose();
+      }
     };
 
-    if (settings.openInIncognito && typeof chrome !== 'undefined') {
-      try {
-        if (chrome?.windows?.create) {
-          chrome.windows.create({ url, incognito: true });
-          onClose();
+    if (settings.openInIncognito) {
+      // Try Chrome extension API
+      if (typeof chrome !== 'undefined' && chrome?.windows?.create) {
+        try {
+          chrome.windows.create({ url, incognito: true }, () => {
+            onClose();
+          });
           return;
+        } catch (error) {
+          console.error('Failed to open incognito window (Chrome):', error);
         }
-      } catch (error) {
-        console.error('Failed to open incognito window:', error);
+      }
+      
+      // Try Firefox extension API
+      if (typeof browser !== 'undefined' && browser?.windows?.create) {
+        try {
+          browser.windows.create({ url, incognito: true }).then(() => {
+            onClose();
+          }).catch((error: any) => {
+            console.error('Failed to open incognito window (Firefox):', error);
+            openFallback();
+          });
+          return;
+        } catch (error) {
+          console.error('Firefox API error:', error);
+          openFallback();
+        }
       }
     }
 
@@ -181,7 +197,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
     <div className="secret-overlay" onClick={onClose}>
       <div className="secret-popup" onClick={e => e.stopPropagation()}>
         
-        {/* Header */}
         <div className="secret-header">
           <div className="header-title">
             <svg className="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -211,11 +226,9 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
           </div>
         </div>
 
-        {/* Content */}
         {!showSettings ? (
           <div className="secret-content">
             
-            {/* Folders */}
             {settings.folders.map(folder => (
               <div key={folder.id} className="folder-container">
                 <div className="folder-header" onClick={() => toggleFolder(folder.id)}>
@@ -262,7 +275,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
               </div>
             ))}
 
-            {/* Root Links */}
             <div className="links-grid">
               {settings.rootLinks.map(link => (
                 <div 
@@ -284,7 +296,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
                 </div>
               ))}
               
-              {/* Add New Link Button */}
               <div className="link-card">
                 <button onClick={() => setShowAddForm(true)} className="add-link-card">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -300,7 +311,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
           <div className="secret-content">
             <div className="settings-list">
               
-              {/* Incognito Toggle */}
               <div className="setting-row">
                 <div className="setting-label">
                   <span>Open in Incognito</span>
@@ -316,7 +326,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
                 </label>
               </div>
 
-              {/* Trigger Keyword */}
               <div className="setting-row">
                 <div className="setting-label">
                   <span>Trigger Keyword</span>
@@ -331,7 +340,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
                 />
               </div>
 
-              {/* Stats */}
               <div className="stats">
                 <div className="stat">
                   <span className="stat-num">{settings.rootLinks.length}</span>
@@ -346,7 +354,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
           </div>
         )}
 
-        {/* Add Folder Popup */}
         {showAddFolder && (
           <div className="add-popup-overlay" onClick={() => setShowAddFolder(false)}>
             <div className="add-popup" onClick={e => e.stopPropagation()}>
@@ -372,7 +379,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
           </div>
         )}
 
-        {/* Add Link Popup */}
         {showAddForm && (
           <div className="add-popup-overlay" onClick={() => setShowAddForm(false)}>
             <div className="add-popup" onClick={e => e.stopPropagation()}>

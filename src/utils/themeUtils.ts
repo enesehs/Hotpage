@@ -4,11 +4,9 @@ import { predefinedThemes } from './themes';
 export const applyTheme = (theme: Theme): void => {
   const root = document.documentElement;
 
-  // Apply colors
   Object.entries(theme.colors).forEach(([key, value]) => {
     root.style.setProperty(`--color-${key}`, value);
     
-    // Also set RGB versions for rgba() usage
     if (value.startsWith('#')) {
       const r = parseInt(value.slice(1, 3), 16);
       const g = parseInt(value.slice(3, 5), 16);
@@ -17,39 +15,32 @@ export const applyTheme = (theme: Theme): void => {
     }
   });
 
-  // Apply shadows
   Object.entries(theme.shadows).forEach(([key, value]) => {
     root.style.setProperty(`--shadow-${key}`, value);
   });
 
-  // Apply border radius
   Object.entries(theme.borderRadius).forEach(([key, value]) => {
     root.style.setProperty(`--radius-${key}`, value);
   });
 
-  // Apply fonts
   Object.entries(theme.fonts).forEach(([key, value]) => {
     root.style.setProperty(`--font-${key}`, value);
   });
 
-  // Apply spacing
   Object.entries(theme.spacing).forEach(([key, value]) => {
     root.style.setProperty(`--spacing-${key}`, value);
   });
 };
 
 export const getTheme = (themeName: string, customColors?: CustomThemeColors): Theme => {
-  // If custom theme, create theme from custom colors
   if (themeName === 'custom' && customColors) {
     return createCustomTheme(customColors);
   }
 
-  // Return predefined theme or default to ocean
   return predefinedThemes[themeName as keyof typeof predefinedThemes] || predefinedThemes.ocean;
 };
 
 export const createCustomTheme = (colors: CustomThemeColors): Theme => {
-  // Calculate shadow color from primary
   const shadowColor = colors.primary;
   const r = parseInt(shadowColor.slice(1, 3), 16);
   const g = parseInt(shadowColor.slice(3, 5), 16);

@@ -1,4 +1,3 @@
-// Open source SVG icons library for quick links
 export interface IconOption {
   name: string;
   category: string;
@@ -6,7 +5,6 @@ export interface IconOption {
 }
 
 export const iconLibrary: IconOption[] = [
-  // Social Media
   {
     name: 'GitHub',
     category: 'Social',
@@ -103,7 +101,6 @@ export const iconLibrary: IconOption[] = [
     svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h4.5c1.5 0 2.5 1 2.5 2.5S9 13 7.5 13H3V8zm0 5h5c1.5 0 2.5 1 2.5 2.5S9.5 18 8 18H3v-5zm12-5h6m-3 9c2.5 0 4-2 4-4s-1.5-4-4-4-4 2-4 4 1.5 4 4 4z"></path></svg>'
   },
 
-  // Productivity
   {
     name: 'Calendar',
     category: 'Productivity',
@@ -160,7 +157,6 @@ export const iconLibrary: IconOption[] = [
     svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 2.5L20 20l-16-2.5L4 4zm3 3v11l10 1.5V8.5L7 7z"></path></svg>'
   },
 
-  // Media & Entertainment
   {
     name: 'Music',
     category: 'Media',
@@ -207,7 +203,6 @@ export const iconLibrary: IconOption[] = [
     svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>'
   },
 
-  // Development
   {
     name: 'Code',
     category: 'Development',
@@ -244,7 +239,6 @@ export const iconLibrary: IconOption[] = [
     svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="17" width="14" height="5"></rect><path d="M6 13l8 2m-8-4l8 3m-7-5l7 4m-6-5l6 5"></path></svg>'
   },
 
-  // Other
   {
     name: 'Globe',
     category: 'Other',

@@ -49,7 +49,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Migrate existing notes to new format
   const migratedNote = note ? {
     ...note,
     mode: note.mode || 'notes',
@@ -57,7 +56,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     pomodoro: note.pomodoro || { ...DEFAULT_POMODORO },
   } as StickyNote : null;
 
-  // Create note if it doesn't exist
   useEffect(() => {
     if (!note) {
       const newNote: StickyNote = {
@@ -80,7 +78,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       };
       onNoteChange(newNote);
     } else if (!note.pomodoro || !note.todos || !note.mode) {
-      // Migrate old note to new format
       onNoteChange({
         ...note,
         mode: note.mode || 'notes',
@@ -90,7 +87,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     }
   }, [note, onNoteChange]);
 
-  // Handle dragging
   useEffect(() => {
     if (!migratedNote) return;
     
@@ -119,7 +115,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     };
   }, [isDragging, isResizing, dragOffset, migratedNote, onNoteChange]);
 
-  // Memoized handlers
   const updateContent = useCallback((content: string) => {
     if (!migratedNote) return;
     onNoteChange({ ...migratedNote, content, updatedAt: Date.now() });
@@ -150,7 +145,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     onNoteChange({ ...migratedNote, mode, updatedAt: Date.now() });
   }, [migratedNote, onNoteChange]);
 
-  // Todo handlers
   const addTodo = useCallback(() => {
     if (!migratedNote || !newTodoText.trim()) return;
     const newTodo: TodoItem = {
@@ -187,7 +181,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     });
   }, [migratedNote, onNoteChange]);
 
-  // Pomodoro handlers
   const togglePomodoro = useCallback(() => {
     if (!migratedNote) return;
     onNoteChange({
@@ -236,10 +229,8 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     });
   }, [migratedNote, onNoteChange]);
 
-  // Early return after all hooks
   if (!migratedNote) return null;
 
-  // Start dragging
   const handleMouseDown = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('.sticky-note-textarea') ||
         (e.target as HTMLElement).closest('.sticky-note-actions') ||
@@ -257,7 +248,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     });
   };
 
-  // Start resizing
   const handleResizeStart = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsResizing(true);
@@ -284,7 +274,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     document.addEventListener('mouseup', handleResizeEnd);
   };
 
-  // Download note
   const handleDownload = () => {
     let content = '';
     if (migratedNote.mode === 'notes') {
@@ -308,7 +297,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     URL.revokeObjectURL(url);
   };
 
-  // Upload note
   const handleUpload = () => {
     fileInputRef.current?.click();
   };
@@ -320,9 +308,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       reader.onload = (event) => {
         const content = event.target?.result as string;
         
-        // Handle upload based on current mode
         if (migratedNote.mode === 'todos') {
-          // Parse todo format: [x] or [ ] followed by text
           const lines = content.split('\n').filter(line => line.trim());
           const newTodos: TodoItem[] = lines.map((line, index) => {
             const isCompleted = line.startsWith('[x]') || line.startsWith('[X]');
@@ -341,7 +327,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
             updatedAt: Date.now(),
           });
         } else {
-          // Notes mode - just update content
           updateContent(content);
         }
       };
@@ -352,7 +337,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     }
   };
 
-  // Format time for pomodoro
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -379,7 +363,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
         }}
         onMouseDown={handleMouseDown}
       >
-        {/* Header with drag handle and actions */}
         <div className="sticky-note-header">
           <div className="sticky-note-drag-handle">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -393,7 +376,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
           </div>
           
           <div className="sticky-note-actions">
-            {/* Color picker */}
             <div className="sticky-note-colors">
               {NOTE_COLORS.map((color) => (
                 <button
@@ -408,7 +390,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               ))}
             </div>
 
-            {/* Upload button */}
             <button 
               className="sticky-note-action-btn"
               onClick={(e) => {
@@ -424,7 +405,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               </svg>
             </button>
 
-            {/* Download button */}
             <button 
               className="sticky-note-action-btn"
               onClick={(e) => {
@@ -440,7 +420,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               </svg>
             </button>
 
-            {/* Settings button */}
             <button 
               className={`sticky-note-action-btn ${showSettings ? 'active' : ''}`}
               onClick={(e) => {
@@ -458,7 +437,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
           </div>
         </div>
 
-        {/* Mode Tabs */}
         <div className="sticky-note-tabs" onClick={(e) => e.stopPropagation()}>
           <button 
             className={`tab-btn ${migratedNote.mode === 'notes' ? 'active' : ''}`}
@@ -494,7 +472,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
           </button>
         </div>
 
-        {/* Settings Panel */}
         {showSettings && (
           <div className="sticky-note-settings-panel" onClick={(e) => e.stopPropagation()}>
             <div className="settings-row">
@@ -533,9 +510,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
           </div>
         )}
 
-        {/* Content Area */}
         <div className="sticky-note-content" onClick={(e) => e.stopPropagation()}>
-          {/* Notes Mode */}
           {migratedNote.mode === 'notes' && (
             <textarea
               className="sticky-note-textarea"
@@ -550,7 +525,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
             />
           )}
 
-          {/* Todos Mode */}
           {migratedNote.mode === 'todos' && (
             <div className="todo-list" style={{ fontFamily: migratedNote.fontFamily }}>
               <div className="todo-input-row">
@@ -622,7 +596,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
             </div>
           )}
 
-          {/* Pomodoro Mode */}
           {migratedNote.mode === 'pomodoro' && (
             <div className="pomodoro" style={{ fontFamily: migratedNote.fontFamily }}>
               <div className="pomodoro-mode-btns">
@@ -686,7 +659,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
           )}
         </div>
 
-        {/* Resize handle */}
         <div 
           className="sticky-note-resize"
           onMouseDown={handleResizeStart}

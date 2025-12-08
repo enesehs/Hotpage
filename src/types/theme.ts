@@ -1,4 +1,3 @@
-// Theme types
 export interface Theme {
   name: string;
   colors: {

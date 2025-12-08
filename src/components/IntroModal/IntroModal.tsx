@@ -8,8 +8,8 @@ interface IntroModalProps {
   onOpenSource?: () => void;
 }
 
-const defaultSupportUrl = 'https://www.buymeacoffee.com/hotpage';
-const defaultGithubUrl = 'https://github.com';
+const defaultSupportUrl = 'https://buymeacoffee.com/enesehs';
+const defaultGithubUrl = 'https://github.com/enesehs/Hotpage';
 
 export const IntroModal = ({ isOpen, locale, onSkip, onSupport, onOpenSource }: IntroModalProps) => {
   if (!isOpen) return null;

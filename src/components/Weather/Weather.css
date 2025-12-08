@@ -17,7 +17,6 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Widget Header - Shared Style */
 .widget-header {
   display: flex;
   align-items: center;
@@ -75,7 +74,6 @@
   }
 }
 
-/* Widget Loading Bar - Shared Style */
 .widget-loading {
   padding: var(--spacing-xl) 0;
 }
@@ -154,7 +152,6 @@
   text-align: center;
 }
 
-/* Left section - Icon and Temperature */
 .weather-left {
   display: flex;
   align-items: center;
@@ -190,7 +187,6 @@
   color: var(--color-textSecondary);
 }
 
-/* Center section - Condition and Location */
 .weather-center {
   display: flex;
   flex-direction: column;
@@ -236,7 +232,6 @@
   color: currentColor;
 }
 
-/* Right section - Stats */
 .weather-right {
   display: flex;
   gap: var(--spacing-xl);
@@ -268,7 +263,6 @@
   letter-spacing: 0.5px;
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   .weather-widget {
     flex-direction: column;

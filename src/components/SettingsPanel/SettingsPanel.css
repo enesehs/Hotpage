@@ -587,7 +587,6 @@
   font-size: 0.95rem;
 }
 
-/* Widget Cards Grid */
 .widgets-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1398,7 +1397,6 @@
   }
 }
 
-/* Widget Order Styles */
 .widget-order-list {
   display: flex;
   flex-direction: column;
@@ -1439,7 +1437,6 @@
   opacity: 1;
 }
 
-/* Quick Actions */
 .quick-actions {
   display: flex;
   flex-direction: column;

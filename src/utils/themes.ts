@@ -1,6 +1,5 @@
 import type { Theme } from '../types/theme';
 
-// Classic Light Theme
 export const lightTheme: Theme = {
   name: 'Light',
   colors: {
@@ -36,7 +35,6 @@ export const lightTheme: Theme = {
   },
 };
 
-// Classic Dark Theme
 export const darkTheme: Theme = {
   name: 'Dark',
   colors: {
@@ -72,7 +70,6 @@ export const darkTheme: Theme = {
   },
 };
 
-// Ocean Blue Theme
 export const oceanTheme: Theme = {
   name: 'Ocean',
   colors: {
@@ -108,7 +105,6 @@ export const oceanTheme: Theme = {
   },
 };
 
-// Forest Green Theme
 export const forestTheme: Theme = {
   name: 'Forest',
   colors: {
@@ -144,7 +140,6 @@ export const forestTheme: Theme = {
   },
 };
 
-// Sunset Orange Theme
 export const sunsetTheme: Theme = {
   name: 'Sunset',
   colors: {
@@ -180,7 +175,6 @@ export const sunsetTheme: Theme = {
   },
 };
 
-// Purple Dream Theme
 export const purpleTheme: Theme = {
   name: 'Purple',
   colors: {
@@ -216,7 +210,6 @@ export const purpleTheme: Theme = {
   },
 };
 
-// Rose Pink Theme
 export const roseTheme: Theme = {
   name: 'Rose',
   colors: {
@@ -252,7 +245,6 @@ export const roseTheme: Theme = {
   },
 };
 
-// Midnight Dark Theme
 export const midnightTheme: Theme = {
   name: 'Midnight',
   colors: {

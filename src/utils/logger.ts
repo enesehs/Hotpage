@@ -1,8 +1,6 @@
-// Centralized logging utility with better formatting
 
 const isDev = import.meta.env.DEV;
 
-// Color codes for different log levels
 const styles = {
   info: 'color: #3b82f6; font-weight: bold',
   success: 'color: #10b981; font-weight: bold',
@@ -83,7 +81,6 @@ class Logger {
     );
   }
 
-  // Group logging for complex operations
   group(title: string, callback: () => void) {
     if (!isDev) return;
     console.group(`${this.prefix} ${title}`);
@@ -98,14 +95,12 @@ class Logger {
     console.groupEnd();
   }
 
-  // Table for structured data
   table(component: string, data: any) {
     if (!isDev) return;
     console.log(`%c${this.prefix} ${component}`, styles.info);
     console.table(data);
   }
 
-  // Time tracking
   time(label: string) {
     if (!isDev) return;
     console.time(`${this.prefix} ${label}`);

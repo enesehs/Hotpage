@@ -10,15 +10,12 @@ export const Quotes = ({ locale = 'en' }: QuotesProps) => {
   const [currentQuote, setCurrentQuote] = useState<Quote>({ text: '', author: '' });
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Auto-refresh is always enabled
-  const refreshInterval = 30; // minutes
+  const refreshInterval = 30;
 
-  // Load initial quote
   useEffect(() => {
     refreshQuote();
   }, [locale]);
 
-  // Auto-refresh timer
   useEffect(() => {
     const interval = setInterval(() => {
       refreshQuote();

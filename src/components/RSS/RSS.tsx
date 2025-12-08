@@ -59,14 +59,12 @@ const defaultFeeds: FeedConfig[] = [
 ];
 
 const extractImage = (node: Element, description: string): string | undefined => {
-  // 1. Try <enclosure>
   const enclosure = node.querySelector('enclosure[type^="image"]');
   if (enclosure) {
     const url = enclosure.getAttribute('url');
     return url ? url.replace(/^http:/, 'https:') : undefined;
   }
 
-  // 2. Try <media:content> or <media:thumbnail>
   const mediaContent = node.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'content')[0];
   if (mediaContent) {
     const url = mediaContent.getAttribute('url');
@@ -79,7 +77,6 @@ const extractImage = (node: Element, description: string): string | undefined =>
     return url ? url.replace(/^http:/, 'https:') : undefined;
   }
 
-  // 3. Try regex on description
   const imgRegex = /<img[^>]+src="([^">]+)"/;
   const match = imgRegex.exec(description);
   if (match) return match[1].replace(/^http:/, 'https:');

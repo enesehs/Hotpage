@@ -1,6 +1,5 @@
 import { logger } from '../utils/logger';
 
-// IndexedDB for storing background images as blobs
 const DB_NAME = 'hotpage-images';
 const DB_VERSION = 1;
 const STORE_NAME = 'backgrounds';
@@ -81,7 +80,6 @@ class ImageStorage {
         if (request.result) {
           const imageData = request.result as StoredImage;
           logger.debug('ImageStorage', `Loading image: ${id} (${imageData.filename})`);
-          // Convert blob to data URL instead of object URL to avoid CORS issues
           const reader = new FileReader();
           reader.onloadend = () => {
             logger.success('ImageStorage', `Image loaded: ${id}`);
@@ -117,7 +115,6 @@ class ImageStorage {
         logger.debug('ImageStorage', `Loading ${storedImages.length} stored images...`);
         const images = await Promise.all(
           storedImages.map(async (img) => {
-            // Convert blob to data URL
             const dataUrl = await new Promise<string>((resolve, reject) => {
               const reader = new FileReader();
               reader.onloadend = () => resolve(reader.result as string);

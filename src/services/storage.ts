@@ -3,7 +3,6 @@ import { imageStorage } from './imageStorage';
 
 const STORAGE_KEY = 'hotpage-settings';
 
-// Respect the user's OS theme on first load (falls back to light)
 const defaultTheme = (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
   ? 'dark'
   : 'light';
@@ -51,7 +50,7 @@ export const defaultSettings: Settings = {
   ],
   quickLinksSpacingWidget: true,
   introSeen: false,
-  widgetOrder: ['weather', 'currency', 'rss'], // Default widget order (quotes is fixed at top)
+  widgetOrder: ['weather', 'currency', 'rss'],
   secretLinks: {
     enabled: true,
     triggerKeyword: 'pass',
@@ -67,7 +66,6 @@ export const defaultSettings: Settings = {
     quotes: { 
       enabled: true,
       settings: {
-        category: 'motivational',
         autoRefresh: false,
         refreshInterval: 30,
       }
@@ -80,15 +78,14 @@ export const defaultSettings: Settings = {
         activeTab: 'currency',
         enabledCurrencies: ['USD', 'EUR', 'GBP', 'JPY', 'XAU'],
         enabledCryptos: ['bitcoin', 'ethereum', 'binancecoin', 'ripple', 'cardano'],
-        showSparkline: true,
+        showSparkline: false,
       } 
     },
     rss: { 
       enabled: true,
       settings: {
         feeds: [
-          'https://hnrss.org/frontpage',
-          'https://www.theverge.com/rss/index.xml'
+          
         ],
         maxItems: 150,
         refreshMinutes: 30,
@@ -118,20 +115,17 @@ export const loadSettings = (): Settings => {
       const parsed = JSON.parse(stored);
       const settings = { ...defaultSettings, ...parsed };
       
-      // Migrate widgets - ensure all default widgets exist
       settings.widgets = {
         ...defaultSettings.widgets,
         ...parsed.widgets,
       };
       
-      // Handle random background selection
       if (settings.background.randomMode && 
           settings.background.imageIds && 
           settings.background.imageIds.length > 0) {
         const randomIndex = Math.floor(Math.random() * settings.background.imageIds.length);
         settings.background.currentImageId = settings.background.imageIds[randomIndex];
         
-        // Load the image URL from IndexedDB (async operation, but we'll handle it in App.tsx)
         imageStorage.getImage(settings.background.currentImageId).then(url => {
           if (url) {
             settings.background.value = url;
@@ -149,12 +143,10 @@ export const loadSettings = (): Settings => {
 
 export const saveSettings = (settings: Settings): void => {
   try {
-    // Deep clone settings to avoid mutating original
     const settingsToSave = JSON.parse(JSON.stringify(settings));
     
-    // Don't save base64 image data to localStorage - only keep image IDs
     if (settingsToSave.background.type === 'image') {
-      settingsToSave.background.value = ''; // Clear the base64 data, we'll load it from IndexedDB on app start
+      settingsToSave.background.value = '';
     }
     
     localStorage.setItem(STORAGE_KEY, JSON.stringify(settingsToSave));

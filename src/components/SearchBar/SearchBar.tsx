@@ -32,13 +32,11 @@ export const SearchBar = ({
   };
 
   useEffect(() => {
-    // Focus search bar on mount
     const input = document.getElementById('search-input');
     input?.focus();
   }, []);
 
   useEffect(() => {
-    // Close dropdown when clicking outside
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target.closest('.search-engine-selector')) {

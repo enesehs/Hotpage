@@ -54,7 +54,6 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const [debouncedLocation, setDebouncedLocation] = useState(manualLocation);
 
-  // Debounce manual location input - wait 800ms after user stops typing
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedLocation(manualLocation);
@@ -68,7 +67,6 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
       setLoading(true);
       setError(null);
 
-      // If manual location is set, use geocoding to get coordinates
       if (debouncedLocation && debouncedLocation.trim()) {
         logger.info('Weather', `Manual location set: ${debouncedLocation}`);
         try {
@@ -87,18 +85,16 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
           }
         } catch (err) {
           logger.error('Weather', 'Geocoding failed', err);
-          // Fall through to automatic location
         }
       }
 
       try {
-        // Get user's location
         logger.debug('Weather', 'Attempting geolocation...');
         const position = await new Promise<GeolocationPosition>((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject, {
             enableHighAccuracy: false,
             timeout: 10000,
-            maximumAge: 300000, // Cache for 5 minutes
+            maximumAge: 300000,
           });
         });
 
@@ -107,7 +103,6 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
         await fetchOpenMeteoWeather(latitude, longitude);
       } catch (geoErr) {
         logger.warning('Weather', 'Geolocation failed, trying IP-based location', geoErr);
-        // If geolocation fails, try IP-based location
         try {
           const ipResponse = await fetch('https://ipapi.co/json/');
           const ipData = await ipResponse.json();
@@ -139,7 +134,6 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
         const current = data.current;
         const daily = data.daily;
 
-        // Get location name via reverse geocoding (unless overridden)
         let locationName = overrideLocationName || '';
         if (!locationName) {
           try {
@@ -184,7 +178,6 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
 
     fetchWeather();
 
-    // Refresh on an interval (default 10 minutes, minimum 5)
     const minutes = Math.max(5, refreshMinutes || 10);
     const interval = setInterval(fetchWeather, minutes * 60 * 1000);
     return () => clearInterval(interval);

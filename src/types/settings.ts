@@ -1,4 +1,3 @@
-// Settings types
 export interface SearchEngine {
   id: string;
   name: string;
@@ -28,15 +27,15 @@ export interface SecretLink {
   id: string;
   title: string;
   url: string;
-  folderId?: string; // null for root level links
+  folderId?: string;
 }
 
 export interface SecretLinksSettings {
   enabled: boolean;
-  triggerKeyword: string; // Default: 'pass'
-  openInIncognito: boolean; // Open links in incognito/private tab
+  triggerKeyword: string;
+  openInIncognito: boolean;
   folders: SecretFolder[];
-  rootLinks: SecretLink[]; // Links not in any folder
+  rootLinks: SecretLink[];
 }
 
 export interface WidgetConfig {
@@ -49,22 +48,22 @@ export interface QuotesWidgetSettings {
   category: 'motivational' | 'wisdom' | 'humorous' | 'literary' | 'custom';
   customQuotes?: Array<{ text: string; author: string }>;
   autoRefresh?: boolean;
-  refreshInterval?: number; // in minutes
-  [key: string]: unknown; // Index signature for compatibility
+  refreshInterval?: number;
+  [key: string]: unknown;
 }
 
 export interface WeatherWidgetSettings {
-  manualLocation?: string; // City name for manual location (e.g., "Istanbul" or "London")
+  manualLocation?: string;
   refreshMinutes?: number;
   [key: string]: unknown;
 }
 
 export interface CurrencyWidgetSettings {
-  baseCurrency: string; // User's base currency (TRY, USD, EUR, etc.)
-  activeTab: 'currency' | 'crypto'; // Which tab is active
-  enabledCurrencies: string[]; // Which currencies to show (USD, EUR, GBP, JPY, etc.)
-  enabledCryptos: string[]; // Which cryptos to show (BTC, ETH, etc.)
-  showSparkline: boolean; // Show mini chart
+  baseCurrency: string;
+  activeTab: 'currency' | 'crypto';
+  enabledCurrencies: string[];
+  enabledCryptos: string[];
+  showSparkline: boolean;
   [key: string]: unknown;
 }
 
@@ -74,7 +73,7 @@ export interface FeedConfig {
 }
 
 export interface RSSWidgetSettings {
-  feeds: (string | FeedConfig)[]; // Support legacy string[] and new FeedConfig[]
+  feeds: (string | FeedConfig)[];
   maxItems?: number;
   refreshMinutes?: number;
   [key: string]: unknown;
@@ -92,8 +91,8 @@ export interface Settings {
   quickLinksSpacingWidget?: boolean;
   introSeen?: boolean;
   locale?: string;
-  widgetOrder?: string[]; // Order of widget IDs for display
-  secretLinks?: SecretLinksSettings; // Secret links feature
+  widgetOrder?: string[];
+  secretLinks?: SecretLinksSettings;
   quickActions?: QuickActionsSettings;
   widgets: {
     quotes: WidgetConfig;
@@ -118,7 +117,7 @@ export interface Settings {
   background: {
     type: 'solid' | 'gradient' | 'image' | 'unsplash' | 'nasa' | 'picsum' | 'istanbul' | 'space' | 'ocean';
     value: string;
-    imageIds?: string[]; // IDs of images stored in IndexedDB
+    imageIds?: string[];
     randomMode?: boolean;
     currentImageId?: string;
     blur?: number;
@@ -140,10 +139,10 @@ export interface TodoItem {
 export interface PomodoroState {
   isRunning: boolean;
   mode: 'work' | 'shortBreak' | 'longBreak';
-  timeLeft: number; // seconds
-  workDuration: number; // minutes
-  shortBreakDuration: number; // minutes
-  longBreakDuration: number; // minutes
+  timeLeft: number;
+  workDuration: number;
+  shortBreakDuration: number;
+  longBreakDuration: number;
   sessionsCompleted: number;
 }
 
@@ -158,7 +157,6 @@ export interface StickyNote {
   textColor: string;
   createdAt: number;
   updatedAt: number;
-  // New features
   mode: 'notes' | 'todos' | 'pomodoro';
   todos: TodoItem[];
   pomodoro: PomodoroState;

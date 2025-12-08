@@ -8,7 +8,6 @@
   z-index: 1000;
 }
 
-/* Sticky Note - Glassmorphism with theme colors */
 .sticky-note {
   position: fixed;
   display: flex;
@@ -25,7 +24,6 @@
   z-index: 500;
 }
 
-/* Color variants */
 .sticky-note-primary {
   background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.2);
   border: 1px solid rgba(var(--color-primary-rgb, 59, 130, 246), 0.3);
@@ -80,7 +78,6 @@
   gap: var(--spacing-xs);
 }
 
-/* Color picker buttons */
 .sticky-note-colors {
   display: flex;
   gap: 4px;
@@ -121,7 +118,6 @@
   background: rgba(var(--color-surface-rgb, 255, 255, 255), 0.6);
 }
 
-/* Action buttons (upload, download, settings) */
 .sticky-note-action-btn {
   display: flex;
   align-items: center;
@@ -146,7 +142,6 @@
   color: var(--color-text);
 }
 
-/* Settings Panel - background matches selected color */
 .sticky-note-settings-panel {
   padding: var(--spacing-sm) var(--spacing-md);
   background: rgba(255, 255, 255, 0.1);
@@ -168,7 +163,6 @@
   font-weight: 500;
 }
 
-/* Dropdown backgrounds inherit from note color */
 .sticky-note-primary .sticky-note-settings-panel select {
   background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.3);
   border: 1px solid rgba(var(--color-primary-rgb, 59, 130, 246), 0.3);
@@ -206,7 +200,6 @@
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }
 
-/* Textarea */
 .sticky-note-textarea {
   flex: 1;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -222,7 +215,6 @@
   opacity: 0.6;
 }
 
-/* Resize handle */
 .sticky-note-resize {
   position: absolute;
   bottom: 0;
@@ -242,7 +234,6 @@
   opacity: 0.6;
 }
 
-/* Mode Tabs */
 .sticky-note-tabs {
   display: flex;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -275,7 +266,6 @@
   font-weight: 500;
 }
 
-/* Content Area */
 .sticky-note-content {
   flex: 1;
   display: flex;
@@ -283,7 +273,6 @@
   overflow: hidden;
 }
 
-/* Todo List */
 .todo-list {
   display: flex;
   flex-direction: column;
@@ -426,7 +415,6 @@
   text-align: center;
 }
 
-/* Pomodoro */
 .pomodoro {
   display: flex;
   flex-direction: column;
@@ -538,7 +526,6 @@
   gap: 4px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .sticky-note {
     min-width: 200px !important;

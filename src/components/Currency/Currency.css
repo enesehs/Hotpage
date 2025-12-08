@@ -4,7 +4,6 @@
   margin: 0 auto;
 }
 
-/* Main Card - Glassmorphism */
 .currency-card {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
@@ -17,7 +16,6 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Widget Header - Shared Style */
 .widget-header {
   display: flex;
   align-items: center;
@@ -75,7 +73,6 @@
   }
 }
 
-/* Widget Loading Bar - Shared Style */
 .widget-loading {
   padding: var(--spacing-xl) 0;
 }
@@ -108,7 +105,6 @@
   }
 }
 
-/* Header */
 .currency-header {
   display: flex;
   justify-content: space-between;
@@ -117,7 +113,6 @@
   margin-top: var(--spacing-lg);
 }
 
-/* Tabs - Glassmorphism style */
 .currency-tabs {
   display: flex;
   gap: 8px;
@@ -166,7 +161,6 @@
   opacity: 1;
 }
 
-/* Grid Layout - Max 5 columns, centered if less */
 .currency-grid {
   display: flex;
   flex-wrap: wrap;
@@ -180,7 +174,6 @@
   min-width: 130px;
 }
 
-/* Currency Item Card - Glassmorphism - Compact */
 .currency-item {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -197,7 +190,6 @@
 }
 
 
-/* Icon Container - Theme color */
 .currency-item-icon {
   width: 40px;
   height: 40px;
@@ -221,7 +213,6 @@
   color: currentColor;
 }
 
-/* Item Info */
 .currency-item-info {
   display: flex;
   flex-direction: column;
@@ -242,7 +233,6 @@
   color: var(--color-text);
 }
 
-/* Rate */
 .currency-item-rate {
   font-size: 1rem;
   font-weight: 700;
@@ -250,7 +240,6 @@
   margin-top: 2px;
 }
 
-/* Change Badge - Glassmorphism */
 .currency-item-change {
   font-size: 0.7rem;
   font-weight: 600;
@@ -287,7 +276,6 @@
   height: 10px;
 }
 
-/* Sparkline */
 .currency-sparkline {
   width: 100%;
   height: 28px;
@@ -300,7 +288,6 @@
   height: 100%;
 }
 
-/* Loading State */
 .currency-loading {
   display: flex;
   flex-direction: column;
@@ -326,7 +313,6 @@
   }
 }
 
-/* Error State */
 .currency-error {
   display: flex;
   flex-direction: column;
@@ -370,7 +356,6 @@
   transform: translateY(-1px);
 }
 
-/* Empty State */
 .currency-empty {
   display: flex;
   flex-direction: column;
@@ -388,12 +373,10 @@
   opacity: 0.4;
 }
 
-/* Footer - Removed, using header for last updated */
 .currency-footer {
   display: none;
 }
 
-/* Responsive */
 @media (max-width: 700px) {
   .currency-grid > .currency-item {
     flex: 0 0 calc(33.33% - var(--spacing-sm));

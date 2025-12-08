@@ -8,7 +8,7 @@ interface CurrencyData {
   code: string;
   name: string;
   rate: number;
-  change?: number; // percentage change (only if available)
+  change?: number;
   changeDirection?: 'up' | 'down' | 'neutral';
   sparkline?: number[];
   lastUpdated: string;
@@ -37,7 +37,6 @@ interface CurrencyProps {
   onSettingsChange?: (settings: Record<string, unknown>) => void;
 }
 
-// Tab icons
 const TabIcons = {
   currency: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -53,7 +52,6 @@ const TabIcons = {
   ),
 };
 
-// Currency symbols and names
 const currencyInfo: Record<string, { symbol: string; name: string; nameTr: string }> = {
   USD: { symbol: '$', name: 'US Dollar', nameTr: 'Amerikan Doları' },
   EUR: { symbol: '€', name: 'Euro', nameTr: 'Euro' },
@@ -63,7 +61,6 @@ const currencyInfo: Record<string, { symbol: string; name: string; nameTr: strin
   XAU: { symbol: 'Au', name: 'Gold (Gram)', nameTr: 'Gram Altın' },
 };
 
-// Warning/Error icon
 const WarningIcon = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="warning-icon">
     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
@@ -80,20 +77,16 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
   const enabledCryptos = settings?.enabledCryptos || ['bitcoin', 'ethereum', 'avalanche', 'polkadot'];
   const showSparkline = settings?.showSparkline ?? false;
 
-  // Check if we have any selections
   const hasCurrencies = enabledCurrencies.length > 0;
   const hasCryptos = enabledCryptos.length > 0;
   const hasAnySelection = hasCurrencies || hasCryptos;
 
-  // If nothing is selected, don't render the widget
   if (!hasAnySelection) {
     return null;
   }
 
-  // Determine initial active tab based on what's available
   const getInitialTab = (): 'currency' | 'crypto' => {
     if (settings?.activeTab) {
-      // If saved tab is not available, switch to the available one
       if (settings.activeTab === 'currency' && !hasCurrencies) return 'crypto';
       if (settings.activeTab === 'crypto' && !hasCryptos) return 'currency';
       return settings.activeTab;
@@ -108,7 +101,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('');
 
-  // Keep active tab valid if user disables one side later
   useEffect(() => {
     if (!hasCurrencies && activeTab === 'currency' && hasCryptos) {
       setActiveTab('crypto');
@@ -120,11 +112,9 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
     }
   }, [hasCurrencies, hasCryptos, activeTab, onSettingsChange]);
 
-  // Fetch currency rates
   const fetchCurrencies = useCallback(async () => {
     try {
       logger.debug('Currency', `Fetching exchange rates for base: ${baseCurrency}`);
-      // Using exchangerate-api (free tier)
       const response = await fetch(
         `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`
       );
@@ -134,7 +124,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
       const data = await response.json();
       logger.success('Currency', `Exchange rates fetched for ${baseCurrency}`);
       
-      // For Turkish users, we need to reverse the rates (1 USD = X TRY)
       const currencyData: CurrencyData[] = [];
       
       for (const code of enabledCurrencies) {
@@ -144,40 +133,32 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
         let name: string;
         
         if (code === 'XAU') {
-          // Gold price - use a free API that provides gold prices
           try {
-            // Get gold price in USD from a reliable source
             const goldResponse = await fetch('https://api.nbp.pl/api/cenyzlota?format=json');
             if (goldResponse.ok) {
               const goldData = await goldResponse.json();
-              // NBP returns price per gram in PLN, we need to convert
               const goldPricePerGramPLN = goldData[0]?.cena || 0;
               
-              // Get PLN to target currency rate
               if (baseCurrency === 'TRY') {
-                // Get PLN/TRY rate
                 const plnResponse = await fetch('https://api.exchangerate-api.com/v4/latest/PLN');
                 if (plnResponse.ok) {
                   const plnData = await plnResponse.json();
-                  const plnToTry = plnData.rates?.TRY || 8.8; // fallback
+                  const plnToTry = plnData.rates?.TRY || 8.8;
                   rate = goldPricePerGramPLN * plnToTry;
                 } else {
                   continue;
                 }
               } else {
-                // For USD base
                 const plnResponse = await fetch('https://api.exchangerate-api.com/v4/latest/PLN');
                 if (plnResponse.ok) {
                   const plnData = await plnResponse.json();
-                  const plnToUsd = plnData.rates?.USD || 0.25; // fallback
+                  const plnToUsd = plnData.rates?.USD || 0.25;
                   rate = goldPricePerGramPLN * plnToUsd;
                 } else {
                   continue;
                 }
               }
             } else {
-              // Fallback: Use approximate gold price per gram
-              // Gold ~$85/gram as of late 2025
               const goldPriceUSD = 85;
               if (baseCurrency === 'TRY') {
                 rate = goldPriceUSD * (data.rates?.USD ? (1 / data.rates.USD) : 35);
@@ -186,7 +167,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
               }
             }
           } catch {
-            // Fallback - approximate gold price
             const goldPriceUSD = 85;
             if (baseCurrency === 'TRY') {
               rate = goldPriceUSD * (data.rates?.USD ? (1 / data.rates.USD) : 35);
@@ -196,7 +176,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
           }
           name = isTurkish ? currencyInfo[code].nameTr : currencyInfo[code].name;
         } else if (baseCurrency === 'TRY' && data.rates[code]) {
-          // For TRY base, show how much 1 foreign currency costs in TRY
           rate = 1 / data.rates[code];
           name = isTurkish ? currencyInfo[code].nameTr : currencyInfo[code].name;
         } else {
@@ -204,12 +183,10 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
           name = isTurkish ? currencyInfo[code].nameTr : currencyInfo[code].name;
         }
         
-        // Note: Free API doesn't provide change data, so we don't include it
         currencyData.push({
           code,
           name,
           rate,
-          // No change data available from free API
           lastUpdated: new Date().toLocaleTimeString(locale),
         });
       }
@@ -223,7 +200,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
     }
   }, [baseCurrency, enabledCurrencies, isTurkish, locale, t.currency.errorCurrency]);
 
-  // Fetch crypto prices
   const fetchCryptos = useCallback(async () => {
     try {
       const ids = enabledCryptos.join(',');
@@ -275,7 +251,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
 
     fetchData();
 
-    // Refresh every 5 minutes
     const interval = setInterval(fetchData, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, [activeTab, fetchCurrencies, fetchCryptos]);
@@ -369,7 +344,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
   return (
     <div className="currency-widget">
       <div className="currency-card">
-        {/* Widget Header */}
         <div className="widget-header">
           <div className="widget-title">
             <svg className="widget-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="currentColor">
@@ -378,7 +352,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
             <span>{t.currency.title}</span>
           </div>
         </div>
-        {/* Header with Tabs - Only show tabs if both have selections */}
         <div className="currency-header">
           <div className="currency-tabs">
             {hasCurrencies && (
@@ -405,7 +378,6 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
           )}
         </div>
 
-        {/* Content */}
         <div className="currency-grid">
           {activeTab === 'currency' ? (
             currencies.map((currency) => (

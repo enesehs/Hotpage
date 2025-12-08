@@ -23,8 +23,6 @@ function App() {
   const [settings, setSettings] = useState<Settings>(() => {
     const loadedSettings = loadSettings();
     logger.info('App', 'Settings loaded from localStorage');
-    // Don't load background image here, it will be loaded in useEffect
-    // This prevents showing the old wallpaper before randomizing
     return loadedSettings;
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -47,26 +45,21 @@ function App() {
 
   useEffect(() => {
     const loadBackground = async () => {
-      // Prevent running twice in React Strict Mode
       if (hasRandomizedRef.current) return;
       hasRandomizedRef.current = true;
       
       const imageIds = settings.background.imageIds || [];
       
-      // Auto-randomize: pick random wallpaper on page load (only once)
       if (settings.background.randomMode && imageIds.length > 0) {
         logger.info('Background', `Random mode enabled, selecting from ${imageIds.length} images`);
-        // Get last shown image from localStorage to avoid showing same image
         const lastShownId = localStorage.getItem('hotpage_lastShownImageId');
         let availableIds = imageIds.filter(id => id !== lastShownId);
-        // If only one image or all filtered out, use all images
         if (availableIds.length === 0) availableIds = imageIds;
         const randomId = availableIds[Math.floor(Math.random() * availableIds.length)];
         logger.debug('Background', `Selected random image: ${randomId}`);
         const randomUrl = await imageStorage.getImage(randomId);
         
         if (randomUrl) {
-          // Save this image ID so it won't be shown next time
           localStorage.setItem('hotpage_lastShownImageId', randomId);
           setBackgroundUrl(randomUrl);
           setSettings(prev => ({
@@ -80,12 +73,10 @@ function App() {
           }));
           logger.success('Background', 'Random background applied');
         }
-        // Mark initial load complete after state update
         setTimeout(() => { isInitialLoadRef.current = false; }, 100);
         return;
       }
 
-      // Load saved background (only if not randomizing)
       if (settings.background.type === 'image' && settings.background.currentImageId) {
         logger.debug('Background', `Loading saved image: ${settings.background.currentImageId}`);
         const url = await imageStorage.getImage(settings.background.currentImageId);
@@ -94,16 +85,13 @@ function App() {
           logger.success('Background', 'Saved background loaded');
         }
       }
-      // Mark initial load complete
       setTimeout(() => { isInitialLoadRef.current = false; }, 100);
     };
 
     loadBackground();
   }, []);
 
-  // Update background when user manually changes wallpaper (grid click or randomize button)
   useEffect(() => {
-    // Skip during initial load to prevent double update
     if (isInitialLoadRef.current) return;
     
     const updateBackground = async () => {
@@ -121,15 +109,12 @@ function App() {
   }, [settings.background.currentImageId, settings.background.type]);
 
   useEffect(() => {
-    // Apply theme on mount and when theme changes
     const theme = getTheme(settings.theme, settings.customThemeColors);
     applyTheme(theme);
-    // Set theme ready immediately after applying
     setThemeReady(true);
   }, [settings.theme, settings.customThemeColors]);
 
   useEffect(() => {
-    // Debounce save settings to prevent recursion
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
@@ -147,21 +132,17 @@ function App() {
     };
   }, [settings]);
 
-  // Keyboard shortcut: N to toggle sticky notes
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if typing in input/textarea
       if (e.target instanceof HTMLInputElement || 
           e.target instanceof HTMLTextAreaElement) {
         return;
       }
       
-      // N key to toggle sticky notes
       if (e.key === 'n' || e.key === 'N') {
         setIsStickyNotesOpen(prev => !prev);
       }
       
-      // Escape to close sticky notes or secret links
       if (e.key === 'Escape') {
         if (isStickyNotesOpen) setIsStickyNotesOpen(false);
         if (isSecretLinksOpen) setIsSecretLinksOpen(false);
@@ -172,7 +153,6 @@ function App() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isStickyNotesOpen, isSecretLinksOpen]);
 
-  // Secret links keyboard trigger
   useEffect(() => {
     if (!settings.secretLinks?.enabled) return;
 
@@ -180,7 +160,6 @@ function App() {
     let timeout: number;
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Don't trigger if typing in input/textarea or if settings/sticky notes is open
       if (e.target instanceof HTMLInputElement || 
           e.target instanceof HTMLTextAreaElement ||
           isSettingsOpen ||
@@ -188,24 +167,20 @@ function App() {
         return;
       }
 
-      // Add character to buffer
       buffer += e.key.toLowerCase();
       
-      // Clear buffer after 2 seconds of inactivity
       clearTimeout(timeout);
       timeout = window.setTimeout(() => {
         buffer = '';
       }, 2000);
 
-      // Check if buffer matches trigger keyword
       const triggerKeyword = settings.secretLinks?.triggerKeyword?.toLowerCase() ?? '';
       if (!triggerKeyword) return;
       if (buffer.includes(triggerKeyword)) {
         setIsSecretLinksOpen(true);
-        buffer = ''; // Reset buffer
+        buffer = '';
       }
 
-      // Keep buffer length reasonable
       if (buffer.length > 20) {
         buffer = buffer.slice(-20);
       }
@@ -218,7 +193,6 @@ function App() {
     };
   }, [settings.secretLinks?.enabled, settings.secretLinks?.triggerKeyword, isSettingsOpen, isStickyNotesOpen]);
 
-  // Global Pomodoro timer - runs even when sticky notes is closed
   useEffect(() => {
     const stickyNote = settings.stickyNote;
     if (!stickyNote?.pomodoro?.isRunning || stickyNote.pomodoro.timeLeft <= 0) {
@@ -233,7 +207,6 @@ function App() {
         const newTimeLeft = note.pomodoro.timeLeft - 1;
 
         if (newTimeLeft <= 0) {
-          // Timer completed - play sound
           playPomodoroSound();
 
           const nextMode = note.pomodoro.mode === 'work'
@@ -281,7 +254,6 @@ function App() {
 
   const updateSettings = (updates: Partial<Settings>) => {
     setSettings((prev) => {
-      // Deep merge for nested objects
       const merged: Settings = { ...prev };
       for (const key in updates) {
         const value = updates[key as keyof Settings];
@@ -312,7 +284,6 @@ function App() {
     updateSettings({ introSeen: true });
   };
 
-  // Generate background style based on settings
   const getBackgroundStyle = (): React.CSSProperties => {
     const { background } = settings;
     
@@ -351,12 +322,10 @@ function App() {
   const getOverlayStyle = (): React.CSSProperties => {
     const { background } = settings;
     
-    // If theme is not ready yet, return transparent to prevent flash
     if (!themeReady) {
       return { backgroundColor: 'transparent' };
     }
     
-    // If no wallpaper (solid or gradient), use 100% opacity
     const hasWallpaper = background.type === 'image' || 
                          background.type === 'unsplash' || 
                          background.type === 'nasa' || 
@@ -367,15 +336,12 @@ function App() {
     
     const rawOpacity = hasWallpaper 
       ? (background.opacity !== undefined ? background.opacity / 100 : 0.1)
-      : 1; // 100% opacity when no wallpaper
-    // Clamp for safety so accidental values don't break overlay rendering
+      : 1;
     const opacity = Math.min(Math.max(rawOpacity, 0), 1);
     
-    // Get current theme background color from CSS variable
     const backgroundColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--color-background').trim() || '#ffffff';
     
-    // Convert hex to rgba with opacity
     const hex = backgroundColor.replace('#', '');
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 4), 16);
@@ -420,7 +386,6 @@ function App() {
           rssStats={rssStats}
         />
 
-        {/* Sticky Notes */}
         {isStickyNotesOpen && (
           <StickyNotes
             note={settings.stickyNote || null}
@@ -428,7 +393,6 @@ function App() {
           />
         )}
 
-        {/* Quotes - Top (Fixed Position) */}
         <div className="widgets-top">
           {settings.widgets.quotes?.enabled && (
             <Quotes 
@@ -437,10 +401,8 @@ function App() {
           )}
         </div>
 
-        {/* Spacer - pushes content to center */}
         <div className="spacer" />
 
-        {/* Core elements - Clock, Search, QuickLinks */}
         <div className="container">
           <Clock locale={settings.locale} />
           
@@ -458,10 +420,8 @@ function App() {
           />
         </div>
 
-        {/* Spacer - pushes content to center */}
         <div className="spacer" />
 
-        {/* Widgets - Bottom (ordered by user preference) */}
         <div className="widgets-bottom">
           {(settings.widgetOrder || ['weather', 'currency', 'rss']).filter(id => id !== 'quotes').map((widgetId) => {
             if (widgetId === 'rss' && settings.widgets.rss?.enabled) {
@@ -528,7 +488,6 @@ function App() {
         onSkip={handleIntroSkip}
       />
 
-      {/* Secret Links Popup */}
       {isSecretLinksOpen && settings.secretLinks && (
         <SecretLinks
           settings={settings.secretLinks}

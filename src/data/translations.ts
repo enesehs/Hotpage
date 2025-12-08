@@ -1,5 +1,4 @@
 export interface Translations {
-  // Weather Widget
   weather: {
     title: string;
     feelsLike: string;
@@ -24,7 +23,6 @@ export interface Translations {
     };
   };
 
-  // Currency Widget
   currency: {
     title: string;
     tabCurrency: string;
@@ -36,7 +34,6 @@ export interface Translations {
     tryAgain: string;
   };
 
-  // RSS Widget
   rss: {
     title: string;
     loading: string;
@@ -46,12 +43,10 @@ export interface Translations {
     errorTooltip: string;
   };
 
-  // Quotes Widget
   quotes: {
     title: string;
   };
 
-  // Settings Panel
   settings: {
     title: string;
     tabs: {
@@ -92,7 +87,6 @@ export interface Translations {
     };
   };
 
-  // Common
   common: {
     save: string;
     cancel: string;
