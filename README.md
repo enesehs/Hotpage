@@ -1,46 +1,47 @@
-<h1 align="left">HotPage</h1>
+<p align="center">
+  <img src="public/img/TWhiteWHD.png" width="600" />
+</p>
 
-<p align="left">
+<p align="center">
+  <img src="https://img.shields.io/github/v/release/enesehs/Hotpage?label=version&color=blue" alt="Version">
+  <img src="https://img.shields.io/github/downloads/enesehs/Hotpage/total?color=blueviolet" alt="Downloads">
+  <a href="https://github.com/enesehs/Hotpage/stargazers">
+    <img src="https://img.shields.io/github/stars/enesehs/Hotpage?color=yellow" alt="Stars">
+  </a>
+  <img src="https://img.shields.io/github/repo-size/enesehs/Hotpage?color=lightgrey" alt="Repo Size">
+  <img src="https://img.shields.io/github/last-commit/enesehs/Hotpage?color=orange" alt="Last Commit">
+  <a href="https://chrome.google.com/webstore/detail/___HOTPAGE_ID___">
+    <img src="https://img.shields.io/badge/Chrome%20Extension-Coming%20Soon-blue?logo=google-chrome" alt="Chrome Extension">
+  </a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/___HOTPAGE_ID___/">
+    <img src="https://img.shields.io/badge/Firefox%20Add--on-Coming%20Soon-orange?logo=firefox" alt="Firefox Extension">
+  </a>
+  <a href="./LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green">
+  </a>
+
+</p>
+
+
+<p align="center">
   <img src="public/video/introduction.gif" width="100%" alt="HotPage Introduction">
 </p>
 
 HotPage is a React 19 + TypeScript + Vite 7 powered new-tab homepage. It ships with a widget-first layout, a glassmorphic settings panel, multi-source backgrounds, and persistent personalization for every session.  
 This README is emoji-free and the project is released under the MIT license.
 
----
+<p align="center">• • •</p>
+
 
 ## Live Demo
 **https://enesehs.dev/Hotpage**
+
+[Test It Now](https://enesehs.dev/Hotpage)
 
 ---
 
 ## Badges
 
-<p align="left">
-
-  <img src="https://img.shields.io/github/v/release/enesehs/Hotpage?label=version&color=blue" alt="Version">
-  <img src="https://img.shields.io/github/downloads/enesehs/Hotpage/total?color=blueviolet" alt="Downloads">
-
-  <a href="https://github.com/enesehs/Hotpage/stargazers">
-    <img src="https://img.shields.io/github/stars/enesehs/Hotpage?color=yellow" alt="Stars">
-  </a>
-
-  <img src="https://img.shields.io/github/repo-size/enesehs/Hotpage?color=lightgrey" alt="Repo Size">
-  <img src="https://img.shields.io/github/last-commit/enesehs/Hotpage?color=orange" alt="Last Commit">
-
-  <a href="https://chrome.google.com/webstore/detail/___HOTPAGE_ID___">
-    <img src="https://img.shields.io/badge/Chrome%20Extension-Coming%20Soon-blue?logo=google-chrome" alt="Chrome Extension">
-  </a>
-
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/___HOTPAGE_ID___/">
-    <img src="https://img.shields.io/badge/Firefox%20Add--on-Coming%20Soon-orange?logo=firefox" alt="Firefox Extension">
-  </a>
-
-  <a href="./LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-green">
-  </a>
-
-</p>
 
 ---
 
@@ -48,7 +49,7 @@ This README is emoji-free and the project is released under the MIT license.
 
 <p align="left">
   <img src="public/img/STORE2.png" width="48%" alt="HotPage Screenshot">
-  <img src="public/img/screenshot.png" width="48%" alt="HotPage Screenshot">
+  <img src="public/img/screenshot.png" width="50%" alt="HotPage Screenshot">
 </p>
 
 ---
@@ -104,9 +105,6 @@ This README is emoji-free and the project is released under the MIT license.
 - **Secret Links**  
   Keyword-triggered overlay with folders and incognito option.
 
-- **Intro Modal**  
-  First-run welcome with TR/EN adaptive text.
-
 ---
 
 ## Personalization System
@@ -149,58 +147,6 @@ This README is emoji-free and the project is released under the MIT license.
 
 ---
 
-## Project Structure
-
-```
-src/
-   App.tsx
-   App.css
-   index.css
-   main.tsx
-
-   components/
-      Clock/
-      Currency/
-      IntroModal/
-      QuickLinks/
-      Quotes/
-      RSS/
-      SearchBar/
-      SecretLinks/
-      SettingsButton/
-      SettingsPanel/
-      StickyNotes/
-      Weather/
-
-   data/
-      icons.ts
-      quotes/
-      translations.ts
-
-   services/
-      storage.ts
-      imageStorage.ts
-
-   types/
-      settings.ts
-      theme.ts
-      widget.ts
-
-   utils/
-      logger.ts
-      pomodoroSound.ts
-      searchEngines.ts
-      themes.ts
-      themeUtils.ts
-
-public/
-   manifest.json
-   img/
-   fonts/
-   video/
-```
-
----
 
 ## Development
 
@@ -220,15 +166,8 @@ npm run preview
 
 ---
 
-## Lint
 
-```
-npm run lint
-```
-
----
-
-## Browser Extension Usage
+## Custom Build Extension Usage
 
 ### Chrome Steps
 
@@ -254,13 +193,12 @@ npm run build
 ---
 
 ## Developer
-- **Enesehs** — https://enesehs.dev  
-- **Source Code** — https://github.com/enesehs/Hotpage  
+- Enesehs • [Visit My Website](https://enesehs.dev)
 
 ---
 
 ## Support
-- Buy Me a Coffee: https://buymeacoffee.com/enesehs  
+- [Buy Me a Coffee](https://buymeacoffee.com/enesehs)
 
 ---
 
