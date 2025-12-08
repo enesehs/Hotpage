@@ -1,211 +1,266 @@
 <p align="center">
-  <img src="public/img/TWhiteWHD.png" width="600" />
+  <img src="public/img/TWhiteWHD.png" width="600" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" />
 </p>
 
+
+<p align="center" style="font-size: 1.2em; color: #666; margin-bottom: 2em;">A Modern, Customizable New Tab Hotpage</p>
 <p align="center">
   <img src="https://img.shields.io/github/v/release/enesehs/Hotpage?label=version&color=blue" alt="Version">
-  <img src="https://img.shields.io/github/downloads/enesehs/Hotpage/total?color=blueviolet" alt="Downloads">
+  <img src="https://img.shields.io/github/last-commit/enesehs/Hotpage?color=orange" alt="Last Commit">
+  <img src="https://img.shields.io/github/repo-size/enesehs/Hotpage?color=lightgrey" alt="Repo Size">
+  </a>
   <a href="https://github.com/enesehs/Hotpage/stargazers">
     <img src="https://img.shields.io/github/stars/enesehs/Hotpage?color=yellow" alt="Stars">
   </a>
-  <img src="https://img.shields.io/github/repo-size/enesehs/Hotpage?color=lightgrey" alt="Repo Size">
-  <img src="https://img.shields.io/github/last-commit/enesehs/Hotpage?color=orange" alt="Last Commit">
+</p>
+
+<p align="center">
   <a href="https://chrome.google.com/webstore/detail/___HOTPAGE_ID___">
     <img src="https://img.shields.io/badge/Chrome%20Extension-Coming%20Soon-blue?logo=google-chrome" alt="Chrome Extension">
   </a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/___HOTPAGE_ID___/">
     <img src="https://img.shields.io/badge/Firefox%20Add--on-Coming%20Soon-orange?logo=firefox" alt="Firefox Extension">
-  </a>
-  <a href="./LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-green">
-  </a>
-
+    </a>
 </p>
+
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
+
+## Project Introduction
+
+<p align="center" style="max-width:700px;margin:auto;">
+HotPage is a premium new-tab homepage extension that transforms your browser's default new tab into a personalized, widget-rich dashboard. Built with React 19 and TypeScript, it offers a glassmorphic design system, multi-source backgrounds, and persistent personalization across sessions.
+</p>
+
+<p align="center" style="max-width:700px;margin:auto;">
+Designed for productivity-focused users who want a clean, customizable start page without distractions. Whether you're a developer, designer, or power user, HotPage adapts to your workflow with intelligent widgets and seamless integration.
+</p>
+
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
+
+## Live Demo & Screenshots
+
+<p align="left">
+  <a href="https://enesehs.dev/Hotpage" style="text-decoration: none;">
+    <img src="https://img.shields.io/badge/⚡_Live_Demo-Visit_Now-blue?style=for-the-badge&logo=web" alt="Live Demo">
+  </a>
+</p>
+
+<p align="center">
+  <img src="public/video/introduction.gif" width="100%" style="border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);" alt="HotPage Introduction">
+</p>
+
+<p>
+  <img src="public/img/screenshots/screenshot1.jpg" width="48%" style="border-radius: 10px; margin-right: 20px;" alt="HotPage Screenshot">
+  <img src="public/img/screenshots/screenshot4.jpg" width="48%" style="border-radius: 10px;" alt="HotPage Screenshot">
+</p>
+
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
+
+## Key Features
+
+### Core Functionality
+- **Search-First Experience**: Multiple search engines with optional image mode and debounced input
+- **Widget Ecosystem**: Comprehensive set of productivity widgets including Clock, Weather, Currency, RSS, and more
+- **Persistent Personalization**: Settings and preferences saved across browser sessions
+- **Multi-Browser Support**: Chrome and Firefox extension compatibility with MV3 architecture
+
+### Design & Theming
+- **Glassmorphism UI**: Modern frosted glass effects with backdrop blur and transparency
+- **Advanced Theme System**: Predefined themes plus custom theme builder with CSS variables
+- **Background Engine**: Solid colors, gradients, remote images, and user-uploaded backgrounds
+- **Responsive Layout**: Adaptive design that works across different screen sizes
+
+### Productivity Tools
+- **Quick Links**: Customizable icon grid with SVG support and reordering
+- **Sticky Notes**: Integrated notes, todo lists, and Pomodoro timer with sound alerts
+- **Secret Links**: Keyword-triggered overlay for private bookmarks with incognito support
+- **Localization**: Multi-language support with Turkish and English interfaces
+
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
+
+## Widget Breakdown
+
+### Search Bar
+A powerful search interface supporting multiple engines including Google, DuckDuckGo, Bing, and Wikipedia. Features image search mode and intelligent debouncing for smooth performance.
+
+### Clock & Quotes
+Displays locale-aware time and date with a curated collection of inspirational quotes. Supports multiple categories including wisdom, motivational, and humorous content.
+
+### Weather Widget
+Provides real-time weather information with automatic city detection and manual override options. Includes interval-based refresh and fallback handling for reliability.
+
+### Currency & Crypto
+Dual-tab interface for tracking traditional currencies and cryptocurrencies. Features base currency selection and curated lists for quick access to market data.
+
+### RSS Reader
+Multi-feed news aggregator with category-based organization. Extracts and filters content from multiple sources for personalized news consumption.
+
+### Sticky Notes & Pomodoro
+Combined productivity tool featuring note-taking, todo management, and a Pomodoro timer with focus/break modes and customizable sound alerts.
+
+### Secret Links
+Privacy-focused bookmark system triggered by custom keywords. Supports folder organization and incognito browsing for sensitive links.
+
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
+
+## Design System
+
+### Color Palette
+HotPage uses a carefully crafted color system built on CSS custom properties. The palette includes semantic colors for primary actions, secondary elements, and status indicators, ensuring consistent visual hierarchy across all components.
+
+### Theme Engine
+Powered by `themeUtils.ts`, the theme system dynamically applies CSS variables at runtime. Supports both predefined themes and user-created custom themes with real-time preview and persistence.
+
+### Background System
+Advanced background management supporting solid colors, CSS gradients, remote image URLs, and user-uploaded images stored in IndexedDB. Features blur effects, overlay opacity controls, and random rotation with repeat avoidance.
+
+### Glassmorphism Implementation
+Achieves the signature frosted glass effect through CSS backdrop-filter properties combined with carefully tuned opacity and blur values, creating depth and modern aesthetics.
+
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
+
+## Architecture Overview
+
+### Technology Stack
+- **Frontend**: React 19 with TypeScript 5.9 for type-safe component development
+- **Build System**: Vite 7 for optimized development and production builds
+- **Styling**: CSS Modules for scoped component styling with glassmorphism effects
+- **Browser APIs**: Chrome Extension API and Firefox WebExtensions for cross-browser compatibility
 
 
 <p align="center">
-  <img src="public/video/introduction.gif" width="100%" alt="HotPage Introduction">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
 </p>
 
-HotPage is a React 19 + TypeScript + Vite 7 powered new-tab homepage. It ships with a widget-first layout, a glassmorphic settings panel, multi-source backgrounds, and persistent personalization for every session.  
-This README is emoji-free and the project is released under the MIT license.
+## Installation & Getting Started
 
-<p align="center">• • •</p>
+### Prerequisites
+- Node.js 18+ and npm
+- Modern web browser (Chrome 88+, Firefox 85+, or Edge 88+)
 
-
-## Live Demo
-**https://enesehs.dev/Hotpage**
-
-[Test It Now](https://enesehs.dev/Hotpage)
-
----
-
-## Screenshots
-
-<p align="left">
-  <img src="public/img/screenshots/screenshot1.jpg" width="48%" alt="HotPage Screenshot">
-  <img src="public/img/screenshots/screenshot4.jpg" width="48%" alt="HotPage Screenshot">
-</p>
-
----
-
-## Highlights
-
-- Search-first experience with multiple engines and optional image mode  
-- Widget stack: Clock, Quick Links, Weather, Currency/Crypto, RSS, Quotes, Sticky Notes with Pomodoro/Todo, Secret Links, Intro Modal  
-- Theme system built on CSS variables with predefined + custom themes  
-- Background engine (solid / gradient / remote / uploaded)  
-- Localized UI (TR/EN)  
-- Persistent settings, schema-safe defaults  
-- MV3 browser extension support
-
----
-
-## Upcoming Features
-
-- [ ] Custom Quotes  
-- [ ] Spotify Now Playing  
-- [ ] Reverse Image Search  
-- [ ] Multi-Lang Support  
-- [ ] AI Search  
-- [ ] Responsive Design  
-- [ ] Google Calendar Integration  
-- [ ] Image Optimization  
-
----
-
-## Feature Details
-
-- **Search Bar**  
-  Switchable engines (Google, Chrome, Brave, Yandex, DuckDuckGo, Bing, Baidu, Wikipedia), image mode, Debounced input.
-
-- **Quick Links**  
-  Custom icons, SVG support, reorderable grid.
-
-- **Clock & Quotes**  
-  Locale-aware date/time, categorized quotes (wisdom, motivational, humorous, custom).
-
-- **Weather**  
-  Auto/manual city mode, interval refresh, fallback detection.
-
-- **Currency / Crypto**  
-  Separate tabs, curated lists, base currency selection.
-
-- **RSS Reader**  
-  Multi-feed structure, category tabs, item extraction and filtering.
-
-- **Sticky Notes**  
-  Notes + Todo + Pomodoro timer (focus/break mode, sound alert).
-
-- **Secret Links**  
-  Keyword-triggered overlay with folders and incognito option.
-
----
-
-## Personalization System
-
-- Predefined themes + full custom theme builder  
-- Background presets (solid/gradient) + remote categories  
-- User-uploaded backgrounds stored in IndexedDB  
-- Blur, overlay opacity, random mode with repeat avoidance  
-- Full widget enable/disable system  
-- Widget order persistence  
-- Locale persistence  
-- Keyboard shortcuts:  
-  - N → Sticky Notes  
-  - Escape → Close overlays  
-  - Custom trigger → Secret Links
-
----
-
-## State and Persistence
-
-- Settings stored in `localStorage` under `hotpage-settings`  
-- Backgrounds stored in IndexedDB via `imageStorage.ts`  
-- Debounced saving to reduce write load  
-- Export/Import helpers  
-- Version-aware schema merging system  
-
----
-
-## Architecture
-
-- React 19 with component-level state management  
-- TypeScript 5.9  
-- Vite 7 optimized build pipeline  
-- CSS Modules per widget  
-- `themeUtils.ts` applies runtime CSS variables  
-- `themes.ts` stores predefined & custom palettes  
-- `storage.ts` handles localStorage persistence  
-- `imageStorage.ts` manages IndexedDB caching  
-- `SettingsPanel` orchestrates global configuration  
-
----
-
-
-## Development
-
-```
+### Development Setup
+```bash
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
-```
 
----
-
-## Production Build
-
-```
+# Build for production
 npm run build
+
+# Preview production build
 npm run preview
 ```
 
----
+### Custom Build Extension Installation
 
+#### Chrome
+1. Run `npm run build` to generate the extension bundle
+2. Open `chrome://extensions` in Chrome
+3. Enable "Developer mode" in the top right
+4. Click "Load unpacked" and select the `dist` folder
 
-## Custom Build Extension Usage
+#### Firefox
+1. Run `npm run build` to generate the extension bundle
+2. Open `about:debugging#/runtime/this-firefox` in Firefox
+3. Click "Load Temporary Add-on"
+4. Select the `dist/manifest.json` file
 
-### Chrome Steps
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
 
-```
-npm run build
-```
+## Privacy & Permissions
 
-1. Go to: chrome://extensions  
-2. Enable Developer Mode  
-3. Load Unpacked → select `/dist`
+HotPage is designed with privacy as a core principle, requesting only essential permissions for functionality.
 
----
+### Minimal Permissions
+- **Storage**: Local storage for settings and IndexedDB for user-uploaded backgrounds
+- **Tabs**: Required for opening links and managing new tab behavior
+- **ActiveTab**: Used for search functionality and link opening
 
-### Firefox Steps
+### Data Handling
+All user data remains local to the browser. Settings are stored in localStorage, and uploaded backgrounds use IndexedDB. No data is transmitted to external servers except for widget-specific API calls (weather, currency rates, RSS feeds) which are handled directly by the respective services.
 
-```
-npm run build
-```
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
 
-1. Go to: about:debugging#/runtime/this-firefox  
-2. Load Temporary Add-on → select `/dist/manifest.json`
+## Upcoming Features
 
----
+- [ ] Custom Quotes Collection
+- [ ] Spotify Now Playing Integration
+- [ ] Reverse Image Search Capability
+- [ ] Expanded Multi-Language Support
+- [ ] AI-Powered Search Features
+- [ ] Enhanced Responsive Design
+- [ ] Google Calendar Integration
+- [ ] Advanced Image Optimization
 
-## Developer
-- Enesehs • [Visit My Website](https://enesehs.dev)
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
 
----
+## Support & Contribution
 
-## Support
-- [Buy Me a Coffee](https://buymeacoffee.com/enesehs)
+### Contributing
+We welcome contributions to HotPage! Please follow these guidelines:
+- Fork the repository and create a feature branch
+- Ensure code follows TypeScript best practices
+- Test changes across Chrome and Firefox
+- Submit a pull request with a clear description
 
----
+### Reporting Issues
+Found a bug or have a feature request? Please:
+- Check existing issues before creating new ones
+- Include browser version, OS, and steps to reproduce
+- Provide screenshots for UI-related issues
 
-## Configuration Notes
+### Support the Project
+If you find HotPage useful, consider supporting development:
+- ⭐ Star the repository on GitHub
+- ☕ [Buy Me a Coffee](https://buymeacoffee.com/enesehs)
+- 🔗 Visit [enesehs.dev](https://enesehs.dev) for more projects
 
-- Settings stored in `localStorage` under `hotpage-settings`  
-- Uploaded backgrounds stored in IndexedDB via `imageStorage.ts`  
-- Random background mode avoids immediate repeats  
-- Config export/import included in `storage.ts`  
-
----
+<p align="center">
+  <svg width="60%" height="2">
+    <rect width="100%" height="2" fill="#d0d4d8" />
+  </svg>
+</p>
 
 ## License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. The MIT License allows for free use, modification, and distribution of the software, provided that the original copyright notice and license terms are included in all copies or substantial portions of the software.
