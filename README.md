@@ -47,8 +47,8 @@ This README is emoji-free and the project is released under the MIT license.
 ## Screenshots
 
 <p align="left">
-  <img src="public/img/HD.png" width="48%" alt="HotPage Screenshot">
-  <img src="public/img/FHD.png" width="48%" alt="HotPage Screenshot">
+  <img src="public/img/STORE2.png" width="48%" alt="HotPage Screenshot">
+  <img src="public/img/screenshot.png" width="48%" alt="HotPage Screenshot">
 </p>
 
 ---
