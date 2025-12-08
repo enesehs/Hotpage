@@ -40,11 +40,6 @@ This README is emoji-free and the project is released under the MIT license.
 
 ---
 
-## Badges
-
-
----
-
 ## Screenshots
 
 <p align="left">
