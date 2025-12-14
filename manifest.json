@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "HotPage - Customizable Homepage",
   "short_name": "HotPage",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "A fully customizable browser homepage with widgets, themes, sticky notes, todo list, and personalization options.",
   "minimum_chrome_version": "100",
   "icons": {

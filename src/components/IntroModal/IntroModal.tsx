@@ -62,7 +62,7 @@ export const IntroModal = ({ isOpen, locale, onSkip, onSupport, onOpenSource }: 
       <div className="intro-card">
         <div className="intro-media">
           <div className="intro-video-frame">
-            <img src={getAssetUrl("/video/introduction.webm")} alt="HotPage introduction" className="intro-video" />
+            <img src={getAssetUrl("/video/introduction.gif")} alt="HotPage introduction" className="intro-video" />
           </div>
         </div>
         <div className="intro-content">
