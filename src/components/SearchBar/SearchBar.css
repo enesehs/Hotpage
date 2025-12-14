@@ -15,7 +15,7 @@
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
@@ -26,121 +26,12 @@
   box-shadow: var(--shadow-lg);
 }
 
-.search-engine-selector {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.engine-selector-btn {
+.search-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  color: var(--color-text);
-  transition: all 0.2s ease;
-  min-height: 50px;
-}
-
-.engine-selector-btn:hover {
-  background: rgba(255, 255, 255, 0.055);
-}
-
-.engine-selector-btn span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.engine-selector-btn span:first-child svg {
-  width: 28px;
-  height: 28px;
-  transition: opacity 0.3s ease;
-}
-
-.engine-selector-btn .engine-name {
-  font-size: 0.875rem;
-  opacity: 0;
-  max-width: 0;
-  overflow: hidden;
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              margin 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  white-space: nowrap;
-}
-.engine-name {
-  font-family: var(--font-primary);
-}
-.engine-selector-btn:hover .engine-name {
-  opacity: 1;
-  max-width: 150px;
-  margin-left: var(--spacing-xs);
-}
-
-.engine-selector-btn svg {
-  opacity: 0.6;
-  transition: transform 0.3s ease;
-}
-
-.engine-selector-btn:hover > svg {
-  transform: translateY(1px);
-}
-
-.engine-dropdown {
-  position: absolute;
-  top: calc(100% + var(--spacing-xs));
-  left: 0;
-  background: var(--color-background);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-  min-width: 180px;
-  z-index: 9999;
-}
-
-.engine-option {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text);
-  font-size: 0.875rem;
-  font-family: var(--font-primary);
-  transition: all 0.2s ease;
-  text-align: left;
-}
-
-.engine-option:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.engine-option.active {
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--color-primary);
-}
-
-.engine-option span:first-child {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-}
-
-.engine-option svg {
-  width: 28px;
-  height: 28px;
-  pointer-events: none;
+  color: var(--color-textSecondary);
+  opacity: 0.7;
 }
 
 .search-input {
@@ -158,40 +49,38 @@
   color: var(--color-textSecondary);
 }
 
-.image-search-btn,
 .search-submit-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--spacing-sm);
-  background: transparent;
+  background: var(--color-primary);
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  color: var(--color-textSecondary);
+  color: white;
   transition: all 0.2s ease;
   min-width: 36px;
   min-height: 36px;
 }
 
-.image-search-btn:hover,
 .search-submit-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--color-text);
+  background: var(--color-secondary);
   transform: scale(1.05);
 }
 
-.image-search-btn.active {
-  background: var(--color-primary);
-  color: white;
-}
-
-.search-submit-btn {
-  background: var(--color-primary);
-  color: white;
-}
-
-.search-submit-btn:hover {
-  background: var(--color-secondary);
-  transform: scale(1.1);
+@media (max-width: 600px) {
+  .search-bar {
+    max-width: 100%;
+    padding: 0 var(--spacing-md);
+  }
+  
+  .search-form {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .search-input {
+    padding: var(--spacing-sm);
+    font-size: 0.9rem;
+  }
 }

@@ -132,17 +132,20 @@ export interface Settings {
 export interface TodoItem {
   id: string;
   text: string;
+  subheading?: string;
   completed: boolean;
   createdAt: number;
+  subtasks?: TodoItem[];
 }
 
 export interface PomodoroState {
   isRunning: boolean;
-  mode: 'work' | 'shortBreak' | 'longBreak';
+  mode: 'work' | 'shortBreak' | 'longBreak' | 'custom';
   timeLeft: number;
   workDuration: number;
   shortBreakDuration: number;
   longBreakDuration: number;
+  customDuration: number;
   sessionsCompleted: number;
 }
 

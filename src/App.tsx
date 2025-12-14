@@ -14,7 +14,6 @@ import { IntroModal } from './components/IntroModal/IntroModal';
 import { loadSettings, saveSettings } from './services/storage';
 import { applyTheme, getTheme } from './utils/themeUtils';
 import { imageStorage } from './services/imageStorage';
-import { playPomodoroSound } from './utils/pomodoroSound';
 import { logger } from './utils/logger';
 import type { Settings, QuickLink, StickyNote } from './types/settings';
 import './App.css';
@@ -30,12 +29,12 @@ function App() {
   const [isSecretLinksOpen, setIsSecretLinksOpen] = useState(false);
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
   const [themeReady, setThemeReady] = useState(false);
-  const [rssStats, setRssStats] = useState<{ 
-    feeds: number; 
-    items: number; 
-    success: number; 
-    error: number; 
-    empty: number; 
+  const [rssStats, setRssStats] = useState<{
+    feeds: number;
+    items: number;
+    success: number;
+    error: number;
+    empty: number;
     lastUpdated: string;
     failedFeeds?: string[];
   } | undefined>(undefined);
@@ -47,9 +46,9 @@ function App() {
     const loadBackground = async () => {
       if (hasRandomizedRef.current) return;
       hasRandomizedRef.current = true;
-      
+
       const imageIds = settings.background.imageIds || [];
-      
+
       if (settings.background.randomMode && imageIds.length > 0) {
         logger.info('Background', `Random mode enabled, selecting from ${imageIds.length} images`);
         const lastShownId = localStorage.getItem('hotpage_lastShownImageId');
@@ -58,7 +57,7 @@ function App() {
         const randomId = availableIds[Math.floor(Math.random() * availableIds.length)];
         logger.debug('Background', `Selected random image: ${randomId}`);
         const randomUrl = await imageStorage.getImage(randomId);
-        
+
         if (randomUrl) {
           localStorage.setItem('hotpage_lastShownImageId', randomId);
           setBackgroundUrl(randomUrl);
@@ -93,7 +92,7 @@ function App() {
 
   useEffect(() => {
     if (isInitialLoadRef.current) return;
-    
+
     const updateBackground = async () => {
       if (settings.background.type === 'image' && settings.background.currentImageId) {
         const url = await imageStorage.getImage(settings.background.currentImageId);
@@ -118,13 +117,13 @@ function App() {
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
-    
+
     saveTimeoutRef.current = window.setTimeout(() => {
       logger.debug('Storage', 'Saving settings to localStorage (debounced)');
       saveSettings(settings);
       logger.success('Storage', 'Settings saved successfully');
     }, 100);
-    
+
     return () => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
@@ -134,15 +133,15 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || 
-          e.target instanceof HTMLTextAreaElement) {
+      if (e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement) {
         return;
       }
-      
+
       if (e.key === 'n' || e.key === 'N') {
         setIsStickyNotesOpen(prev => !prev);
       }
-      
+
       if (e.key === 'Escape') {
         if (isStickyNotesOpen) setIsStickyNotesOpen(false);
         if (isSecretLinksOpen) setIsSecretLinksOpen(false);
@@ -160,15 +159,15 @@ function App() {
     let timeout: number;
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || 
-          e.target instanceof HTMLTextAreaElement ||
-          isSettingsOpen ||
-          isStickyNotesOpen) {
+      if (e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        isSettingsOpen ||
+        isStickyNotesOpen) {
         return;
       }
 
       buffer += e.key.toLowerCase();
-      
+
       clearTimeout(timeout);
       timeout = window.setTimeout(() => {
         buffer = '';
@@ -207,7 +206,7 @@ function App() {
         const newTimeLeft = note.pomodoro.timeLeft - 1;
 
         if (newTimeLeft <= 0) {
-          playPomodoroSound();
+          // TODO: Add pomodoro completion sound
 
           const nextMode = note.pomodoro.mode === 'work'
             ? (note.pomodoro.sessionsCompleted + 1) % 4 === 0 ? 'longBreak' : 'shortBreak'
@@ -258,8 +257,8 @@ function App() {
       for (const key in updates) {
         const value = updates[key as keyof Settings];
         const prevValue = prev[key as keyof Settings];
-        if (value && typeof value === 'object' && !Array.isArray(value) && 
-            prevValue && typeof prevValue === 'object' && !Array.isArray(prevValue)) {
+        if (value && typeof value === 'object' && !Array.isArray(value) &&
+          prevValue && typeof prevValue === 'object' && !Array.isArray(prevValue)) {
           (merged as any)[key] = {
             ...prevValue,
             ...value,
@@ -286,7 +285,7 @@ function App() {
 
   const getBackgroundStyle = (): React.CSSProperties => {
     const { background } = settings;
-    
+
     switch (background.type) {
       case 'solid':
         return { backgroundColor: background.value };
@@ -321,32 +320,32 @@ function App() {
 
   const getOverlayStyle = (): React.CSSProperties => {
     const { background } = settings;
-    
+
     if (!themeReady) {
       return { backgroundColor: 'transparent' };
     }
-    
-    const hasWallpaper = background.type === 'image' || 
-                         background.type === 'unsplash' || 
-                         background.type === 'nasa' || 
-                         background.type === 'picsum' || 
-                         background.type === 'istanbul' || 
-                         background.type === 'space' || 
-                         background.type === 'ocean';
-    
-    const rawOpacity = hasWallpaper 
+
+    const hasWallpaper = background.type === 'image' ||
+      background.type === 'unsplash' ||
+      background.type === 'nasa' ||
+      background.type === 'picsum' ||
+      background.type === 'istanbul' ||
+      background.type === 'space' ||
+      background.type === 'ocean';
+
+    const rawOpacity = hasWallpaper
       ? (background.opacity !== undefined ? background.opacity / 100 : 0.1)
       : 1;
     const opacity = Math.min(Math.max(rawOpacity, 0), 1);
-    
+
     const backgroundColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--color-background').trim() || '#ffffff';
-    
+
     const hex = backgroundColor.replace('#', '');
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
-    
+
     return {
       backgroundColor: `rgba(${r}, ${g}, ${b}, ${opacity})`,
     };
@@ -355,14 +354,14 @@ function App() {
   const getContentStyle = (): React.CSSProperties => {
     const { background } = settings;
     const blur = background.blur || 0;
-    
+
     if (blur > 0 && (background.type === 'image' || background.type === 'unsplash' || background.type === 'nasa' || background.type === 'picsum' || background.type === 'istanbul' || background.type === 'space' || background.type === 'ocean')) {
       return {
         backdropFilter: `blur(${blur}px)`,
         WebkitBackdropFilter: `blur(${blur}px)`,
       };
     }
-    
+
     return {};
   };
 
@@ -395,7 +394,7 @@ function App() {
 
         <div className="widgets-top">
           {settings.widgets.quotes?.enabled && (
-            <Quotes 
+            <Quotes
               locale={settings.locale}
             />
           )}
@@ -405,16 +404,11 @@ function App() {
 
         <div className="container">
           <Clock locale={settings.locale} />
-          
-          <SearchBar
-            searchEngine={settings.searchEngine}
-            imageSearchMode={settings.imageSearchMode}
-            onEngineChange={(engine) => updateSettings({ searchEngine: engine })}
-            onImageModeChange={(enabled) => updateSettings({ imageSearchMode: enabled })}
-          />
 
-          <QuickLinks 
-            links={settings.quickLinks} 
+          <SearchBar />
+
+          <QuickLinks
+            links={settings.quickLinks}
             onLinksChange={handleLinksChange}
             spacingWidgetEnabled={settings.quickLinksSpacingWidget ?? true}
           />
@@ -426,7 +420,7 @@ function App() {
           {(settings.widgetOrder || ['weather', 'currency', 'rss']).filter(id => id !== 'quotes').map((widgetId) => {
             if (widgetId === 'rss' && settings.widgets.rss?.enabled) {
               return (
-                <RSS 
+                <RSS
                   key="rss"
                   locale={settings.locale}
                   settings={settings.widgets.rss?.settings as any}
@@ -434,21 +428,21 @@ function App() {
                 />
               );
             }
-            
+
             if (widgetId === 'weather' && settings.widgets.weather?.enabled) {
               return (
-                <Weather 
+                <Weather
                   key="weather"
-                  locale={settings.locale} 
+                  locale={settings.locale}
                   manualLocation={(settings.widgets.weather?.settings as { manualLocation?: string; refreshMinutes?: number })?.manualLocation}
                   refreshMinutes={(settings.widgets.weather?.settings as { manualLocation?: string; refreshMinutes?: number })?.refreshMinutes}
                 />
               );
             }
-            
+
             if (widgetId === 'currency' && settings.widgets.currency?.enabled) {
               return (
-                <Currency 
+                <Currency
                   key="currency"
                   locale={settings.locale}
                   settings={settings.widgets.currency?.settings as {
@@ -476,7 +470,7 @@ function App() {
                 />
               );
             }
-            
+
             return null;
           })}
         </div>

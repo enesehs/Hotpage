@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+declare const chrome: any;
+
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { getTranslations } from '../../data/translations';
 import './RSS.css';
@@ -184,55 +187,78 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
   }, [categories, t.rss.categoryAll]);
 
   const fetchFeed = useCallback(async (feedUrl: string) => {
-    // Try multiple CORS proxies in order
-    const proxies = [
-      { name: 'corsproxy.io', url: `https://corsproxy.io/?${encodeURIComponent(feedUrl)}` },
-      { name: 'codetabs', url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(feedUrl)}` },
-      { name: 'allorigins', url: `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}` },
-    ];
+    // Check if running in extension context
+    const isExtension = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage;
 
-    let lastError: Error | null = null;
-
-    for (let i = 0; i < proxies.length; i++) {
-      const proxy = proxies[i];
-      try {
-        logger.debug('RSS', `Fetching ${feedUrl} via ${proxy.name}...`);
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
-
-        const res = await fetch(proxy.url, {
-          signal: controller.signal,
-          headers: {
-            'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+    if (isExtension) {
+      // Use background service worker for CORS-free fetching
+      logger.debug('RSS', `Fetching ${feedUrl} via background worker...`);
+      return new Promise<string>((resolve, reject) => {
+        chrome.runtime.sendMessage(
+          { type: 'FETCH_RSS', url: feedUrl },
+          (response: { success: boolean; data?: string; error?: string }) => {
+            if (chrome.runtime.lastError) {
+              logger.error('RSS', `Background worker error: ${chrome.runtime.lastError.message}`);
+              reject(new Error(chrome.runtime.lastError.message));
+              return;
+            }
+            if (response.success && response.data) {
+              logger.success('RSS', `Fetched ${feedUrl} successfully`);
+              resolve(response.data);
+            } else {
+              logger.error('RSS', `Failed to fetch ${feedUrl}: ${response.error}`);
+              reject(new Error(response.error || 'Unknown error'));
+            }
           }
-        });
-
-        clearTimeout(timeoutId);
-
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
-        }
-
-        const text = await res.text();
-
-        // Validate it's actually XML/RSS
-        if (!text.trim().startsWith('<')) {
-          throw new Error('Invalid RSS format');
-        }
-
-        logger.success('RSS', `Fetched ${feedUrl} via ${proxy.name}`);
-        return text;
-      } catch (err) {
-        lastError = err as Error;
-        const errorMsg = lastError.message || 'Unknown error';
-        logger.warning('RSS', `Proxy ${proxy.name} failed for ${feedUrl}: ${errorMsg}`);
-        continue; // Try next proxy
-      }
+        );
+      });
     }
 
-    logger.error('RSS', `All proxies failed for ${feedUrl}`, lastError);
-    throw lastError || new Error('All proxies failed');
+    // Fallback for dev mode (not in extension)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    const doFetch = async (url: string) => {
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+        }
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      if (!text.trim().startsWith('<')) throw new Error('Invalid RSS format');
+      return text;
+    };
+
+    try {
+      logger.debug('RSS', `Fetching ${feedUrl} directly (dev mode)...`);
+      const text = await doFetch(feedUrl);
+      clearTimeout(timeoutId);
+      logger.success('RSS', `Fetched ${feedUrl} successfully`);
+      return text;
+    } catch (err) {
+      const error = err as Error;
+      if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+        logger.debug('RSS', `Direct fetch failed, trying CORS proxy for ${feedUrl}...`);
+        try {
+          const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`;
+          const text = await doFetch(proxyUrl);
+          clearTimeout(timeoutId);
+          logger.success('RSS', `Fetched ${feedUrl} via proxy`);
+          return text;
+        } catch (proxyErr) {
+          clearTimeout(timeoutId);
+          const proxyError = proxyErr as Error;
+          logger.error('RSS', `Proxy also failed for ${feedUrl}: ${proxyError.message}`);
+          throw proxyError;
+        }
+      }
+      clearTimeout(timeoutId);
+      const errorMsg = error.name === 'AbortError' ? 'Request timeout' : error.message;
+      logger.error('RSS', `Failed to fetch ${feedUrl}: ${errorMsg}`);
+      throw error;
+    }
   }, []);
 
   const refresh = useCallback(async () => {

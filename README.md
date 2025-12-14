@@ -97,7 +97,10 @@ Designed for productivity-focused users who want a clean, customizable start pag
 ## Widget Breakdown
 
 ### Search Bar
-A powerful search interface supporting multiple engines including Google, DuckDuckGo, Bing, and Wikipedia. Features image search mode and intelligent debouncing for smooth performance.
+
+Removed because of [Red Argon](https://developer.chrome.com/docs/webstore/troubleshooting/#single-use)
+
+~~A powerful search interface supporting multiple engines including Google, DuckDuckGo, Bing, and Wikipedia. Features image search mode and intelligent debouncing for smooth performance.~~
 
 ### Clock & Quotes
 Displays locale-aware time and date with a curated collection of inspirational quotes. Supports multiple categories including wisdom, motivational, and humorous content.

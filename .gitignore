@@ -24,7 +24,9 @@ dist-ssr
 *.sw?
 
 # Project specific
-.github/*
-memory-bank/*
 .env
 .env.local
+aim.md
+bugs.md
+to-do.md
+security.md

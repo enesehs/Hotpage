@@ -40,6 +40,7 @@ const DEFAULT_POMODORO: PomodoroState = {
   workDuration: 25,
   shortBreakDuration: 5,
   longBreakDuration: 15,
+  customDuration: 45,
   sessionsCompleted: 0,
 };
 
@@ -49,6 +50,9 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
   const [showSettings, setShowSettings] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [newTodoText, setNewTodoText] = useState('');
+  const [newTodoSubheading, setNewTodoSubheading] = useState('');
+  const [expandedTodoId, setExpandedTodoId] = useState<string | null>(null);
+  const [newSubtaskText, setNewSubtaskText] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -69,10 +73,10 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
         id: Date.now().toString(),
         content: '',
         position: {
-          x: Math.max(50, (window.innerWidth - 300) / 2),
-          y: Math.max(50, (window.innerHeight - 250) / 2)
+          x: Math.max(50, (window.innerWidth - 370) / 2),
+          y: Math.max(50, (window.innerHeight - 410) / 2)
         },
-        size: { width: 300, height: 300 },
+        size: { width: 370, height: 410 },
         fontSize: 14,
         fontFamily: FONT_OPTIONS[0].value,
         color: NOTE_COLORS[0].value,
@@ -161,6 +165,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     const newTodo: TodoItem = {
       id: Date.now().toString(),
       text: newTodoText.trim(),
+      subheading: newTodoSubheading.trim() || undefined,
       completed: false,
       createdAt: Date.now(),
     };
@@ -170,15 +175,28 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       updatedAt: Date.now(),
     });
     setNewTodoText('');
-  }, [migratedNote, newTodoText, onNoteChange]);
+    setNewTodoSubheading('');
+  }, [migratedNote, newTodoText, newTodoSubheading, onNoteChange]);
 
   const toggleTodo = useCallback((todoId: string) => {
     if (!migratedNote) return;
     onNoteChange({
       ...migratedNote,
-      todos: migratedNote.todos.map(todo =>
-        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
-      ),
+      todos: migratedNote.todos.map(todo => {
+        if (todo.id === todoId) {
+          const newCompleted = !todo.completed;
+          // When toggling parent, cascade to all subtasks
+          return {
+            ...todo,
+            completed: newCompleted,
+            subtasks: (todo.subtasks || []).map(subtask => ({
+              ...subtask,
+              completed: newCompleted,
+            })),
+          };
+        }
+        return todo;
+      }),
       updatedAt: Date.now(),
     });
   }, [migratedNote, onNoteChange]);
@@ -192,6 +210,67 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     });
   }, [migratedNote, onNoteChange]);
 
+  const addSubtask = useCallback((parentTodoId: string) => {
+    if (!migratedNote || !newSubtaskText.trim()) return;
+    const newSubtask: TodoItem = {
+      id: Date.now().toString(),
+      text: newSubtaskText.trim(),
+      completed: false,
+      createdAt: Date.now(),
+    };
+    onNoteChange({
+      ...migratedNote,
+      todos: migratedNote.todos.map(todo =>
+        todo.id === parentTodoId
+          ? { ...todo, subtasks: [...(todo.subtasks || []), newSubtask] }
+          : todo
+      ),
+      updatedAt: Date.now(),
+    });
+    setNewSubtaskText('');
+  }, [migratedNote, newSubtaskText, onNoteChange]);
+
+  const toggleSubtask = useCallback((parentTodoId: string, subtaskId: string) => {
+    if (!migratedNote) return;
+    onNoteChange({
+      ...migratedNote,
+      todos: migratedNote.todos.map(todo => {
+        if (todo.id !== parentTodoId) return todo;
+
+        // Toggle the subtask
+        const updatedSubtasks = (todo.subtasks || []).map(subtask =>
+          subtask.id === subtaskId
+            ? { ...subtask, completed: !subtask.completed }
+            : subtask
+        );
+
+        // Check if all subtasks are now completed
+        const allSubtasksCompleted = updatedSubtasks.length > 0 &&
+          updatedSubtasks.every(s => s.completed);
+
+        return {
+          ...todo,
+          subtasks: updatedSubtasks,
+          // Auto-complete parent if all subtasks are done
+          completed: allSubtasksCompleted,
+        };
+      }),
+      updatedAt: Date.now(),
+    });
+  }, [migratedNote, onNoteChange]);
+
+  const deleteSubtask = useCallback((parentTodoId: string, subtaskId: string) => {
+    if (!migratedNote) return;
+    onNoteChange({
+      ...migratedNote,
+      todos: migratedNote.todos.map(todo =>
+        todo.id === parentTodoId
+          ? { ...todo, subtasks: (todo.subtasks || []).filter(s => s.id !== subtaskId) }
+          : todo
+      ),
+      updatedAt: Date.now(),
+    });
+  }, [migratedNote, onNoteChange]);
   const togglePomodoro = useCallback(() => {
     if (!migratedNote) return;
     onNoteChange({
@@ -221,13 +300,15 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     });
   }, [migratedNote, onNoteChange]);
 
-  const setPomodoroMode = useCallback((mode: 'work' | 'shortBreak' | 'longBreak') => {
+  const setPomodoroMode = useCallback((mode: 'work' | 'shortBreak' | 'longBreak' | 'custom') => {
     if (!migratedNote) return;
     const duration = mode === 'work'
       ? migratedNote.pomodoro.workDuration * 60
       : mode === 'shortBreak'
         ? migratedNote.pomodoro.shortBreakDuration * 60
-        : migratedNote.pomodoro.longBreakDuration * 60;
+        : mode === 'longBreak'
+          ? migratedNote.pomodoro.longBreakDuration * 60
+          : (migratedNote.pomodoro.customDuration || 45) * 60;
 
     onNoteChange({
       ...migratedNote,
@@ -237,6 +318,35 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
         mode,
         timeLeft: duration,
       },
+    });
+  }, [migratedNote, onNoteChange]);
+
+  const updatePomodoroDuration = useCallback((durationType: 'work' | 'shortBreak' | 'longBreak' | 'custom', minutes: number) => {
+    if (!migratedNote) return;
+    const clampedMinutes = Math.max(1, Math.min(120, minutes));
+
+    const updates: Partial<typeof migratedNote.pomodoro> = {};
+
+    if (durationType === 'work') {
+      updates.workDuration = clampedMinutes;
+    } else if (durationType === 'shortBreak') {
+      updates.shortBreakDuration = clampedMinutes;
+    } else if (durationType === 'longBreak') {
+      updates.longBreakDuration = clampedMinutes;
+    } else {
+      updates.customDuration = clampedMinutes;
+    }
+
+    // If we're updating the current mode's duration and timer is not running, update timeLeft too
+    const newPomodoro = { ...migratedNote.pomodoro, ...updates };
+    if (!migratedNote.pomodoro.isRunning && migratedNote.pomodoro.mode === durationType) {
+      newPomodoro.timeLeft = clampedMinutes * 60;
+    }
+
+    onNoteChange({
+      ...migratedNote,
+      pomodoro: newPomodoro,
+      updatedAt: Date.now(),
     });
   }, [migratedNote, onNoteChange]);
 
@@ -290,9 +400,16 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     if (migratedNote.mode === 'notes') {
       content = migratedNote.content;
     } else if (migratedNote.mode === 'todos') {
-      content = migratedNote.todos.map(todo =>
-        `${todo.completed ? '[x]' : '[ ]'} ${todo.text}`
-      ).join('\n');
+      content = migratedNote.todos.map(todo => {
+        let line = `${todo.completed ? '[x]' : '[ ]'} ${todo.text}`;
+        if (todo.subtasks && todo.subtasks.length > 0) {
+          const subtaskLines = todo.subtasks.map(subtask =>
+            `  ${subtask.completed ? '[x]' : '[ ]'} ${subtask.text}`
+          ).join('\n');
+          line += '\n' + subtaskLines;
+        }
+        return line;
+      }).join('\n');
     } else {
       content = `Pomodoro Sessions: ${migratedNote.pomodoro.sessionsCompleted}`;
     }
@@ -320,17 +437,41 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
         const content = event.target?.result as string;
 
         if (migratedNote.mode === 'todos') {
-          const lines = content.split('\n').filter(line => line.trim());
-          const newTodos: TodoItem[] = lines.map((line, index) => {
-            const isCompleted = line.startsWith('[x]') || line.startsWith('[X]');
-            const text = line.replace(/^\[[ xX]\]\s*/, '').trim();
-            return {
-              id: `${Date.now()}-${index}`,
-              text: text || line.trim(),
-              completed: isCompleted,
-              createdAt: Date.now(),
-            };
-          }).filter(todo => todo.text);
+          const lines = content.split('\n');
+          const newTodos: TodoItem[] = [];
+          let currentParent: TodoItem | null = null;
+
+          lines.forEach((line, index) => {
+            if (!line.trim()) return;
+
+            const isIndented = line.startsWith('  ');
+            const isCompleted = line.includes('[x]') || line.includes('[X]');
+            const text = line.replace(/^[\s]*\[[ xX]\]\s*/, '').trim();
+
+            if (!text) return;
+
+            if (isIndented && currentParent) {
+              // This is a subtask
+              const subtask: TodoItem = {
+                id: `${Date.now()}-sub-${index}`,
+                text,
+                completed: isCompleted,
+                createdAt: Date.now(),
+              };
+              if (!currentParent.subtasks) currentParent.subtasks = [];
+              currentParent.subtasks.push(subtask);
+            } else {
+              // This is a parent todo
+              currentParent = {
+                id: `${Date.now()}-${index}`,
+                text,
+                completed: isCompleted,
+                createdAt: Date.now(),
+                subtasks: [],
+              };
+              newTodos.push(currentParent);
+            }
+          });
 
           onNoteChange({
             ...migratedNote,
@@ -560,39 +701,125 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               </div>
               <div className="todo-items">
                 {migratedNote.todos.map((todo) => (
-                  <div key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
-                    <button
-                      className="todo-checkbox"
-                      onClick={() => toggleTodo(todo.id)}
-                    >
-                      {todo.completed ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <polyline points="20 6 9 17 4 12" />
+                  <div key={todo.id} className="todo-item-wrapper">
+                    <div className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+                      <button
+                        className="todo-checkbox"
+                        onClick={() => toggleTodo(todo.id)}
+                      >
+                        {todo.completed ? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        ) : (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                          </svg>
+                        )}
+                      </button>
+                      <div className="todo-content">
+                        <span
+                          className="todo-text"
+                          style={{
+                            fontSize: `${migratedNote.fontSize}px`,
+                            color: migratedNote.textColor,
+                          }}
+                        >
+                          {todo.text}
+                        </span>
+                        {todo.subheading && (
+                          <span
+                            className="todo-subheading"
+                            style={{
+                              fontSize: `${Math.max(10, migratedNote.fontSize - 2)}px`,
+                              color: migratedNote.textColor,
+                            }}
+                          >
+                            {todo.subheading}
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        className={`todo-expand-btn ${expandedTodoId === todo.id ? 'expanded' : ''}`}
+                        onClick={() => setExpandedTodoId(expandedTodoId === todo.id ? null : todo.id)}
+                        title="Add subtasks"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points={expandedTodoId === todo.id ? "18 15 12 9 6 15" : "6 9 12 15 18 9"} />
                         </svg>
-                      ) : (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="3" y="3" width="18" height="18" rx="2" />
+                      </button>
+                      <button
+                        className="todo-delete-btn"
+                        onClick={() => deleteTodo(todo.id)}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <line x1="18" y1="6" x2="6" y2="18" />
+                          <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
-                      )}
-                    </button>
-                    <span
-                      className="todo-text"
-                      style={{
-                        fontSize: `${migratedNote.fontSize}px`,
-                        color: migratedNote.textColor,
-                      }}
-                    >
-                      {todo.text}
-                    </span>
-                    <button
-                      className="todo-delete-btn"
-                      onClick={() => deleteTodo(todo.id)}
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                      </svg>
-                    </button>
+                      </button>
+                    </div>
+
+                    {/* Subtasks section */}
+                    {expandedTodoId === todo.id && (
+                      <div className="subtasks-section">
+                        <div className="subtask-input-row">
+                          <input
+                            type="text"
+                            className="subtask-input"
+                            value={newSubtaskText}
+                            onChange={(e) => setNewSubtaskText(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && addSubtask(todo.id)}
+                            placeholder="Add subtask..."
+                            style={{
+                              fontSize: `${Math.max(10, migratedNote.fontSize - 2)}px`,
+                              color: migratedNote.textColor,
+                            }}
+                          />
+                          <button className="subtask-add-btn" onClick={() => addSubtask(todo.id)}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <line x1="12" y1="5" x2="12" y2="19" />
+                              <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                          </button>
+                        </div>
+                        {(todo.subtasks || []).map((subtask) => (
+                          <div key={subtask.id} className={`subtask-item ${subtask.completed ? 'completed' : ''}`}>
+                            <button
+                              className="subtask-checkbox"
+                              onClick={() => toggleSubtask(todo.id, subtask.id)}
+                            >
+                              {subtask.completed ? (
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                              ) : (
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <circle cx="12" cy="12" r="9" />
+                                </svg>
+                              )}
+                            </button>
+                            <span
+                              className="subtask-text"
+                              style={{
+                                fontSize: `${Math.max(10, migratedNote.fontSize - 2)}px`,
+                                color: migratedNote.textColor,
+                              }}
+                            >
+                              {subtask.text}
+                            </span>
+                            <button
+                              className="subtask-delete-btn"
+                              onClick={() => deleteSubtask(todo.id, subtask.id)}
+                            >
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                              </svg>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
                 {migratedNote.todos.length === 0 && (
@@ -627,6 +854,12 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
                   onClick={() => setPomodoroMode('longBreak')}
                 >
                   Long
+                </button>
+                <button
+                  className={`pomodoro-mode-btn custom ${migratedNote.pomodoro.mode === 'custom' ? 'active' : ''}`}
+                  onClick={() => setPomodoroMode('custom')}
+                >
+                  Custom
                 </button>
               </div>
 
@@ -665,6 +898,21 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
                 <span className="pomodoro-sessions">
                   🍅 {migratedNote.pomodoro.sessionsCompleted} sessions
                 </span>
+              </div>
+
+              <div className="pomodoro-settings">
+                <div className="pomodoro-setting-row custom-setting">
+                  <label style={{ color: migratedNote.textColor }}>Custom</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="120"
+                    value={migratedNote.pomodoro.customDuration || 45}
+                    onChange={(e) => updatePomodoroDuration('custom', parseInt(e.target.value) || 45)}
+                    disabled={migratedNote.pomodoro.isRunning}
+                  />
+                  <span style={{ color: migratedNote.textColor, opacity: 0.6 }}>min</span>
+                </div>
               </div>
             </div>
           )}

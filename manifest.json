@@ -4,12 +4,7 @@
   "short_name": "HotPage",
   "version": "0.1.0",
   "description": "A fully customizable browser homepage with widgets, themes, sticky notes, todo list, and personalization options.",
-
-  "theme_color": "#0A0A0F",
-  "background_color": "#0A0A0F",
-
   "minimum_chrome_version": "100",
-
   "icons": {
     "32": "img/White/White_32.png",
     "48": "img/White/White_48.png",
@@ -17,30 +12,23 @@
     "256": "img/White/White_256.png",
     "512": "img/White/White_512.png"
   },
-
   "action": {
     "default_title": "HotPage",
     "default_icon": "img/White/White_32.png"
   },
-
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-
   "permissions": [
-    "storage",
-    "geolocation"
+    "geolocation",
+    "search"
   ],
-
-  "optional_permissions": [
-    "notifications",
-    "alarms"
-  ],
-
   "host_permissions": [
     "*://*/"
   ],
-
+  "background": {
+    "service_worker": "background.js"
+  },
   "web_accessible_resources": [
     {
       "resources": [
@@ -48,10 +36,11 @@
         "fonts/*",
         "img/*"
       ],
-      "matches": ["<all_urls>"]
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
-
   "browser_specific_settings": {
     "gecko": {
       "id": "hotpage@enesehs.dev",

@@ -1,3 +1,4 @@
+
 Tek amaç netliği: Uzantı = New Tab
 Varsayılan arama motoruna hiç dokunma
 Arama → sadece redirect URL
@@ -15,3 +16,4 @@ Varsayılan arama motoruna hiç dokunma
 uploaded background image load speed optimization,
 customizable pomodoro timer,
 Add subheading to todo list
+change pomodoro timer music
