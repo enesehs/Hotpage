@@ -38,6 +38,14 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
       url = 'https://' + url;
     }
 
+    // Validate URL format
+    try {
+      new URL(url);
+    } catch {
+      alert('Invalid URL format. Please enter a valid URL.');
+      return;
+    }
+
     const newLink: SecretLink = {
       id: Date.now().toString(),
       title: newTitle.trim(),
@@ -172,7 +180,7 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
           console.error('Failed to open incognito window (Chrome):', error);
         }
       }
-      
+
       // Try Firefox extension API
       if (typeof browser !== 'undefined' && browser?.windows?.create) {
         try {
@@ -196,31 +204,31 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
   return (
     <div className="secret-overlay" onClick={onClose}>
       <div className="secret-popup" onClick={e => e.stopPropagation()}>
-        
+
         <div className="secret-header">
           <div className="header-title">
             <svg className="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
             <h2>Secret Links</h2>
           </div>
           <div className="header-btns">
             <button onClick={() => handleAddFolder()} className="header-btn" title="Add Folder">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
               </svg>
             </button>
             <button onClick={() => setShowSettings(!showSettings)} className="header-btn" title="Settings">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
               </svg>
             </button>
             <button onClick={onClose} className="header-btn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
           </div>
@@ -228,15 +236,15 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
 
         {!showSettings ? (
           <div className="secret-content">
-            
+
             {settings.folders.map(folder => (
               <div key={folder.id} className="folder-container">
                 <div className="folder-header" onClick={() => toggleFolder(folder.id)}>
                   <svg className="folder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     {folder.expanded ? (
-                      <path d="M19 9l-7 7-7-7"/>
+                      <path d="M19 9l-7 7-7-7" />
                     ) : (
-                      <path d="M9 18l6-6-6-6"/>
+                      <path d="M9 18l6-6-6-6" />
                     )}
                   </svg>
                   <span className="folder-name">{folder.name}</span>
@@ -244,22 +252,22 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
                   <button onClick={(e) => { e.stopPropagation(); handleDeleteFolder(folder.id); }} className="folder-delete-btn">×</button>
                 </div>
                 {folder.expanded && (
-                  <div 
+                  <div
                     className="folder-drop-zone"
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDropOnFolder(e, folder.id)}
                   >
                     <div className="links-grid">
                       {folder.links.map(link => (
-                        <div 
-                          key={link.id} 
+                        <div
+                          key={link.id}
                           className="link-card"
                           draggable
                           onDragStart={(e) => handleDragStart(e, link.id)}
                         >
                           <button onClick={() => openLink(link.url)} className="link-button">
-                            <img 
-                              src={getFaviconUrl(link.url)} 
+                            <img
+                              src={getFaviconUrl(link.url)}
                               alt=""
                               className="link-icon"
                               onError={(e) => e.currentTarget.style.display = 'none'}
@@ -277,15 +285,15 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
 
             <div className="links-grid">
               {settings.rootLinks.map(link => (
-                <div 
-                  key={link.id} 
+                <div
+                  key={link.id}
                   className="link-card"
                   draggable
                   onDragStart={(e) => handleDragStart(e, link.id)}
                 >
                   <button onClick={() => openLink(link.url)} className="link-button">
-                    <img 
-                      src={getFaviconUrl(link.url)} 
+                    <img
+                      src={getFaviconUrl(link.url)}
                       alt=""
                       className="link-icon"
                       onError={(e) => e.currentTarget.style.display = 'none'}
@@ -295,12 +303,12 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
                   <button onClick={() => handleDeleteLink(link.id)} className="delete-btn">×</button>
                 </div>
               ))}
-              
+
               <div className="link-card">
                 <button onClick={() => setShowAddForm(true)} className="add-link-card">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="12" y1="5" x2="12" y2="19"/>
-                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
                   </svg>
                   <span>Add Link</span>
                 </button>
@@ -310,7 +318,7 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
         ) : (
           <div className="secret-content">
             <div className="settings-list">
-              
+
               <div className="setting-row">
                 <div className="setting-label">
                   <span>Open in Incognito</span>

@@ -26,12 +26,12 @@ interface RSSProps {
     maxItems?: number;
     refreshMinutes?: number;
   };
-  onStatsUpdate?: (stats: { 
-    feeds: number; 
-    items: number; 
-    success: number; 
-    error: number; 
-    empty: number; 
+  onStatsUpdate?: (stats: {
+    feeds: number;
+    items: number;
+    success: number;
+    error: number;
+    empty: number;
     lastUpdated: string;
     failedFeeds?: string[];
   }) => void;
@@ -70,7 +70,7 @@ const extractImage = (node: Element, description: string): string | undefined =>
     const url = mediaContent.getAttribute('url');
     return url ? url.replace(/^http:/, 'https:') : undefined;
   }
-  
+
   const mediaThumbnail = node.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail')[0];
   if (mediaThumbnail) {
     const url = mediaThumbnail.getAttribute('url');
@@ -86,6 +86,13 @@ const extractImage = (node: Element, description: string): string | undefined =>
 
 const parseRss = (xml: string, feedUrl: string, category: string): RSSItem[] => {
   const doc = new DOMParser().parseFromString(xml, 'text/xml');
+
+  // Check for XML parse errors
+  const parseError = doc.querySelector('parsererror');
+  if (parseError) {
+    throw new Error(`Invalid RSS XML from ${feedUrl}: ${parseError.textContent?.slice(0, 100)}`);
+  }
+
   const items = Array.from(doc.querySelectorAll('item, entry'));
   const host = (() => {
     try {
@@ -109,7 +116,7 @@ const parseRss = (xml: string, feedUrl: string, category: string): RSSItem[] => 
     const pubDate = pubRaw ? new Date(pubRaw).toISOString() : new Date().toISOString();
     const description = node.querySelector('description')?.textContent ||
       node.querySelector('summary')?.textContent || '';
-    
+
     const imageUrl = extractImage(node, description);
 
     return {
@@ -132,13 +139,13 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       logger.info('RSS', 'No custom feeds configured, using defaults');
       return defaultFeeds;
     }
-    
+
     // Normalize to FeedConfig
     const normalized = list.map(f => {
       if (typeof f === 'string') return { url: f, category: 'General' };
       return f;
     });
-    
+
     // Remove duplicates by URL
     const seen = new Set<string>();
     const unique = normalized.filter(feed => {
@@ -149,7 +156,7 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       seen.add(feed.url);
       return true;
     });
-    
+
     logger.info('RSS', `Configured feeds: ${unique.length} (removed ${normalized.length - unique.length} duplicates)`);
     return unique;
   }, [settings?.feeds]);
@@ -162,7 +169,7 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
   const [activeCategory, setActiveCategory] = useState<string>(t.rss.categoryAll);
   const [hasError, setHasError] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<string>('');
-  
+
   const categories = useMemo(() => {
     const cats = new Set(feeds.map(f => f.category));
     return [t.rss.categoryAll, ...Array.from(cats).sort()];
@@ -185,35 +192,35 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
     ];
 
     let lastError: Error | null = null;
-    
+
     for (let i = 0; i < proxies.length; i++) {
       const proxy = proxies[i];
       try {
         logger.debug('RSS', `Fetching ${feedUrl} via ${proxy.name}...`);
-        
+
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
-        
-        const res = await fetch(proxy.url, { 
+
+        const res = await fetch(proxy.url, {
           signal: controller.signal,
           headers: {
             'Accept': 'application/rss+xml, application/xml, text/xml, */*',
           }
         });
-        
+
         clearTimeout(timeoutId);
-        
+
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);
         }
-        
+
         const text = await res.text();
-        
+
         // Validate it's actually XML/RSS
         if (!text.trim().startsWith('<')) {
           throw new Error('Invalid RSS format');
         }
-        
+
         logger.success('RSS', `Fetched ${feedUrl} via ${proxy.name}`);
         return text;
       } catch (err) {
@@ -223,7 +230,7 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
         continue; // Try next proxy
       }
     }
-    
+
     logger.error('RSS', `All proxies failed for ${feedUrl}`, lastError);
     throw lastError || new Error('All proxies failed');
   }, []);
@@ -270,7 +277,7 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
 
     // Balanced category distribution - ensure all categories have representation
     let finalItems: RSSItem[] = [];
-    
+
     if (allItems.length <= maxItems) {
       finalItems = allItems;
     } else {
@@ -282,34 +289,34 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
         }
         categoryGroups[item.category].push(item);
       });
-      
+
       const categories = Object.keys(categoryGroups);
       const itemsPerCategory = Math.floor(maxItems / categories.length);
       const remainder = maxItems % categories.length;
-      
+
       // Take items from each category
       categories.forEach((cat, idx) => {
         const items = categoryGroups[cat];
         const limit = itemsPerCategory + (idx < remainder ? 1 : 0);
         finalItems.push(...items.slice(0, limit));
       });
-      
+
       // Sort final items by date
       finalItems.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
     }
-    
+
     // Category distribution
     const categoryCount: Record<string, number> = {};
     allItems.forEach(item => {
       categoryCount[item.category] = (categoryCount[item.category] || 0) + 1;
     });
-    
+
     logger.debug('RSS', `Total items before slicing: ${allItems.length}, after: ${finalItems.length}`);
     logger.debug('RSS', 'Category distribution:', categoryCount);
-    
+
     setItems(finalItems);
     setHasError(errors > 0);
-    
+
     const newStats = {
       feeds: feeds.length,
       items: finalItems.length,
@@ -319,9 +326,9 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       lastUpdated: new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }),
       failedFeeds: failedFeeds.length > 0 ? failedFeeds : undefined,
     };
-    
+
     setLastUpdated(new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
-    
+
     // Summary log
     logger.groupCollapsed('RSS Refresh Summary', () => {
       logger.table('RSS', newStats);
@@ -329,7 +336,7 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
         logger.error('RSS', 'Failed feeds:', failedFeeds);
       }
     });
-    
+
     onStatsUpdate?.(newStats);
     logger.timeEnd('RSS refresh');
     setLoading(false);
@@ -357,9 +364,9 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
         <div className="widget-header">
           <div className="widget-title">
             <svg className="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 11a9 9 0 0 1 9 9"/>
-              <path d="M4 4a16 16 0 0 1 16 16"/>
-              <circle cx="5" cy="19" r="1"/>
+              <path d="M4 11a9 9 0 0 1 9 9" />
+              <path d="M4 4a16 16 0 0 1 16 16" />
+              <circle cx="5" cy="19" r="1" />
             </svg>
             <span>{t.rss.title}</span>
           </div>
@@ -378,9 +385,9 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       <div className="widget-header">
         <div className="widget-title">
           <svg className="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 11a9 9 0 0 1 9 9"/>
-            <path d="M4 4a16 16 0 0 1 16 16"/>
-            <circle cx="5" cy="19" r="1"/>
+            <path d="M4 11a9 9 0 0 1 9 9" />
+            <path d="M4 4a16 16 0 0 1 16 16" />
+            <circle cx="5" cy="19" r="1" />
           </svg>
           <span>{t.rss.title}</span>
           {hasError && <WarningIcon title={t.rss.errorTooltip} />}
@@ -390,7 +397,7 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
         )}
       </div>
       <div className="rss-header">
-        
+
         {/* Categories */}
         <div className="rss-categories">
           {categories.map(cat => (
@@ -404,9 +411,9 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
           ))}
         </div>
 
-        <button 
-          className={`rss-refresh ${hasError ? 'rss-refresh-error' : ''}`} 
-          onClick={refresh} 
+        <button
+          className={`rss-refresh ${hasError ? 'rss-refresh-error' : ''}`}
+          onClick={refresh}
           aria-label="Refresh News"
           title={hasError ? 'Refresh (some feeds failed)' : 'Refresh'}
         >

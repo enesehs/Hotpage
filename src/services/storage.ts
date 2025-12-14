@@ -1,5 +1,4 @@
 import type { Settings } from '../types/settings';
-import { imageStorage } from './imageStorage';
 
 const STORAGE_KEY = 'hotpage-settings';
 
@@ -63,7 +62,7 @@ export const defaultSettings: Settings = {
     openNotepad: true,
   },
   widgets: {
-    quotes: { 
+    quotes: {
       enabled: true,
       settings: {
         autoRefresh: false,
@@ -71,21 +70,21 @@ export const defaultSettings: Settings = {
       }
     },
     weather: { enabled: true, settings: { manualLocation: '', refreshMinutes: 10 } },
-    currency: { 
-      enabled: true, 
-      settings: { 
+    currency: {
+      enabled: true,
+      settings: {
         baseCurrency: 'USD',
         activeTab: 'currency',
         enabledCurrencies: ['USD', 'EUR', 'GBP', 'JPY', 'XAU'],
         enabledCryptos: ['bitcoin', 'ethereum', 'binancecoin', 'ripple', 'cardano'],
         showSparkline: false,
-      } 
+      }
     },
-    rss: { 
+    rss: {
       enabled: true,
       settings: {
         feeds: [
-          
+
         ],
         maxItems: 150,
         refreshMinutes: 30,
@@ -114,25 +113,22 @@ export const loadSettings = (): Settings => {
     if (stored) {
       const parsed = JSON.parse(stored);
       const settings = { ...defaultSettings, ...parsed };
-      
+
       settings.widgets = {
         ...defaultSettings.widgets,
         ...parsed.widgets,
       };
-      
-      if (settings.background.randomMode && 
-          settings.background.imageIds && 
-          settings.background.imageIds.length > 0) {
+
+      // Random mode background handling - just select the ID here
+      // The actual image loading is done in App.tsx useEffect
+      if (settings.background.randomMode &&
+        settings.background.imageIds &&
+        settings.background.imageIds.length > 0) {
         const randomIndex = Math.floor(Math.random() * settings.background.imageIds.length);
         settings.background.currentImageId = settings.background.imageIds[randomIndex];
-        
-        imageStorage.getImage(settings.background.currentImageId).then(url => {
-          if (url) {
-            settings.background.value = url;
-          }
-        });
+        // Note: background.value will be loaded asynchronously by App.tsx
       }
-      
+
       return settings;
     }
   } catch (error) {
@@ -144,11 +140,11 @@ export const loadSettings = (): Settings => {
 export const saveSettings = (settings: Settings): void => {
   try {
     const settingsToSave = JSON.parse(JSON.stringify(settings));
-    
+
     if (settingsToSave.background.type === 'image') {
       settingsToSave.background.value = '';
     }
-    
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(settingsToSave));
   } catch (error) {
     console.error('Failed to save settings:', error);

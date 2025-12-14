@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getRandomQuote, type Quote } from '../../data/quotes/index.js';
 import './Quotes.css';
 
@@ -12,19 +12,7 @@ export const Quotes = ({ locale = 'en' }: QuotesProps) => {
 
   const refreshInterval = 30;
 
-  useEffect(() => {
-    refreshQuote();
-  }, [locale]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refreshQuote();
-    }, refreshInterval * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [locale]);
-
-  const refreshQuote = () => {
+  const refreshQuote = useCallback(() => {
     setIsRefreshing(true);
     const quote = getRandomQuote(locale);
     setCurrentQuote(quote);
@@ -32,7 +20,19 @@ export const Quotes = ({ locale = 'en' }: QuotesProps) => {
     setTimeout(() => {
       setIsRefreshing(false);
     }, 300);
-  };
+  }, [locale]);
+
+  useEffect(() => {
+    refreshQuote();
+  }, [refreshQuote]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshQuote();
+    }, refreshInterval * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [refreshQuote]);
 
   return (
     <div className="quotes-widget">

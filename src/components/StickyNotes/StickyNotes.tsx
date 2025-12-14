@@ -7,6 +7,9 @@ interface StickyNotesProps {
   onNoteChange: (note: StickyNote | null) => void;
 }
 
+// Track if component has initialized to prevent infinite loops
+let hasInitializedNote = false;
+
 const FONT_OPTIONS = [
   { name: 'Mona Sans', value: '"Mona Sans", system-ui, sans-serif' },
   { name: 'System', value: 'system-ui, -apple-system, sans-serif' },
@@ -56,12 +59,16 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     pomodoro: note.pomodoro || { ...DEFAULT_POMODORO },
   } as StickyNote : null;
 
+  // Initialize note only once on mount to prevent infinite loops
   useEffect(() => {
+    if (hasInitializedNote) return;
+
     if (!note) {
+      hasInitializedNote = true;
       const newNote: StickyNote = {
         id: Date.now().toString(),
         content: '',
-        position: { 
+        position: {
           x: Math.max(50, (window.innerWidth - 300) / 2),
           y: Math.max(50, (window.innerHeight - 250) / 2)
         },
@@ -78,18 +85,22 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       };
       onNoteChange(newNote);
     } else if (!note.pomodoro || !note.todos || !note.mode) {
+      hasInitializedNote = true;
       onNoteChange({
         ...note,
         mode: note.mode || 'notes',
         todos: note.todos || [],
         pomodoro: note.pomodoro || { ...DEFAULT_POMODORO },
       });
+    } else {
+      hasInitializedNote = true;
     }
-  }, [note, onNoteChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!migratedNote) return;
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
 
@@ -153,8 +164,8 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       completed: false,
       createdAt: Date.now(),
     };
-    onNoteChange({ 
-      ...migratedNote, 
+    onNoteChange({
+      ...migratedNote,
       todos: [...migratedNote.todos, newTodo],
       updatedAt: Date.now(),
     });
@@ -165,7 +176,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     if (!migratedNote) return;
     onNoteChange({
       ...migratedNote,
-      todos: migratedNote.todos.map(todo => 
+      todos: migratedNote.todos.map(todo =>
         todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
       ),
       updatedAt: Date.now(),
@@ -194,12 +205,12 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
 
   const resetPomodoro = useCallback(() => {
     if (!migratedNote) return;
-    const duration = migratedNote.pomodoro.mode === 'work' 
+    const duration = migratedNote.pomodoro.mode === 'work'
       ? migratedNote.pomodoro.workDuration * 60
       : migratedNote.pomodoro.mode === 'shortBreak'
         ? migratedNote.pomodoro.shortBreakDuration * 60
         : migratedNote.pomodoro.longBreakDuration * 60;
-    
+
     onNoteChange({
       ...migratedNote,
       pomodoro: {
@@ -212,12 +223,12 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
 
   const setPomodoroMode = useCallback((mode: 'work' | 'shortBreak' | 'longBreak') => {
     if (!migratedNote) return;
-    const duration = mode === 'work' 
+    const duration = mode === 'work'
       ? migratedNote.pomodoro.workDuration * 60
       : mode === 'shortBreak'
         ? migratedNote.pomodoro.shortBreakDuration * 60
         : migratedNote.pomodoro.longBreakDuration * 60;
-    
+
     onNoteChange({
       ...migratedNote,
       pomodoro: {
@@ -233,11 +244,11 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('.sticky-note-textarea') ||
-        (e.target as HTMLElement).closest('.sticky-note-actions') ||
-        (e.target as HTMLElement).closest('.sticky-note-resize') ||
-        (e.target as HTMLElement).closest('.sticky-note-settings-panel') ||
-        (e.target as HTMLElement).closest('.sticky-note-content') ||
-        (e.target as HTMLElement).closest('.sticky-note-tabs')) {
+      (e.target as HTMLElement).closest('.sticky-note-actions') ||
+      (e.target as HTMLElement).closest('.sticky-note-resize') ||
+      (e.target as HTMLElement).closest('.sticky-note-settings-panel') ||
+      (e.target as HTMLElement).closest('.sticky-note-content') ||
+      (e.target as HTMLElement).closest('.sticky-note-tabs')) {
       return;
     }
 
@@ -279,13 +290,13 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     if (migratedNote.mode === 'notes') {
       content = migratedNote.content;
     } else if (migratedNote.mode === 'todos') {
-      content = migratedNote.todos.map(todo => 
+      content = migratedNote.todos.map(todo =>
         `${todo.completed ? '[x]' : '[ ]'} ${todo.text}`
       ).join('\n');
     } else {
       content = `Pomodoro Sessions: ${migratedNote.pomodoro.sessionsCompleted}`;
     }
-    
+
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -307,7 +318,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       const reader = new FileReader();
       reader.onload = (event) => {
         const content = event.target?.result as string;
-        
+
         if (migratedNote.mode === 'todos') {
           const lines = content.split('\n').filter(line => line.trim());
           const newTodos: TodoItem[] = lines.map((line, index) => {
@@ -320,7 +331,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               createdAt: Date.now(),
             };
           }).filter(todo => todo.text);
-          
+
           onNoteChange({
             ...migratedNote,
             todos: [...migratedNote.todos, ...newTodos],
@@ -366,15 +377,15 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
         <div className="sticky-note-header">
           <div className="sticky-note-drag-handle">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <circle cx="5" cy="5" r="2"/>
-              <circle cx="12" cy="5" r="2"/>
-              <circle cx="19" cy="5" r="2"/>
-              <circle cx="5" cy="12" r="2"/>
-              <circle cx="12" cy="12" r="2"/>
-              <circle cx="19" cy="12" r="2"/>
+              <circle cx="5" cy="5" r="2" />
+              <circle cx="12" cy="5" r="2" />
+              <circle cx="19" cy="5" r="2" />
+              <circle cx="5" cy="12" r="2" />
+              <circle cx="12" cy="12" r="2" />
+              <circle cx="19" cy="12" r="2" />
             </svg>
           </div>
-          
+
           <div className="sticky-note-actions">
             <div className="sticky-note-colors">
               {NOTE_COLORS.map((color) => (
@@ -390,7 +401,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               ))}
             </div>
 
-            <button 
+            <button
               className="sticky-note-action-btn"
               onClick={(e) => {
                 e.stopPropagation();
@@ -399,13 +410,13 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               title="Upload note"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="17 8 12 3 7 8"/>
-                <line x1="12" y1="3" x2="12" y2="15"/>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
             </button>
 
-            <button 
+            <button
               className="sticky-note-action-btn"
               onClick={(e) => {
                 e.stopPropagation();
@@ -414,13 +425,13 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               title="Download note"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
             </button>
 
-            <button 
+            <button
               className={`sticky-note-action-btn ${showSettings ? 'active' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
@@ -429,44 +440,44 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               title="Text settings"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="4 7 4 4 20 4 20 7"/>
-                <line x1="9" y1="20" x2="15" y2="20"/>
-                <line x1="12" y1="4" x2="12" y2="20"/>
+                <polyline points="4 7 4 4 20 4 20 7" />
+                <line x1="9" y1="20" x2="15" y2="20" />
+                <line x1="12" y1="4" x2="12" y2="20" />
               </svg>
             </button>
           </div>
         </div>
 
         <div className="sticky-note-tabs" onClick={(e) => e.stopPropagation()}>
-          <button 
+          <button
             className={`tab-btn ${migratedNote.mode === 'notes' ? 'active' : ''}`}
             onClick={() => setMode('notes')}
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
             </svg>
             Notes
           </button>
-          <button 
+          <button
             className={`tab-btn ${migratedNote.mode === 'todos' ? 'active' : ''}`}
             onClick={() => setMode('todos')}
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M9 11l3 3L22 4"/>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              <path d="M9 11l3 3L22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
             </svg>
             Todos
           </button>
-          <button 
+          <button
             className={`tab-btn ${migratedNote.mode === 'pomodoro' ? 'active' : ''}`}
             onClick={() => setMode('pomodoro')}
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
             </svg>
             Pomodoro
           </button>
@@ -476,7 +487,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
           <div className="sticky-note-settings-panel" onClick={(e) => e.stopPropagation()}>
             <div className="settings-row">
               <label>Font</label>
-              <select 
+              <select
                 value={migratedNote.fontFamily}
                 onChange={(e) => updateFontFamily(e.target.value)}
               >
@@ -487,7 +498,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
             </div>
             <div className="settings-row">
               <label>Size</label>
-              <select 
+              <select
                 value={migratedNote.fontSize}
                 onChange={(e) => updateFontSize(Number(e.target.value))}
               >
@@ -498,7 +509,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
             </div>
             <div className="settings-row">
               <label>Text</label>
-              <select 
+              <select
                 value={migratedNote.textColor}
                 onChange={(e) => updateTextColor(e.target.value)}
               >
@@ -535,51 +546,51 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
                   onChange={(e) => setNewTodoText(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && addTodo()}
                   placeholder="Add a task..."
-                  style={{ 
+                  style={{
                     fontSize: `${migratedNote.fontSize}px`,
                     color: migratedNote.textColor,
                   }}
                 />
                 <button className="todo-add-btn" onClick={addTodo}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="12" y1="5" x2="12" y2="19"/>
-                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
                   </svg>
                 </button>
               </div>
               <div className="todo-items">
                 {migratedNote.todos.map((todo) => (
                   <div key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
-                    <button 
+                    <button
                       className="todo-checkbox"
                       onClick={() => toggleTodo(todo.id)}
                     >
                       {todo.completed ? (
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <polyline points="20 6 9 17 4 12"/>
+                          <polyline points="20 6 9 17 4 12" />
                         </svg>
                       ) : (
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="3" y="3" width="18" height="18" rx="2"/>
+                          <rect x="3" y="3" width="18" height="18" rx="2" />
                         </svg>
                       )}
                     </button>
-                    <span 
+                    <span
                       className="todo-text"
-                      style={{ 
+                      style={{
                         fontSize: `${migratedNote.fontSize}px`,
                         color: migratedNote.textColor,
                       }}
                     >
                       {todo.text}
                     </span>
-                    <button 
+                    <button
                       className="todo-delete-btn"
                       onClick={() => deleteTodo(todo.id)}
                     >
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <line x1="18" y1="6" x2="6" y2="18"/>
-                        <line x1="6" y1="6" x2="18" y2="18"/>
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
                       </svg>
                     </button>
                   </div>
@@ -599,19 +610,19 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
           {migratedNote.mode === 'pomodoro' && (
             <div className="pomodoro" style={{ fontFamily: migratedNote.fontFamily }}>
               <div className="pomodoro-mode-btns">
-                <button 
+                <button
                   className={`pomodoro-mode-btn ${migratedNote.pomodoro.mode === 'work' ? 'active' : ''}`}
                   onClick={() => setPomodoroMode('work')}
                 >
                   Work
                 </button>
-                <button 
+                <button
                   className={`pomodoro-mode-btn ${migratedNote.pomodoro.mode === 'shortBreak' ? 'active' : ''}`}
                   onClick={() => setPomodoroMode('shortBreak')}
                 >
                   Short
                 </button>
-                <button 
+                <button
                   className={`pomodoro-mode-btn ${migratedNote.pomodoro.mode === 'longBreak' ? 'active' : ''}`}
                   onClick={() => setPomodoroMode('longBreak')}
                 >
@@ -619,7 +630,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
                 </button>
               </div>
 
-              <div 
+              <div
                 className={`pomodoro-timer ${migratedNote.pomodoro.isRunning ? 'running' : ''}`}
                 style={{ color: migratedNote.textColor }}
               >
@@ -627,25 +638,25 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               </div>
 
               <div className="pomodoro-controls">
-                <button 
+                <button
                   className={`pomodoro-btn ${migratedNote.pomodoro.isRunning ? 'pause' : 'start'}`}
                   onClick={togglePomodoro}
                 >
                   {migratedNote.pomodoro.isRunning ? (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <rect x="6" y="4" width="4" height="16"/>
-                      <rect x="14" y="4" width="4" height="16"/>
+                      <rect x="6" y="4" width="4" height="16" />
+                      <rect x="14" y="4" width="4" height="16" />
                     </svg>
                   ) : (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <polygon points="5 3 19 12 5 21 5 3"/>
+                      <polygon points="5 3 19 12 5 21 5 3" />
                     </svg>
                   )}
                 </button>
                 <button className="pomodoro-btn reset" onClick={resetPomodoro}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                    <path d="M3 3v5h5"/>
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
                   </svg>
                 </button>
               </div>
@@ -659,13 +670,13 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
           )}
         </div>
 
-        <div 
+        <div
           className="sticky-note-resize"
           onMouseDown={handleResizeStart}
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M22 22L12 22L22 12L22 22Z"/>
-            <path d="M22 22L18 22L22 18L22 22Z" opacity="0.5"/>
+            <path d="M22 22L12 22L22 12L22 22Z" />
+            <path d="M22 22L18 22L22 18L22 22Z" opacity="0.5" />
           </svg>
         </div>
       </div>
