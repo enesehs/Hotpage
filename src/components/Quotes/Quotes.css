@@ -10,6 +10,7 @@
   border-radius: var(--radius-lg);
   text-align: center;
   position: relative;
+  min-height: 120px;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -73,7 +74,7 @@
 }
 
 .quote-text {
-  margin: 0 0 var(--spacing-md) 0;
+  margin: 0;
   font-family: var(--font-primary);
   font-size: 1rem;
   font-weight: 400;
@@ -83,6 +84,13 @@
   position: relative;
   border: none;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2em;
+  max-height: 3.2em;
+  overflow: hidden;
+  text-align: center;
 }
 
 .quote-text::before {

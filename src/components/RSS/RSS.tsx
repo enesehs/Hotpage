@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 declare const chrome: any;
 
 import { useEffect, useMemo, useState, useCallback } from 'react';
@@ -50,16 +49,7 @@ const WarningIcon = ({ title }: { title?: string }) => (
   />
 );
 
-const defaultFeeds: FeedConfig[] = [
-  { url: 'https://www.webtekno.com/rss.xml', category: 'Technology' },
-  { url: 'https://yusufipek.me/rss', category: 'Technology' },
-  { url: 'https://www.beetekno.com/feed/posts', category: 'Technology' },
-  { url: 'https://techolay.net/feed/', category: 'Technology' },
-  { url: 'https://evrimagaci.org/rss.xml', category: 'Science' },
-  { url: 'https://tr.ign.com/feed.xml', category: 'Gaming' },
-  { url: 'https://www.sozcu.com.tr/feeds-rss-category-sozcu', category: 'News' },
-  { url: 'https://www.haberturk.com/rss/manset.xml', category: 'News' },
-];
+const defaultFeeds: FeedConfig[] = [];
 
 const extractImage = (node: Element, description: string): string | undefined => {
   const enclosure = node.querySelector('enclosure[type^="image"]');
@@ -187,12 +177,15 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
   }, [categories, t.rss.categoryAll]);
 
   const fetchFeed = useCallback(async (feedUrl: string) => {
-    // Check if running in extension context
-    const isExtension = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage;
+    // Check if running in extension context - use chrome.runtime.id as the most reliable check
+    const isExtension = typeof chrome !== 'undefined' &&
+      chrome.runtime &&
+      chrome.runtime.id &&
+      typeof chrome.runtime.sendMessage === 'function';
 
     if (isExtension) {
       // Use background service worker for CORS-free fetching
-      logger.debug('RSS', `Fetching ${feedUrl} via background worker...`);
+      logger.info('RSS', `Using background worker for ${feedUrl}`);
       return new Promise<string>((resolve, reject) => {
         chrome.runtime.sendMessage(
           { type: 'FETCH_RSS', url: feedUrl },
@@ -202,12 +195,12 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
               reject(new Error(chrome.runtime.lastError.message));
               return;
             }
-            if (response.success && response.data) {
-              logger.success('RSS', `Fetched ${feedUrl} successfully`);
+            if (response && response.success && response.data) {
+              logger.success('RSS', `Fetched ${feedUrl} via background worker`);
               resolve(response.data);
             } else {
-              logger.error('RSS', `Failed to fetch ${feedUrl}: ${response.error}`);
-              reject(new Error(response.error || 'Unknown error'));
+              logger.error('RSS', `Background worker failed: ${response?.error || 'No response'}`);
+              reject(new Error(response?.error || 'Background worker failed'));
             }
           }
         );
@@ -215,6 +208,7 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
     }
 
     // Fallback for dev mode (not in extension)
+    logger.warning('RSS', `Not in extension context, using direct fetch for ${feedUrl}`);
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
 

@@ -206,7 +206,6 @@ function App() {
         const newTimeLeft = note.pomodoro.timeLeft - 1;
 
         if (newTimeLeft <= 0) {
-          // TODO: Add pomodoro completion sound
 
           const nextMode = note.pomodoro.mode === 'work'
             ? (note.pomodoro.sessionsCompleted + 1) % 4 === 0 ? 'longBreak' : 'shortBreak'
@@ -389,16 +388,15 @@ function App() {
           <StickyNotes
             note={settings.stickyNote || null}
             onNoteChange={handleStickyNoteChange}
+            defaultTodos={settings.todos}
           />
         )}
 
-        <div className="widgets-top">
-          {settings.widgets.quotes?.enabled && (
-            <Quotes
-              locale={settings.locale}
-            />
-          )}
-        </div>
+        {settings.widgets.quotes?.enabled && (
+          <div className="widgets-top">
+            <Quotes locale={settings.locale} />
+          </div>
+        )}
 
         <div className="spacer" />
 

@@ -7,8 +7,87 @@ const STORE_NAME = 'backgrounds';
 interface StoredImage {
   id: string;
   blob: Blob;
+  thumbnail?: Blob;
   filename: string;
   uploadedAt: number;
+  originalSize: number;
+  compressedSize: number;
+}
+
+const MAX_WIDTH = 1920;
+const MAX_HEIGHT = 1080;
+const THUMBNAIL_SIZE = 100;
+const COMPRESSION_QUALITY = 0.85;
+
+async function compressImage(file: File): Promise<{ compressed: Blob; thumbnail: Blob }> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      img.src = e.target?.result as string;
+    };
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+
+      if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+        const aspectRatio = width / height;
+        if (width > height) {
+          width = MAX_WIDTH;
+          height = width / aspectRatio;
+        } else {
+          height = MAX_HEIGHT;
+          width = height * aspectRatio;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d')!;
+      ctx.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob(
+        (compressedBlob) => {
+          if (!compressedBlob) {
+            reject(new Error('Failed to compress image'));
+            return;
+          }
+
+          const thumbCanvas = document.createElement('canvas');
+          const thumbSize = Math.min(THUMBNAIL_SIZE, Math.min(width, height));
+          thumbCanvas.width = thumbSize;
+          thumbCanvas.height = thumbSize;
+          const thumbCtx = thumbCanvas.getContext('2d')!;
+
+          const sourceSize = Math.min(img.width, img.height);
+          const sourceX = (img.width - sourceSize) / 2;
+          const sourceY = (img.height - sourceSize) / 2;
+          thumbCtx.drawImage(img, sourceX, sourceY, sourceSize, sourceSize, 0, 0, thumbSize, thumbSize);
+
+          thumbCanvas.toBlob(
+            (thumbnailBlob) => {
+              if (!thumbnailBlob) {
+                reject(new Error('Failed to create thumbnail'));
+                return;
+              }
+              resolve({ compressed: compressedBlob, thumbnail: thumbnailBlob });
+            },
+            'image/jpeg',
+            0.7
+          );
+        },
+        'image/jpeg',
+        COMPRESSION_QUALITY
+      );
+    };
+
+    img.onerror = () => reject(new Error('Failed to load image'));
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsDataURL(file);
+  });
 }
 
 class ImageStorage {
@@ -44,27 +123,70 @@ class ImageStorage {
     if (!this.db) await this.init();
 
     const id = `img_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    logger.debug('ImageStorage', `Saving image: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
-    const imageData: StoredImage = {
-      id,
-      blob: file,
-      filename: file.name,
-      uploadedAt: Date.now(),
-    };
+    const originalSize = file.size;
+    logger.debug('ImageStorage', `Compressing image: ${file.name} (${(originalSize / 1024 / 1024).toFixed(2)} MB)`);
+
+    try {
+      const { compressed, thumbnail } = await compressImage(file);
+      const compressedSize = compressed.size;
+      const compressionRatio = ((1 - compressedSize / originalSize) * 100).toFixed(1);
+
+      logger.info('ImageStorage', `Compressed ${file.name}: ${(originalSize / 1024 / 1024).toFixed(2)} MB → ${(compressedSize / 1024 / 1024).toFixed(2)} MB (${compressionRatio}% reduction)`);
+
+      const imageData: StoredImage = {
+        id,
+        blob: compressed,
+        thumbnail,
+        filename: file.name,
+        uploadedAt: Date.now(),
+        originalSize,
+        compressedSize,
+      };
+
+      return new Promise((resolve, reject) => {
+        const transaction = this.db!.transaction([STORE_NAME], 'readwrite');
+        const store = transaction.objectStore(STORE_NAME);
+        const request = store.add(imageData);
+
+        request.onsuccess = () => {
+          logger.success('ImageStorage', `Image saved: ${id}`);
+          resolve(id);
+        };
+        request.onerror = () => {
+          logger.error('ImageStorage', 'Failed to save image', request.error);
+          reject(request.error);
+        };
+      });
+    } catch (error) {
+      logger.error('ImageStorage', 'Failed to compress image', error);
+      throw error;
+    }
+  }
+
+  async getThumbnail(id: string): Promise<string | null> {
+    if (!this.db) await this.init();
 
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction([STORE_NAME], 'readwrite');
+      const transaction = this.db!.transaction([STORE_NAME], 'readonly');
       const store = transaction.objectStore(STORE_NAME);
-      const request = store.add(imageData);
+      const request = store.get(id);
 
       request.onsuccess = () => {
-        logger.success('ImageStorage', `Image saved: ${id}`);
-        resolve(id);
+        if (request.result) {
+          const imageData = request.result as StoredImage;
+          if (imageData.thumbnail) {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = () => reject(reader.error);
+            reader.readAsDataURL(imageData.thumbnail);
+          } else {
+            resolve(null);
+          }
+        } else {
+          resolve(null);
+        }
       };
-      request.onerror = () => {
-        logger.error('ImageStorage', 'Failed to save image', request.error);
-        reject(request.error);
-      };
+      request.onerror = () => reject(request.error);
     });
   }
 

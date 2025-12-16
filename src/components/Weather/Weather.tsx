@@ -28,7 +28,7 @@ interface WeatherProps {
 const getWeatherCondition = (code: number | string, locale: string): string => {
   const codeNum = typeof code === 'string' ? parseInt(code) : code;
   const t = getTranslations(locale);
-  
+
   if (codeNum === 0) return t.weather.conditions.clear;
   if (codeNum === 1) return t.weather.conditions.mostlyClear;
   if (codeNum === 2) return t.weather.conditions.partlyCloudy;
@@ -42,7 +42,7 @@ const getWeatherCondition = (code: number | string, locale: string): string => {
   if (codeNum >= 80 && codeNum <= 82) return t.weather.conditions.showers;
   if (codeNum >= 85 && codeNum <= 86) return t.weather.conditions.snowShowers;
   if (codeNum >= 95 && codeNum <= 99) return t.weather.conditions.thunderstorm;
-  
+
   return t.weather.conditions.unknown;
 };
 
@@ -74,7 +74,7 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
             `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(debouncedLocation)}&format=json&limit=1&accept-language=${locale}`
           );
           const geoData = await geoResponse.json();
-          
+
           if (geoData && geoData.length > 0) {
             const { lat, lon } = geoData[0];
             logger.success('Weather', `Geocoded ${debouncedLocation} to ${lat}, ${lon}`);
@@ -102,11 +102,11 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
         logger.success('Weather', `Geolocation: ${latitude}, ${longitude}`);
         await fetchOpenMeteoWeather(latitude, longitude);
       } catch (geoErr) {
-        logger.warning('Weather', 'Geolocation failed, trying IP-based location', geoErr);
+        logger.debug('Weather', 'Geolocation failed, trying IP-based location');
         try {
           const ipResponse = await fetch('https://ipapi.co/json/');
           const ipData = await ipResponse.json();
-          
+
           if (ipData.latitude && ipData.longitude) {
             logger.success('Weather', `IP-based location: ${ipData.city}, ${ipData.country}`);
             await fetchOpenMeteoWeather(ipData.latitude, ipData.longitude);
@@ -141,11 +141,11 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
               `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=${locale}`
             );
             const geoData = await geoResponse.json();
-            locationName = geoData.address?.city || 
-                          geoData.address?.town || 
-                          geoData.address?.village ||
-                          geoData.address?.county ||
-                          geoData.address?.state || '';
+            locationName = geoData.address?.city ||
+              geoData.address?.town ||
+              geoData.address?.village ||
+              geoData.address?.county ||
+              geoData.address?.state || '';
             logger.debug('Weather', `Reverse geocoded to: ${locationName}`);
           } catch (geoErr) {
             logger.warning('Weather', 'Reverse geocoding failed', geoErr);
@@ -189,7 +189,7 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
         <div className="widget-header">
           <div className="widget-title">
             <svg className="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
             </svg>
             <span>{locale === 'tr' ? 'Hava Durumu' : 'Weather'}</span>
           </div>
@@ -207,9 +207,9 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
     return (
       <div className="weather-widget error">
         <svg className="weather-error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
         </svg>
         <span className="weather-error-text">{error || t.weather.error}</span>
       </div>
@@ -225,7 +225,7 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
       <div className="widget-header">
         <div className="widget-title">
           <svg className="widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
           </svg>
           <span>{t.weather.title}</span>
         </div>
@@ -234,75 +234,75 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
         )}
       </div>
       <div className="weather-content">
-      <div className="weather-left">
-        <span className="weather-icon" dangerouslySetInnerHTML={{ __html: weatherIcons[weather.iconKey] || weatherIcons['default'] }} />
-        <div className="weather-temp-section">
-          <span className="weather-temp">{weather.temperature}°C</span>
-          {weather.feelsLike !== undefined && (
-            <span className="weather-feels-like">
-              {t.weather.feelsLike} {weather.feelsLike}°
+        <div className="weather-left">
+          <span className="weather-icon" dangerouslySetInnerHTML={{ __html: weatherIcons[weather.iconKey] || weatherIcons['default'] }} />
+          <div className="weather-temp-section">
+            <span className="weather-temp">{weather.temperature}°C</span>
+            {weather.feelsLike !== undefined && (
+              <span className="weather-feels-like">
+                {t.weather.feelsLike} {weather.feelsLike}°
+              </span>
+            )}
+          </div>
+        </div>
+
+        <div className="weather-center">
+          <span className="weather-condition">{weather.condition}</span>
+          <span className="weather-location">
+            <svg className="location-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            {weather.location}
+          </span>
+          {(weather.tempMin !== undefined && weather.tempMax !== undefined) && (
+            <span className="weather-minmax">
+              <svg className="minmax-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 5v14M5 12l7 7 7-7" />
+              </svg>
+              {weather.tempMin}° /
+              <svg className="minmax-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 19V5M5 12l7-7 7 7" />
+              </svg>
+              {weather.tempMax}°
             </span>
           )}
         </div>
-      </div>
-      
-      <div className="weather-center">
-        <span className="weather-condition">{weather.condition}</span>
-        <span className="weather-location">
-          <svg className="location-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-          {weather.location}
-        </span>
-        {(weather.tempMin !== undefined && weather.tempMax !== undefined) && (
-          <span className="weather-minmax">
-            <svg className="minmax-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
-            {weather.tempMin}° / 
-            <svg className="minmax-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 19V5M5 12l7-7 7 7"/>
-            </svg>
-            {weather.tempMax}°
-          </span>
-        )}
-      </div>
 
-      <div className="weather-right">
-        {weather.humidity !== undefined && (
-          <div className="weather-stat">
-            <svg className="weather-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-            </svg>
-            <span className="weather-stat-value">{weather.humidity}%</span>
-            <span className="weather-stat-label">{t.weather.humidity}</span>
-          </div>
-        )}
-        {weather.windSpeed !== undefined && (
-          <div className="weather-stat">
-            <svg className="weather-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
-              <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
-              <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
-            </svg>
-            <span className="weather-stat-value">{weather.windSpeed}</span>
-            <span className="weather-stat-label">km/h</span>
-          </div>
-        )}
-        {weather.pressure !== undefined && (
-          <div className="weather-stat">
-            <svg className="weather-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2v20"/>
-              <path d="M8 6h8"/>
-              <path d="M8 18h8"/>
-              <circle cx="12" cy="12" r="2"/>
-            </svg>
-            <span className="weather-stat-value">{weather.pressure}</span>
-            <span className="weather-stat-label">hPa</span>
-          </div>
-        )}
-      </div>
+        <div className="weather-right">
+          {weather.humidity !== undefined && (
+            <div className="weather-stat">
+              <svg className="weather-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+              </svg>
+              <span className="weather-stat-value">{weather.humidity}%</span>
+              <span className="weather-stat-label">{t.weather.humidity}</span>
+            </div>
+          )}
+          {weather.windSpeed !== undefined && (
+            <div className="weather-stat">
+              <svg className="weather-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" />
+                <path d="M9.6 4.6A2 2 0 1 1 11 8H2" />
+                <path d="M12.6 19.4A2 2 0 1 0 14 16H2" />
+              </svg>
+              <span className="weather-stat-value">{weather.windSpeed}</span>
+              <span className="weather-stat-label">km/h</span>
+            </div>
+          )}
+          {weather.pressure !== undefined && (
+            <div className="weather-stat">
+              <svg className="weather-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2v20" />
+                <path d="M8 6h8" />
+                <path d="M8 18h8" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              <span className="weather-stat-value">{weather.pressure}</span>
+              <span className="weather-stat-label">hPa</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { QuickLink } from '../../types/settings';
 import { iconLibrary, iconCategories } from '../../data/icons';
+import { sanitizeSVG } from '../../utils/sanitize';
 import './QuickLinks.css';
 
 interface QuickLinksProps {
@@ -22,10 +23,10 @@ export const QuickLinks = ({ links, onLinksChange, spacingWidgetEnabled = true }
     const [isEditing, setIsEditing] = useState(false);
     const [editingLink, setEditingLink] = useState<QuickLink | null>(null);
     const [draggedItem, setDraggedItem] = useState<string | null>(null);
-    const [formData, setFormData] = useState({ 
-        title: '', 
-        url: '', 
-        icon: '', 
+    const [formData, setFormData] = useState({
+        title: '',
+        url: '',
+        icon: '',
         iconType: 'svg' as 'favicon' | 'svg' | 'custom' | 'none',
         selectedCategory: 'Social'
     });
@@ -48,8 +49,8 @@ export const QuickLinks = ({ links, onLinksChange, spacingWidgetEnabled = true }
 
     const handleEdit = (link: QuickLink) => {
         setEditingLink(link);
-        setFormData({ 
-            title: link.title, 
+        setFormData({
+            title: link.title,
             url: link.url,
             icon: link.icon || '',
             iconType: link.iconType || 'svg',
@@ -125,7 +126,7 @@ export const QuickLinks = ({ links, onLinksChange, spacingWidgetEnabled = true }
     return (
         <div className={`quick-links ${spacingWidgetEnabled ? 'spacing-widget-enabled' : 'spacing-widget-compact'}`}>
             <div className="quick-links-header">
-                <button 
+                <button
                     className="edit-mode-toggle"
                     onClick={() => setIsEditing(!isEditing)}
                 >
@@ -140,12 +141,12 @@ export const QuickLinks = ({ links, onLinksChange, spacingWidgetEnabled = true }
                 {visibleLinks.map((link) => {
                     const showIcon = link.iconType !== 'none';
                     const isSvgIcon = link.iconType === 'svg';
-                    const iconUrl = link.iconType === 'custom' && link.icon 
-                        ? link.icon 
-                        : link.iconType === 'favicon' 
-                        ? getFaviconUrl(link.url) 
-                        : '';
-                    
+                    const iconUrl = link.iconType === 'custom' && link.icon
+                        ? link.icon
+                        : link.iconType === 'favicon'
+                            ? getFaviconUrl(link.url)
+                            : '';
+
                     return (
                         <a
                             key={link.id}
@@ -161,7 +162,7 @@ export const QuickLinks = ({ links, onLinksChange, spacingWidgetEnabled = true }
                         >
                             <div className="quick-link-content">
                                 {showIcon && isSvgIcon && link.icon && (
-                                    <div className="quick-link-icon-svg" dangerouslySetInnerHTML={{ __html: link.icon }} />
+                                    <div className="quick-link-icon-svg" dangerouslySetInnerHTML={{ __html: sanitizeSVG(link.icon) }} />
                                 )}
                                 {showIcon && !isSvgIcon && iconUrl && (
                                     <img src={iconUrl} alt="" className="quick-link-icon" />
@@ -191,8 +192,8 @@ export const QuickLinks = ({ links, onLinksChange, spacingWidgetEnabled = true }
                                             aria-label="Delete link"
                                         >
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M18 6 6 18"/>
-                                                <path d="m6 6 12 12"/>
+                                                <path d="M18 6 6 18" />
+                                                <path d="m6 6 12 12" />
                                             </svg>
                                         </button>
                                     </>
@@ -229,7 +230,7 @@ export const QuickLinks = ({ links, onLinksChange, spacingWidgetEnabled = true }
                             onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                             className="editor-input"
                         />
-                        
+
                         <div className="icon-selector">
                             <label className="icon-option">
                                 <input

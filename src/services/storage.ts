@@ -1,4 +1,6 @@
 import type { Settings } from '../types/settings';
+import { SettingsSchema } from '../schemas/settings.schema';
+import { sanitizeSVG } from '../utils/sanitize';
 
 const STORAGE_KEY = 'hotpage-settings';
 
@@ -7,8 +9,6 @@ const defaultTheme = (typeof window !== 'undefined' && window.matchMedia?.('(pre
   : 'light';
 
 export const defaultSettings: Settings = {
-  searchEngine: 'google',
-  imageSearchMode: false,
   locale: 'en-US',
   quickLinks: [
     {
@@ -84,7 +84,7 @@ export const defaultSettings: Settings = {
       enabled: true,
       settings: {
         feeds: [
-
+          { url: 'https://github.blog/feed/', category: 'Technology' },
         ],
         maxItems: 150,
         refreshMinutes: 30,
@@ -103,7 +103,20 @@ export const defaultSettings: Settings = {
   },
   shortcuts: {},
   notes: '',
-  todos: [],
+  todos: [
+    {
+      id: 'default-1',
+      text: 'Install the Hotpage',
+      completed: true,
+      createdAt: Date.now(),
+    },
+    {
+      id: 'default-2',
+      text: 'Visit enesehs.dev',
+      completed: false,
+      createdAt: Date.now(),
+    },
+  ],
   stickyNote: null,
 };
 
@@ -119,14 +132,11 @@ export const loadSettings = (): Settings => {
         ...parsed.widgets,
       };
 
-      // Random mode background handling - just select the ID here
-      // The actual image loading is done in App.tsx useEffect
       if (settings.background.randomMode &&
         settings.background.imageIds &&
         settings.background.imageIds.length > 0) {
         const randomIndex = Math.floor(Math.random() * settings.background.imageIds.length);
         settings.background.currentImageId = settings.background.imageIds[randomIndex];
-        // Note: background.value will be loaded asynchronously by App.tsx
       }
 
       return settings;
@@ -158,9 +168,22 @@ export const exportSettings = (settings: Settings): string => {
 export const importSettings = (json: string): Settings | null => {
   try {
     const parsed = JSON.parse(json);
-    return { ...defaultSettings, ...parsed };
+
+    const validated = SettingsSchema.parse(parsed) as Settings;
+
+    if (validated.quickLinks) {
+      validated.quickLinks = validated.quickLinks.map(link => ({
+        ...link,
+        icon: link.icon && link.iconType === 'svg' ? sanitizeSVG(link.icon) : link.icon
+      }));
+    }
+
+    return { ...defaultSettings, ...validated };
   } catch (error) {
     console.error('Failed to import settings:', error);
+    if (error instanceof Error) {
+      throw new Error(`Settings validation failed: ${error.message}`);
+    }
     return null;
   }
 };

@@ -16,6 +16,7 @@
   bottom: 0;
   width: 90%;
   max-width: 500px;
+  margin: auto 0;
   background: linear-gradient(135deg, 
     rgba(var(--color-primary-rgb, 59, 130, 246), 0.05) 0%,
     rgba(255, 255, 255, 0.05) 100%
@@ -128,6 +129,12 @@
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-xl);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.settings-content::-webkit-scrollbar {
+  display: none;
 }
 
 .settings-section {
@@ -964,9 +971,7 @@
 .widget-feed-url {
   font-size: 0.85rem;
   color: var(--color-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-all;
 }
 
 .widget-feed-category {

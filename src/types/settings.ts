@@ -1,10 +1,3 @@
-export interface SearchEngine {
-  id: string;
-  name: string;
-  searchUrl: string;
-  imageSearchUrl?: string;
-  icon: string;
-}
 
 export interface QuickLink {
   id: string;
@@ -85,8 +78,6 @@ export interface QuickActionsSettings {
 }
 
 export interface Settings {
-  searchEngine: string;
-  imageSearchMode: boolean;
   quickLinks: QuickLink[];
   quickLinksSpacingWidget?: boolean;
   introSeen?: boolean;
@@ -125,7 +116,7 @@ export interface Settings {
   };
   shortcuts: Record<string, string>;
   notes: string;
-  todos: Array<{ id: string; text: string; completed: boolean }>;
+  todos: TodoItem[];
   stickyNote: StickyNote | null;
 }
 

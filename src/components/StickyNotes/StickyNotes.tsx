@@ -5,9 +5,9 @@ import './StickyNotes.css';
 interface StickyNotesProps {
   note: StickyNote | null;
   onNoteChange: (note: StickyNote | null) => void;
+  defaultTodos?: TodoItem[];
 }
 
-// Track if component has initialized to prevent infinite loops
 let hasInitializedNote = false;
 
 const FONT_OPTIONS = [
@@ -44,7 +44,7 @@ const DEFAULT_POMODORO: PomodoroState = {
   sessionsCompleted: 0,
 };
 
-export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
+export const StickyNotes = ({ note, onNoteChange, defaultTodos = [] }: StickyNotesProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -63,7 +63,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     pomodoro: note.pomodoro || { ...DEFAULT_POMODORO },
   } as StickyNote : null;
 
-  // Initialize note only once on mount to prevent infinite loops
   useEffect(() => {
     if (hasInitializedNote) return;
 
@@ -84,7 +83,7 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
         createdAt: Date.now(),
         updatedAt: Date.now(),
         mode: 'notes',
-        todos: [],
+        todos: defaultTodos,
         pomodoro: { ...DEFAULT_POMODORO },
       };
       onNoteChange(newNote);
@@ -99,7 +98,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
     } else {
       hasInitializedNote = true;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -185,7 +183,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       todos: migratedNote.todos.map(todo => {
         if (todo.id === todoId) {
           const newCompleted = !todo.completed;
-          // When toggling parent, cascade to all subtasks
           return {
             ...todo,
             completed: newCompleted,
@@ -237,21 +234,18 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       todos: migratedNote.todos.map(todo => {
         if (todo.id !== parentTodoId) return todo;
 
-        // Toggle the subtask
         const updatedSubtasks = (todo.subtasks || []).map(subtask =>
           subtask.id === subtaskId
             ? { ...subtask, completed: !subtask.completed }
             : subtask
         );
 
-        // Check if all subtasks are now completed
         const allSubtasksCompleted = updatedSubtasks.length > 0 &&
           updatedSubtasks.every(s => s.completed);
 
         return {
           ...todo,
           subtasks: updatedSubtasks,
-          // Auto-complete parent if all subtasks are done
           completed: allSubtasksCompleted,
         };
       }),
@@ -337,7 +331,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
       updates.customDuration = clampedMinutes;
     }
 
-    // If we're updating the current mode's duration and timer is not running, update timeLeft too
     const newPomodoro = { ...migratedNote.pomodoro, ...updates };
     if (!migratedNote.pomodoro.isRunning && migratedNote.pomodoro.mode === durationType) {
       newPomodoro.timeLeft = clampedMinutes * 60;
@@ -451,7 +444,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
             if (!text) return;
 
             if (isIndented && currentParent) {
-              // This is a subtask
               const subtask: TodoItem = {
                 id: `${Date.now()}-sub-${index}`,
                 text,
@@ -461,7 +453,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
               if (!currentParent.subtasks) currentParent.subtasks = [];
               currentParent.subtasks.push(subtask);
             } else {
-              // This is a parent todo
               currentParent = {
                 id: `${Date.now()}-${index}`,
                 text,
@@ -759,7 +750,6 @@ export const StickyNotes = ({ note, onNoteChange }: StickyNotesProps) => {
                       </button>
                     </div>
 
-                    {/* Subtasks section */}
                     {expandedTodoId === todo.id && (
                       <div className="subtasks-section">
                         <div className="subtask-input-row">

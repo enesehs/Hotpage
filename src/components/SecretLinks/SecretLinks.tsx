@@ -38,7 +38,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
       url = 'https://' + url;
     }
 
-    // Validate URL format
     try {
       new URL(url);
     } catch {
@@ -169,7 +168,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
     };
 
     if (settings.openInIncognito) {
-      // Try Chrome extension API
       if (typeof chrome !== 'undefined' && chrome?.windows?.create) {
         try {
           chrome.windows.create({ url, incognito: true }, () => {
@@ -181,7 +179,6 @@ export const SecretLinks = ({ settings, onClose, onSettingsChange }: SecretLinks
         }
       }
 
-      // Try Firefox extension API
       if (typeof browser !== 'undefined' && browser?.windows?.create) {
         try {
           browser.windows.create({ url, incognito: true }).then(() => {

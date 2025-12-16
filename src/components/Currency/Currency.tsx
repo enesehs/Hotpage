@@ -37,20 +37,7 @@ interface CurrencyProps {
   onSettingsChange?: (settings: Record<string, unknown>) => void;
 }
 
-const TabIcons = {
-  currency: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <path d="M12 6v12"/>
-      <path d="M15 9.5c-.5-1-1.5-1.5-3-1.5s-2.5.5-3 1.5S6 12 9 13s3 2.5 3 3.5-1 1.5-3 1.5"/>
-    </svg>
-  ),
-  crypto: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97"/>
-    </svg>
-  ),
-};
+
 
 const currencyInfo: Record<string, { symbol: string; name: string; nameTr: string }> = {
   USD: { symbol: '$', name: 'US Dollar', nameTr: 'Amerikan Doları' },
@@ -63,9 +50,9 @@ const currencyInfo: Record<string, { symbol: string; name: string; nameTr: strin
 
 const WarningIcon = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="warning-icon">
-    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-    <line x1="12" y1="9" x2="12" y2="13"/>
-    <line x1="12" y1="17" x2="12.01" y2="17"/>
+    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+    <line x1="12" y1="9" x2="12" y2="13" />
+    <line x1="12" y1="17" x2="12.01" y2="17" />
   </svg>
 );
 
@@ -118,27 +105,27 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
       const response = await fetch(
         `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`
       );
-      
+
       if (!response.ok) throw new Error('Currency fetch failed');
-      
+
       const data = await response.json();
       logger.success('Currency', `Exchange rates fetched for ${baseCurrency}`);
-      
+
       const currencyData: CurrencyData[] = [];
-      
+
       for (const code of enabledCurrencies) {
         if (code === baseCurrency) continue;
-        
+
         let rate: number;
         let name: string;
-        
+
         if (code === 'XAU') {
           try {
             const goldResponse = await fetch('https://api.nbp.pl/api/cenyzlota?format=json');
             if (goldResponse.ok) {
               const goldData = await goldResponse.json();
               const goldPricePerGramPLN = goldData[0]?.cena || 0;
-              
+
               if (baseCurrency === 'TRY') {
                 const plnResponse = await fetch('https://api.exchangerate-api.com/v4/latest/PLN');
                 if (plnResponse.ok) {
@@ -182,7 +169,7 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
           rate = data.rates[code] || 0;
           name = isTurkish ? currencyInfo[code].nameTr : currencyInfo[code].name;
         }
-        
+
         currencyData.push({
           code,
           name,
@@ -190,7 +177,7 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
           lastUpdated: new Date().toLocaleTimeString(locale),
         });
       }
-      
+
       setCurrencies(currencyData);
       setLastUpdated(new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
       logger.success('Currency', `Loaded ${currencyData.length} currency rates`);
@@ -204,16 +191,16 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
     try {
       const ids = enabledCryptos.join(',');
       const vsCurrency = baseCurrency.toLowerCase() === 'try' ? 'try' : 'usd';
-      
+
       logger.debug('Currency', `Fetching crypto prices for: ${ids} (vs ${vsCurrency})`);
       const response = await fetch(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${vsCurrency}&ids=${ids}&order=market_cap_desc&sparkline=${showSparkline}`
       );
-      
+
       if (!response.ok) throw new Error('Crypto fetch failed');
-      
+
       const data = await response.json();
-      
+
       const cryptoData: CryptoData[] = data.map((coin: any) => ({
         id: coin.id,
         symbol: coin.symbol.toUpperCase(),
@@ -221,11 +208,11 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
         price: coin.current_price,
         change24h: coin.price_change_percentage_24h || 0,
         changeDirection: coin.price_change_percentage_24h > 0 ? 'up' : coin.price_change_percentage_24h < 0 ? 'down' : 'neutral',
-        sparkline: showSparkline && coin.sparkline_in_7d?.price ? 
+        sparkline: showSparkline && coin.sparkline_in_7d?.price ?
           coin.sparkline_in_7d.price.slice(-24) : undefined,
         lastUpdated: new Date().toLocaleTimeString(locale),
       }));
-      
+
       setCryptos(cryptoData);
       setLastUpdated(new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
       logger.success('Currency', `Loaded ${cryptoData.length} crypto prices`);
@@ -239,13 +226,13 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
     const fetchData = async () => {
       setLoading(true);
       setError(null);
-      
+
       if (activeTab === 'currency') {
         await fetchCurrencies();
       } else {
         await fetchCryptos();
       }
-      
+
       setLoading(false);
     };
 
@@ -275,22 +262,22 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
 
   const renderSparkline = (data: number[] | undefined, direction: 'up' | 'down' | 'neutral') => {
     if (!data || data.length < 2) return null;
-    
+
     const min = Math.min(...data);
     const max = Math.max(...data);
     const range = max - min || 1;
-    
+
     const width = 60;
     const height = 24;
-    
+
     const points = data.map((value, index) => {
       const x = (index / (data.length - 1)) * width;
       const y = height - ((value - min) / range) * height;
       return `${x},${y}`;
     }).join(' ');
-    
+
     const color = direction === 'up' ? '#22c55e' : direction === 'down' ? '#ef4444' : '#6b7280';
-    
+
     return (
       <svg className="sparkline" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
         <polyline
@@ -310,7 +297,7 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
           <div className="widget-header">
             <div className="widget-title">
               <svg className="widget-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="currentColor">
-                <path fillRule="evenodd" d="M1.249 7.001a5.751 5.751 0 1 1 11.502 0a5.751 5.751 0 0 1-11.502 0M7 0a7.001 7.001 0 1 0 0 14.002A7.001 7.001 0 0 0 7 0m.625 3a.625.625 0 1 0-1.25 0v.709a1.815 1.815 0 0 0-.35 3.588l1.57.344a.709.709 0 0 1-.15 1.4h-.889a.71.71 0 0 1-.669-.471a.625.625 0 1 0-1.178.416a1.96 1.96 0 0 0 1.666 1.297V11a.625.625 0 0 0 1.25 0v-.716a1.96 1.96 0 0 0 .238-3.865l-1.571-.343a.565.565 0 0 1 .12-1.118h1.032a.705.705 0 0 1 .669.473a.625.625 0 1 0 1.178-.417a1.96 1.96 0 0 0-1.666-1.297z" clipRule="evenodd"/>
+                <path fillRule="evenodd" d="M1.249 7.001a5.751 5.751 0 1 1 11.502 0a5.751 5.751 0 0 1-11.502 0M7 0a7.001 7.001 0 1 0 0 14.002A7.001 7.001 0 0 0 7 0m.625 3a.625.625 0 1 0-1.25 0v.709a1.815 1.815 0 0 0-.35 3.588l1.57.344a.709.709 0 0 1-.15 1.4h-.889a.71.71 0 0 1-.669-.471a.625.625 0 1 0-1.178.416a1.96 1.96 0 0 0 1.666 1.297V11a.625.625 0 0 0 1.25 0v-.716a1.96 1.96 0 0 0 .238-3.865l-1.571-.343a.565.565 0 0 1 .12-1.118h1.032a.705.705 0 0 1 .669.473a.625.625 0 1 0 1.178-.417a1.96 1.96 0 0 0-1.666-1.297z" clipRule="evenodd" />
               </svg>
               <span>{isTurkish ? 'Döviz & Kripto' : 'Currency & Crypto'}</span>
             </div>
@@ -347,7 +334,7 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
         <div className="widget-header">
           <div className="widget-title">
             <svg className="widget-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="currentColor">
-              <path fillRule="evenodd" d="M1.249 7.001a5.751 5.751 0 1 1 11.502 0a5.751 5.751 0 0 1-11.502 0M7 0a7.001 7.001 0 1 0 0 14.002A7.001 7.001 0 0 0 7 0m.625 3a.625.625 0 1 0-1.25 0v.709a1.815 1.815 0 0 0-.35 3.588l1.57.344a.709.709 0 0 1-.15 1.4h-.889a.71.71 0 0 1-.669-.471a.625.625 0 1 0-1.178.416a1.96 1.96 0 0 0 1.666 1.297V11a.625.625 0 0 0 1.25 0v-.716a1.96 1.96 0 0 0 .238-3.865l-1.571-.343a.565.565 0 0 1 .12-1.118h1.032a.705.705 0 0 1 .669.473a.625.625 0 1 0 1.178-.417a1.96 1.96 0 0 0-1.666-1.297z" clipRule="evenodd"/>
+              <path fillRule="evenodd" d="M1.249 7.001a5.751 5.751 0 1 1 11.502 0a5.751 5.751 0 0 1-11.502 0M7 0a7.001 7.001 0 1 0 0 14.002A7.001 7.001 0 0 0 7 0m.625 3a.625.625 0 1 0-1.25 0v.709a1.815 1.815 0 0 0-.35 3.588l1.57.344a.709.709 0 0 1-.15 1.4h-.889a.71.71 0 0 1-.669-.471a.625.625 0 1 0-1.178.416a1.96 1.96 0 0 0 1.666 1.297V11a.625.625 0 0 0 1.25 0v-.716a1.96 1.96 0 0 0 .238-3.865l-1.571-.343a.565.565 0 0 1 .12-1.118h1.032a.705.705 0 0 1 .669.473a.625.625 0 1 0 1.178-.417a1.96 1.96 0 0 0-1.666-1.297z" clipRule="evenodd" />
             </svg>
             <span>{t.currency.title}</span>
           </div>
@@ -359,7 +346,7 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
                 className={`currency-tab ${activeTab === 'currency' ? 'active' : ''}`}
                 onClick={() => handleTabChange('currency')}
               >
-                {TabIcons.currency}
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M7 15h2c0 1.08 1.37 2 3 2s3-.92 3-2c0-1.1-1.04-1.5-3.24-2.03C9.64 12.44 7 11.78 7 9c0-1.79 1.47-3.31 3.5-3.82V3h3v2.18C15.53 5.69 17 7.21 17 9h-2c0-1.08-1.37-2-3-2s-3 .92-3 2c0 1.1 1.04 1.5 3.24 2.03C14.36 11.56 17 12.22 17 15c0 1.79-1.47 3.31-3.5 3.82V21h-3v-2.18C8.47 18.31 7 16.79 7 15" /></svg>
                 <span>{t.currency.tabCurrency}</span>
               </button>
             )}
@@ -368,7 +355,7 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
                 className={`currency-tab ${activeTab === 'crypto' ? 'active' : ''}`}
                 onClick={() => handleTabChange('crypto')}
               >
-                {TabIcons.crypto}
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M18.763 10.236c.279-1.895-1.155-2.905-3.131-3.591l.64-2.553l-1.56-.389l-.623 2.49l-1.245-.297l.631-2.508L11.915 3l-.641 2.562l-.992-.234v-.01l-2.157-.54l-.415 1.668s1.155.272 1.137.28c.631.163.74.578.722.903l-.723 2.923l.163.054l-.171-.036l-1.02 4.087c-.072.19-.27.478-.712.36c.018.028-1.128-.27-1.128-.27l-.776 1.778l2.03.505l1.11.289l-.65 2.59l1.56.387l.633-2.562l1.253.324l-.64 2.554l1.56.388l.641-2.59c2.662.505 4.665.307 5.505-2.102c.676-1.94-.037-3.05-1.435-3.79c1.02-.225 1.786-.902 1.985-2.282zm-3.564 4.999c-.479 1.94-3.745.884-4.8.63l.857-3.436c1.055.27 4.448.784 3.943 2.796zm.478-5.026c-.433 1.76-3.158.866-4.033.65l.775-3.113c.885.217 3.718.632 3.258 2.463" /></svg>
                 <span>{t.currency.tabCrypto}</span>
               </button>
             )}
@@ -394,11 +381,11 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
                   <span className={`currency-item-change ${currency.changeDirection}`}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       {currency.changeDirection === 'up' ? (
-                        <path d="M12 19V5M5 12l7-7 7 7"/>
+                        <path d="M12 19V5M5 12l7-7 7 7" />
                       ) : currency.changeDirection === 'down' ? (
-                        <path d="M12 5v14M5 12l7 7 7-7"/>
+                        <path d="M12 5v14M5 12l7 7 7-7" />
                       ) : (
-                        <path d="M5 12h14"/>
+                        <path d="M5 12h14" />
                       )}
                     </svg>
                     {Math.abs(currency.change).toFixed(2)}%
@@ -420,11 +407,11 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
                 <span className={`currency-item-change ${crypto.changeDirection}`}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     {crypto.changeDirection === 'up' ? (
-                      <path d="M12 19V5M5 12l7-7 7 7"/>
+                      <path d="M12 19V5M5 12l7-7 7 7" />
                     ) : crypto.changeDirection === 'down' ? (
-                      <path d="M12 5v14M5 12l7 7 7-7"/>
+                      <path d="M12 5v14M5 12l7 7 7-7" />
                     ) : (
-                      <path d="M5 12h14"/>
+                      <path d="M5 12h14" />
                     )}
                   </svg>
                   {Math.abs(crypto.change24h).toFixed(2)}%

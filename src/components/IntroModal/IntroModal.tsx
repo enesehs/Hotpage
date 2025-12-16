@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 declare const chrome: any;
 import './IntroModal.css';
 
@@ -49,7 +48,6 @@ export const IntroModal = ({ isOpen, locale, onSkip, onSupport, onOpenSource }: 
     else window.open(defaultGithubUrl, '_blank', 'noopener,noreferrer');
   };
 
-  // Get asset URL that works in both web and extension contexts
   const getAssetUrl = (path: string) => {
     if (typeof chrome !== 'undefined' && chrome.runtime?.getURL) {
       return chrome.runtime.getURL(path);
@@ -62,7 +60,7 @@ export const IntroModal = ({ isOpen, locale, onSkip, onSupport, onOpenSource }: 
       <div className="intro-card">
         <div className="intro-media">
           <div className="intro-video-frame">
-            <img src={getAssetUrl("/video/introduction.gif")} alt="HotPage introduction" className="intro-video" />
+            <video src={getAssetUrl("/video/introduction.webm")} className="intro-video" autoPlay muted loop playsInline />
           </div>
         </div>
         <div className="intro-content">
@@ -77,17 +75,11 @@ export const IntroModal = ({ isOpen, locale, onSkip, onSupport, onOpenSource }: 
           </div>
           <div className="intro-actions">
             <button className="intro-btn support" onClick={handleSupport}>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 5h14v11a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V5Z" />
-                <path d="M9 5V3h6v2" />
-                <path d="M7 9h10" />
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M9.197 0L7.578 3.735H5.171v3.359h.921l.943 5.975H5.562L7.51 24.042l1.249-.015L10.015 32h11.891l.083-.531l1.172-7.443l1.188.015l1.943-10.973h-1.407l.937-5.975h1.011V3.734h-2.557L22.651-.001zm.704 1.073h12.057l1.025 2.375H8.868zm-3.666 3.73H25.76v1.228H6.235zm.604 9.333h18.183l-1.568 8.823l-7.536-.079l-7.511.079z"/></svg>
               <span>{isTurkish ? 'Destekle' : 'Support'}</span>
             </button>
             <button className="intro-btn github" onClick={handleOpenSource}>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.61-3.37-1.34-3.37-1.34a2.65 2.65 0 0 0-1.11-1.46c-.91-.62.07-.6.07-.6a2.1 2.1 0 0 1 1.53 1.03 2.14 2.14 0 0 0 2.92.83 2.12 2.12 0 0 1 .63-1.34c-2.22-.25-4.56-1.11-4.56-4.95a3.88 3.88 0 0 1 1-2.69 3.6 3.6 0 0 1 .1-2.65s.84-.27 2.75 1a9.6 9.6 0 0 1 5 0c1.9-1.31 2.74-1 2.74-1a3.6 3.6 0 0 1 .1 2.65 3.88 3.88 0 0 1 1 2.69c0 3.85-2.34 4.69-4.58 4.94a2.37 2.37 0 0 1 .67 1.84v2.73c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><g fill="none"><g clip-path="url(#SVGXv8lpc2Y)"><path fill="currentColor" fill-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12" clip-rule="evenodd"/></g><defs><clipPath id="SVGXv8lpc2Y"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></g></svg>
               <span>{isTurkish ? 'A\u00E7\u0131k Kaynak' : 'Open Source'}</span>
             </button>
             <button className="intro-btn ghost" onClick={onSkip}>
