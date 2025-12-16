@@ -6,7 +6,7 @@
 <p align="center">
   <img src="https://img.shields.io/github/v/release/enesehs/Hotpage?label=version&color=blue" alt="Version">
   <img src="https://img.shields.io/github/last-commit/enesehs/Hotpage?color=orange" alt="Last Commit">
-<img src="https://img.shields.io/github/release-size/enesehs/Hotpage?color=blue" alt="Release Size">
+  <img src="https://img.shields.io/badge/release-1.66_MB-6b4aff?style=flat" alt="Release Size">
   <a href="https://github.com/enesehs/Hotpage/stargazers">
     <img src="https://img.shields.io/github/stars/enesehs/Hotpage?color=yellow" alt="Stars">
   </a>
