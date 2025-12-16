@@ -6,11 +6,16 @@
 <p align="center">
   <img src="https://img.shields.io/github/v/release/enesehs/Hotpage?label=version&color=blue" alt="Version">
   <img src="https://img.shields.io/github/last-commit/enesehs/Hotpage?color=orange" alt="Last Commit">
-  <img src="https://img.shields.io/github/repo-size/enesehs/Hotpage?color=lightgrey" alt="Repo Size">
-  </a>
+<img src="https://img.shields.io/github/release-size/enesehs/Hotpage?color=blue" alt="Release Size">
   <a href="https://github.com/enesehs/Hotpage/stargazers">
     <img src="https://img.shields.io/github/stars/enesehs/Hotpage?color=yellow" alt="Stars">
   </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Vite-7.2-646CFF?logo=vite&logoColor=white" alt="Vite">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" alt="React">
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
 </p>
 
 <p align="center">
@@ -53,7 +58,7 @@ Designed for productivity-focused users who want a clean, customizable start pag
 </p>
 
 <p align="center">
-  <img src="public/video/introduction.gif" width="100%" style="border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);" alt="HotPage Introduction">
+  <video src="public/video/introduction.webm" width="100%" style="border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);" autoplay loop muted></video>
 </p>
 
 <p>
