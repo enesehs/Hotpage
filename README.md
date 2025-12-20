@@ -19,19 +19,15 @@
 </p>
 
 <p align="center">
-  <a href="https://chrome.google.com/webstore/detail/___HOTPAGE_ID___">
-    <img src="https://img.shields.io/badge/Chrome%20Extension-Coming%20Soon-blue?logo=google-chrome" alt="Chrome Extension">
+  <a href="https://chromewebstore.google.com/detail/hotpage-customizable-home/ikfpbpapkibdkponpnfeedlfmfdkgmof">
+    <img src="https://img.shields.io/badge/Chrome%20Extension-Available%20Now-blue?logo=google-chrome" alt="Chrome Extension">
   </a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/___HOTPAGE_ID___/">
-    <img src="https://img.shields.io/badge/Firefox%20Add--on-Coming%20Soon-orange?logo=firefox" alt="Firefox Extension">
-    </a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/hotpage-customizable-homepage/">
+    <img src="https://img.shields.io/badge/Firefox%20Add--on-Available%20Now-orange?logo=firefox" alt="Firefox Extension">
+  </a>
 </p>
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
+
 
 ## Project Introduction
 
@@ -43,17 +39,12 @@ HotPage is a premium new-tab homepage extension that transforms your browser's d
 Designed for productivity-focused users who want a clean, customizable start page without distractions. Whether you're a developer, designer, or power user, HotPage adapts to your workflow with intelligent widgets and seamless integration.
 </p>
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Live Demo & Screenshots
 
 <p align="left">
-  <a href="https://enesehs.dev/Hotpage" style="text-decoration: none;">
-    <img src="https://img.shields.io/badge/⚡_Live_Demo-Visit_Now-blue?style=for-the-badge&logo=web" alt="Live Demo">
+  <a href="https://enesehs.dev/Hotpage">
+    <img src="https://img.shields.io/badge/Live_Demo-Visit_Now-blue?logo=google-chrome&logoColor=white" alt="Live Demo">
   </a>
 </p>
 
@@ -67,8 +58,10 @@ Designed for productivity-focused users who want a clean, customizable start pag
 </p>
 
 <p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
+  <svg width="60" height="12">
+    <circle cx="10" cy="6" r="3" fill="#d0d4d8"/>
+    <circle cx="30" cy="6" r="3" fill="#d0d4d8"/>
+    <circle cx="50" cy="6" r="3" fill="#d0d4d8"/>
   </svg>
 </p>
 
@@ -95,11 +88,6 @@ Designed for productivity-focused users who want a clean, customizable start pag
 - **Secret Links**: Keyword-triggered overlay for private bookmarks with incognito support
 - **Localization**: Multi-language support with Turkish and English interfaces
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Widget Breakdown
 
@@ -133,11 +121,6 @@ Combined productivity tool featuring note-taking, todo management, and a Pomodor
 
 Privacy-focused bookmark system triggered by custom keywords. Supports folder organization and incognito browsing for sensitive links.
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Design System
 
@@ -157,11 +140,6 @@ Advanced background management supporting solid colors, CSS gradients, remote im
 
 Achieves the signature frosted glass effect through CSS backdrop-filter properties combined with carefully tuned opacity and blur values, creating depth and modern aesthetics.
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Architecture Overview
 
@@ -172,15 +150,24 @@ Achieves the signature frosted glass effect through CSS backdrop-filter properti
 - **Styling**: CSS Modules for scoped component styling with glassmorphism effects
 - **Browser APIs**: Chrome Extension API and Firefox WebExtensions for cross-browser compatibility
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Installation & Getting Started
 
-### Prerequisites
+### Install from Store
+
+The easiest way to install HotPage is directly from your browser's extension store:
+
+<p align="center">
+  <a href="https://chromewebstore.google.com/detail/hotpage-customizable-home/ikfpbpapkibdkponpnfeedlfmfdkgmof">
+    <img src="https://img.shields.io/badge/Chrome-Install%20Extension-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Install on Chrome">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/hotpage-customizable-homepage/">
+    <img src="https://img.shields.io/badge/Firefox-Install%20Add--on-FF7139?style=for-the-badge&logo=firefox&logoColor=white" alt="Install on Firefox">
+  </a>
+</p>
+
+### Prerequisites (For Development)
 
 - Node.js 18+ and npm
 - Modern web browser (Chrome 88+, Firefox 85+, or Edge 88+)
@@ -217,11 +204,6 @@ npm run preview
 3. Click "Load Temporary Add-on"
 4. Select the `dist/manifest.json` file
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## API Credits
 
@@ -235,11 +217,6 @@ HotPage integrates with the following free APIs to power its widgets:
 | Geolocation | [ipapi.co](https://ipapi.co) | IP-based location fallback |
 | Geocoding | [Nominatim](https://nominatim.openstreetmap.org) | City name to coordinates |
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Security
 
@@ -251,11 +228,6 @@ HotPage is built with security best practices:
 - **Local-First**: All data stored locally in browser - no external telemetry or tracking
 - **Content Security**: Strict validation of URLs and user inputs
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Privacy & Permissions
 
@@ -271,11 +243,6 @@ HotPage is designed with privacy as a core principle, requesting only essential 
 
 All user data remains local to the browser. Settings are stored in localStorage, and uploaded backgrounds use IndexedDB. No data is transmitted to external servers except for widget-specific API calls (weather, currency rates, RSS feeds) which are handled directly by the respective services.
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Upcoming Features
 
@@ -285,11 +252,6 @@ All user data remains local to the browser. Settings are stored in localStorage,
 - [ ] Enhanced Responsive Design
 - [ ] Google Calendar Integration
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## Support & Contribution
 
@@ -318,11 +280,6 @@ If you find HotPage useful, consider supporting development:
 - ☕ [Buy Me a Coffee](https://buymeacoffee.com/enesehs)
 - 🔗 Visit [enesehs.dev](https://enesehs.dev) for more projects
 
-<p align="center">
-  <svg width="60%" height="2">
-    <rect width="100%" height="2" fill="#d0d4d8" />
-  </svg>
-</p>
 
 ## License
 
