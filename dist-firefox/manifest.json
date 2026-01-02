@@ -22,7 +22,6 @@
     },
     "permissions": [
         "geolocation",
-        "search",
         "storage",
         "notifications"
     ],

@@ -21,8 +21,8 @@
   },
   "permissions": [
     "geolocation",
-    "search",
-    "storage"
+    "storage",
+    "notifications"
   ],
   "content_scripts": [
     {
