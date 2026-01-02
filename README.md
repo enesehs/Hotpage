@@ -49,7 +49,8 @@ Designed for productivity-focused users who want a clean, customizable start pag
 </p>
 
 <p align="center">
-  <video src="https://github.com/enesehs/Hotpage/raw/refs/heads/main/public/video/introduction.webm" width="100%" style="border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);" autoplay loop muted></video>
+  <video src="https://github.com/user-attachments/assets/6563dd57-e3a8-4e03-b885-f4646a584d7e" width="100%" style="border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);" autoplay loop muted>
+  </video>
 </p>
 
 <p>
