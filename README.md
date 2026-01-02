@@ -44,7 +44,11 @@ Designed for productivity-focused users who want a clean, customizable start pag
 
 <p align="left">
   <a href="https://enesehs.dev/Hotpage">
+<<<<<<< HEAD
     <img src="https://img.shields.io/badge/Live_Demo-Visit_Now-blue?" alt="Live Demo">
+=======
+    <img src="https://img.shields.io/badge/Live_Demo-Visit_Now-blue?logo=google-chrome&logoColor=white" alt="Live Demo">
+>>>>>>> d11b3f66a5520b40abe18cbed38a62fe761a2c3d
   </a>
 </p>
 
@@ -249,11 +253,14 @@ HotPage is designed with privacy as a core principle, requesting only essential 
 
 All user data remains local to the browser. Settings are stored in localStorage, and uploaded backgrounds use IndexedDB. No data is transmitted to external servers except for widget-specific API calls (weather, currency rates, RSS feeds) which are handled directly by the respective services.
 
+<<<<<<< HEAD
 
 ## Known Issues
 
 - **Sticky Notes Styling**: On certain websites with aggressive CSS resets or strict Content Security Policies (e.g., YouTube, LinkedIn), the Sticky Notes overlay may experience styling conflicts or sizing issues. We are actively working on a shadow DOM solution to isolate styles completely.
 
+=======
+>>>>>>> d11b3f66a5520b40abe18cbed38a62fe761a2c3d
 
 ## Upcoming Features
 
@@ -299,6 +306,7 @@ If you find HotPage useful, consider supporting development:
 - ☕ [Buy Me a Coffee](https://buymeacoffee.com/enesehs)
 - 🔗 Visit [enesehs.dev](https://enesehs.dev) for more projects
 
+<<<<<<< HEAD
 
 ## Acknowledgments
 
@@ -309,6 +317,8 @@ Special thanks to the following resources and tools that made this project possi
 - **Planning**: [Excalidraw](https://excalidraw.com) for design planning and diagramming
 - **Data Providers**: Open-Meteo, ExchangeRate-API, and CoinGecko for their excellent free APIs
 
+=======
+>>>>>>> d11b3f66a5520b40abe18cbed38a62fe761a2c3d
 
 ## License
 
