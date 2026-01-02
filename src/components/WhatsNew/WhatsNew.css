@@ -72,7 +72,7 @@ body.no-scroll {
 
 .whatsnew-badge {
     display: inline-block;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    background: linear-gradient(145deg, var(--color-primary), var(--color-text));
     color: var(--color-background);
     font-size: 12px;
     font-weight: 700;
@@ -92,7 +92,7 @@ body.no-scroll {
 .whatsnew-header p {
     margin: 0;
     font-size: 14px;
-    color: var(--color-secondary)
+    color: var(--color-textSecondary)
 }
 
 .whatsnew-list {
@@ -121,7 +121,7 @@ body.no-scroll {
     width: 40px;
     height: 40px;
     min-width: 40px;
-    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    background: color-mix(in srgb, var(--color-primary) 30%, transparent);
     border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
     border-radius: 10px;
     display: flex;

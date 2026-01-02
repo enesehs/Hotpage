@@ -69,7 +69,7 @@ Designed for productivity-focused users who want a clean, customizable start pag
 
 ### Core Functionality
 
-- **Search-First Experience**: Multiple search engines with optional image mode and debounced input. Now includes a built-in **Calculator** for quick math operations directly in the search bar.
+- **Search-First Experience**: ~~Multiple search engines with optional image mode and debounced input.~~ Now includes a built-in **Calculator** for quick math operations directly in the search bar.
 - **Widget Ecosystem**: Comprehensive set of productivity widgets including Clock, Weather, Currency, RSS, and more
 - **Persistent Personalization**: Settings and preferences saved across browser sessions
 - **Multi-Browser Support**: Chrome and Firefox extension compatibility with MV3 architecture
@@ -79,7 +79,7 @@ Designed for productivity-focused users who want a clean, customizable start pag
 - **Glassmorphism UI**: Modern frosted glass effects with backdrop blur and transparency
 - **Advanced Theme System**: Predefined themes plus custom theme builder with CSS variables
 - **Background Engine**: Solid colors, gradients, remote images, and user-uploaded backgrounds
-- **Responsive Layout**: Adaptive design that works across different screen sizes
+- **Responsive Layout**: Adaptive design that works across different screen sizes but for now it only works on desktop sizes.
 
 ### Productivity Tools
 
@@ -305,7 +305,7 @@ Special thanks to the following resources and tools that made this project possi
 
 - **Icons**: [Lucide Icons](https://lucide.dev) & [Iconify](https://iconify.design) for the comprehensive icon sets
 - **Weather Icons**: [Meteocons](https://bas.dev/work/meteocons) by Bas Milius for the beautiful animated weather icons
-- **Planning**: [Excalidraw](https://excalidraw.com) for design planning and diagramming
+- **Planning**: [Excalidraw](https://excalidraw.com) for google hamburger quick paint button.
 - **Data Providers**: Open-Meteo, ExchangeRate-API, and CoinGecko for their excellent free APIs
 
 

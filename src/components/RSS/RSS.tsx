@@ -80,7 +80,6 @@ const extractImage = (node: Element, description: string): string | undefined =>
 const parseRss = (xml: string, feedUrl: string, category: string): RSSItem[] => {
   const doc = new DOMParser().parseFromString(xml, 'text/xml');
 
-  // Check for XML parse errors
   const parseError = doc.querySelector('parsererror');
   if (parseError) {
     throw new Error(`Invalid RSS XML from ${feedUrl}: ${parseError.textContent?.slice(0, 100)}`);
@@ -133,13 +132,11 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       return defaultFeeds;
     }
 
-    // Normalize to FeedConfig
     const normalized = list.map(f => {
       if (typeof f === 'string') return { url: f, category: 'General' };
       return f;
     });
 
-    // Remove duplicates by URL
     const seen = new Set<string>();
     const unique = normalized.filter(feed => {
       if (seen.has(feed.url)) {
@@ -157,11 +154,51 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
   const maxItems = settings?.maxItems ?? 150;
   const refreshMinutes = settings?.refreshMinutes ?? 15;
 
-  const [items, setItems] = useState<RSSItem[]>([]);
+  const getCachedRSS = (): RSSItem[] => {
+    try {
+      const cached = localStorage.getItem('hotpage_rss_cache');
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < 30 * 60 * 1000) {
+          logger.info('RSS', `Loaded ${data.length} items from cache`);
+          return data;
+        }
+      }
+    } catch (e) {
+    }
+    return [];
+  };
+
+  const getCachedLastUpdated = (): string => {
+    try {
+      const cached = localStorage.getItem('hotpage_rss_cache');
+      if (cached) {
+        const { lastUpdated, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < 30 * 60 * 1000) {
+          return lastUpdated || '';
+        }
+      }
+    } catch (e) {
+    }
+    return '';
+  };
+
+  const setCachedRSS = (data: RSSItem[], lastUpdated: string) => {
+    try {
+      localStorage.setItem('hotpage_rss_cache', JSON.stringify({
+        data,
+        lastUpdated,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+    }
+  };
+
+  const [items, setItems] = useState<RSSItem[]>(getCachedRSS);
   const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>(t.rss.categoryAll);
   const [hasError, setHasError] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<string>('');
+  const [lastUpdated, setLastUpdated] = useState<string>(getCachedLastUpdated);
 
   const categories = useMemo(() => {
     const cats = new Set(feeds.map(f => f.category));
@@ -171,19 +208,16 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
   useEffect(() => {
     setActiveCategory((prev) => {
       if (prev === t.rss.categoryAll) return prev;
-      // If the current selection is no longer valid (e.g., locale change), reset to "All"
       return categories.includes(prev) ? prev : t.rss.categoryAll;
     });
   }, [categories, t.rss.categoryAll]);
 
   const fetchFeed = useCallback(async (feedUrl: string) => {
-    // Check if running in extension context - use chrome.runtime.id as the most reliable check
     const isExtension = typeof chrome !== 'undefined' &&
       chrome.runtime &&
       chrome.runtime.id &&
       typeof chrome.runtime.sendMessage === 'function';
 
-    // Helper function for direct fetch with CORS proxy fallback
     const fetchWithFallback = async (url: string): Promise<string> => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -202,13 +236,11 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       };
 
       try {
-        // Try direct fetch first
         const text = await doFetch(url);
         clearTimeout(timeoutId);
         return text;
       } catch (err) {
         const error = err as Error;
-        // Try CORS proxy as fallback
         if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
           logger.debug('RSS', `Direct fetch failed, trying CORS proxy for ${url}...`);
           try {
@@ -228,14 +260,12 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
     };
 
     if (isExtension) {
-      // Use background service worker for CORS-free fetching
       logger.info('RSS', `Using background worker for ${feedUrl}`);
       return new Promise<string>((resolve, reject) => {
         chrome.runtime.sendMessage(
           { type: 'FETCH_RSS', url: feedUrl },
           (response: { success: boolean; data?: string; error?: string }) => {
             if (chrome.runtime.lastError) {
-              // Background worker not available - fallback to direct fetch
               logger.warning('RSS', `Background worker unavailable, using fallback for ${feedUrl}`);
               fetchWithFallback(feedUrl)
                 .then(resolve)
@@ -246,7 +276,6 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
               logger.success('RSS', `Fetched ${feedUrl} via background worker`);
               resolve(response.data);
             } else {
-              // Background worker failed - fallback to direct fetch
               logger.warning('RSS', `Background worker failed, using fallback for ${feedUrl}`);
               fetchWithFallback(feedUrl)
                 .then(resolve)
@@ -257,7 +286,6 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       });
     }
 
-    // Fallback for dev mode (not in extension)
     logger.warning('RSS', `Not in extension context, using direct fetch for ${feedUrl}`);
     return fetchWithFallback(feedUrl);
   }, []);
@@ -272,7 +300,6 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
 
     logger.time('RSS refresh');
     logger.widget('RSS', `Refreshing ${feeds.length} feeds...`);
-    // Only show loading if no cached data
     if (items.length === 0) {
       setLoading(true);
     }
@@ -305,13 +332,11 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
 
     allItems.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
 
-    // Balanced category distribution - ensure all categories have representation
     let finalItems: RSSItem[] = [];
 
     if (allItems.length <= maxItems) {
       finalItems = allItems;
     } else {
-      // Get unique categories
       const categoryGroups: Record<string, RSSItem[]> = {};
       allItems.forEach(item => {
         if (!categoryGroups[item.category]) {
@@ -324,18 +349,15 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       const itemsPerCategory = Math.floor(maxItems / categories.length);
       const remainder = maxItems % categories.length;
 
-      // Take items from each category
       categories.forEach((cat, idx) => {
         const items = categoryGroups[cat];
         const limit = itemsPerCategory + (idx < remainder ? 1 : 0);
         finalItems.push(...items.slice(0, limit));
       });
 
-      // Sort final items by date
       finalItems.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
     }
 
-    // Category distribution
     const categoryCount: Record<string, number> = {};
     allItems.forEach(item => {
       categoryCount[item.category] = (categoryCount[item.category] || 0) + 1;
@@ -347,19 +369,22 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
     setItems(finalItems);
     setHasError(errors > 0);
 
+    const newLastUpdated = new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+
     const newStats = {
       feeds: feeds.length,
       items: finalItems.length,
       success: successes,
       error: errors,
       empty: empties,
-      lastUpdated: new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }),
+      lastUpdated: newLastUpdated,
       failedFeeds: failedFeeds.length > 0 ? failedFeeds : undefined,
     };
 
-    setLastUpdated(new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
+    setLastUpdated(newLastUpdated);
 
-    // Summary log
+    setCachedRSS(finalItems, newLastUpdated);
+
     logger.groupCollapsed('RSS Refresh Summary', () => {
       logger.table('RSS', newStats);
       if (failedFeeds.length > 0) {
@@ -472,7 +497,6 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
             <div className="rss-item-image">
               {item.imageUrl ? (
                 <img src={item.imageUrl} alt={item.title} onError={(e) => {
-                  // Fallback to icon if image fails
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling?.removeAttribute('style');
                 }} />

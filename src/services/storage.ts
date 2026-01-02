@@ -106,7 +106,7 @@ export const defaultSettings: Settings = {
   background: {
     type: 'solid',
     value: '#ffffff',
-    opacity: 15,
+    opacity: 20,
     blur: 0,
   },
   shortcuts: {},

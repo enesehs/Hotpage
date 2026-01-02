@@ -60,7 +60,7 @@
   width: 140px;
   min-height: 80px;
   padding: var(--spacing-md);
-  background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 2px solid var(--color-border);

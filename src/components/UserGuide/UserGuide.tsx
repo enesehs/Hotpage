@@ -32,8 +32,8 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
             target: '.search-bar',
             title: isTurkish ? 'Akıllı Arama Çubuğu' : 'Smart Search Bar',
             content: isTurkish
-                ? 'Varsayılan arama motorunuzu kullanarak anında arama yapın. Basit matematik işlemlerini de hesaplayabilir! (Örn: "125*3" yazın)'
-                : 'Search instantly using your default search engine. It can also calculate simple math! (e.g. type "125*3")',
+                ? 'Varsayılan arama motorunuzu kullanarak anında arama yapın. Matematik işlemleri yapabilir (örn: "125*3") ve Aramaya şimdi başlayabilirsiniz!'
+                : 'Search instantly using your default engine. Calculate math (e.g. "125*3") and go directly to Search!',
             position: 'bottom',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
         },
@@ -41,8 +41,8 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
             target: '.quick-links',
             title: isTurkish ? 'Hızlı Linkler' : 'Quick Links',
             content: isTurkish
-                ? 'Tamamen özelleştirilebilir! Sık kullandığınız siteleri ekleyin, sürükleyip bırakarak sıralayın, sağ tıklayarak düzenleyin.'
-                : 'Fully customizable! Add your favorite sites, drag & drop to reorder, right-click to edit.',
+                ? 'Sık kullandığınız siteleri ekleyin! (+) butonuyla yeni link ekleyin, sürükleyerek sıralayın, sağ tıklayarak düzenleyin veya silin. Faviconlar otomatik olarak çekilir.'
+                : 'Add your favorite sites! Click (+) to add new links, drag to reorder, right-click to edit or delete. Favicons are fetched automatically.',
             position: 'bottom',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>'
         },
@@ -50,8 +50,8 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
             target: '.weather-widget',
             title: isTurkish ? 'Hava Durumu' : 'Weather Widget',
             content: isTurkish
-                ? 'Ayarlardan girdiğiniz konumdan veya IP adresinizden güncel hava durumunu otomatik olarak alır. Sıcaklık, nem, rüzgar hızı ve basınç bilgilerini gösterir.'
-                : 'Automatically fetches weather from your location or IP. Shows temperature, humidity, wind speed, and pressure.',
+                ? 'Güncel hava durumunu görün! Sıcaklık, nem, rüzgar hızı, basınç ve 5 günlük tahmin. Ayarlardan şehrinizi girin veya IP tabanlı konum kullanın. Celsius/Fahrenheit seçimi de mevcut!'
+                : 'View current weather! Temperature, humidity, wind speed, pressure, and 5-day forecast. Enter your city in settings or use IP-based location. Celsius/Fahrenheit option available!',
             position: 'top',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>'
         },
@@ -59,8 +59,8 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
             target: '.currency-widget',
             title: isTurkish ? 'Döviz & Kripto' : 'Currencies & Crypto',
             content: isTurkish
-                ? 'Dolar, Euro, Altın ve dilediğiniz döviz kurlarını takip edin. Kripto sekmesinde Bitcoin, Ethereum ve daha fazlasını grafiklerle izleyin!'
-                : 'Track USD, EUR, Gold, and your favorite currencies. Switch to Crypto tab to view Bitcoin, Ethereum with sparkline charts!',
+                ? 'Döviz kurlarını anlık takip edin! Dolar, Euro, Altın ve daha fazlası. Kripto sekmesinde Bitcoin, Ethereum gibi coinleri 7 günlük grafikleriyle görün. Ayarlardan görmek istediğiniz dövizleri özelleştirin.'
+                : 'Track exchange rates in real-time! USD, EUR, Gold and more. View Bitcoin, Ethereum with 7-day sparkline charts in Crypto tab. Customize which currencies you want to see in settings.',
             position: 'top',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
         },
@@ -68,8 +68,8 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
             target: '.rss-widget',
             title: isTurkish ? 'RSS Haberleri' : 'RSS News Feed',
             content: isTurkish
-                ? 'Favori haber kaynaklarınızın RSS adreslerini ayarlardan ekleyin. Kategorilere ayırın ve güncel haberleri tek bir yerden takip edin.'
-                : 'Add RSS feeds from settings. Organize by categories and follow all your news sources in one place.',
+                ? 'Favori haber kaynaklarınızı tek bir yerden takip edin! Ayarlardan RSS URL\'i ekleyin, kategorilere ayırın. Haberler otomatik güncellenir ve tıklayarak kaynak siteye gidin.'
+                : 'Follow your favorite news sources in one place! Add RSS URLs in settings, organize by categories. News updates automatically - click to visit source site.',
             position: 'top',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>'
         },
@@ -77,8 +77,8 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
             target: '.sticky-note.sticky-note-primary',
             title: isTurkish ? 'Sticky Notes & Pomodoro' : 'Sticky Notes & Pomodoro',
             content: isTurkish
-                ? 'Notlar alın, yapılacaklar listesi oluşturun ve Pomodoro zamanlayıcısı ile odaklanın. Tüm sekmelerde senkronize çalışır!'
-                : 'Take notes, create to-do lists, and focus with Pomodoro timer. Syncs across all tabs!',
+                ? 'Hızlı notlar alın, yapılacaklar listesi oluşturun! Pomodoro zamanlayıcısı ile odaklanın (25dk çalışma + 5dk mola). Alt+N ile açın/kapatın. Tüm sekmelerde otomatik senkronize!'
+                : 'Take quick notes, create to-do lists! Focus with Pomodoro timer (25min work + 5min break). Press Alt+N to toggle. Auto-syncs across all tabs!',
             position: 'left',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>',
             action: 'openStickyNotes',
@@ -91,8 +91,25 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
         const step = steps[stepIndex];
         if (!step) return;
 
-        if (step.action === 'openStickyNotes' && onOpenStickyNotes) {
-            onOpenStickyNotes();
+        if (step.action === 'openStickyNotes') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                if (onOpenStickyNotes) {
+                    onOpenStickyNotes();
+                }
+                setTimeout(() => {
+                    const element = document.querySelector(step.target);
+                    if (element) {
+                        const newRect = element.getBoundingClientRect();
+                        setRect(newRect);
+                        setShowFallback(false);
+                    } else {
+                        setShowFallback(true);
+                        setRect(new DOMRect(window.innerWidth / 2 - 200, window.innerHeight / 2 - 100, 400, 200));
+                    }
+                }, 600);
+            }, 500);
+            return;
         }
 
         setTimeout(() => {
@@ -105,15 +122,22 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
                     setShowFallback(false);
                 }, 500);
             } else {
-                if (stepIndex === steps.length - 1) {
-                    setShowFallback(true);
-                    setRect(new DOMRect(window.innerWidth / 2 - 200, window.innerHeight / 2 - 100, 400, 200));
-                } else {
-                    setCurrentStep(prev => prev + 1);
-                }
+                setCurrentStep(prev => prev + 1);
             }
-        }, step.action ? 600 : 100);
+        }, 100);
     }, [onOpenStickyNotes, steps.length]);
+
+    // Disable body scroll when guide is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         if (!isOpen) {

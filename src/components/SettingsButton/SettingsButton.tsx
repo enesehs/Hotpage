@@ -1,22 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './SettingsButton.css';
 
 interface SettingsButtonProps {
   onOpenSettings: () => void;
 }
 
+const SETTINGS_CLICKED_KEY = 'hotpage_settings_clicked';
+
 export const SettingsButton = ({ onOpenSettings }: SettingsButtonProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [showIndicator, setShowIndicator] = useState(false);
+
+  useEffect(() => {
+    const hasClicked = localStorage.getItem(SETTINGS_CLICKED_KEY);
+    if (!hasClicked) {
+      setShowIndicator(true);
+    }
+  }, []);
+
+  const handleClick = () => {
+    if (showIndicator) {
+      localStorage.setItem(SETTINGS_CLICKED_KEY, 'true');
+      setShowIndicator(false);
+    }
+    onOpenSettings();
+  };
 
   return (
     <button
       className="settings-button"
-      onClick={onOpenSettings}
+      onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       aria-label="Open settings"
       title="Settings"
     >
+      {showIndicator && <span className="settings-indicator" />}
       <svg
         width="24"
         height="24"

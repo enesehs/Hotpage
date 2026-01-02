@@ -10,6 +10,7 @@
 
 .guide-overlay.active {
     pointer-events: auto;
+    overflow: hidden;
 }
 
 .guide-spotlight {
@@ -25,14 +26,14 @@
 
 .guide-tooltip {
     position: absolute;
-    background: rgba(15, 15, 20, 0.85);
+    background: var(--color-background);
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     padding: 24px;
     border-radius: 20px;
     width: 360px;
-    color: white;
+    color: var(--color-text);
     box-shadow:
         0 16px 48px rgba(0, 0, 0, 0.5),
         inset 0 0 0 1px rgba(255, 255, 255, 0.03);
@@ -74,7 +75,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #60a5fa;
+    color: var(--color-primary)
 }
 
 .guide-icon svg {
@@ -93,7 +94,7 @@
     margin: 0 0 20px 0;
     font-size: 14px;
     line-height: 1.65;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--color-text)
 }
 
 .guide-actions {
@@ -106,7 +107,7 @@
 
 .step-count {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--color-textSecondary);
     font-weight: 500;
 }
 
@@ -116,7 +117,7 @@
 }
 
 .guide-btn-next {
-    background: #3b82f6;
+    background: var(--color-primary);
     color: white;
     border: none;
     padding: 10px 24px;
@@ -129,9 +130,9 @@
 }
 
 .guide-btn-next:hover {
-    background: #2563eb;
+    background: var(--color-primary);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
 }
 
 .guide-btn-github {
@@ -164,7 +165,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(15, 15, 20, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(32px);
     -webkit-backdrop-filter: blur(32px);
@@ -172,7 +172,7 @@
     border-radius: 28px;
     text-align: center;
     max-width: 460px;
-    color: white;
+    color: var(--color-text);
     box-shadow:
         0 32px 80px rgba(0, 0, 0, 0.6),
         0 0 120px rgba(59, 130, 246, 0.1);
@@ -215,7 +215,7 @@
     margin: 0 0 32px;
     font-size: 15px;
     line-height: 1.7;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--color-text);
 }
 
 .guide-completion-actions {
@@ -228,8 +228,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    color: white;
+    background: var(--color-background);
+    color: var(--color-text);
     border: 1px solid rgba(255, 255, 255, 0.12);
     padding: 14px 24px;
     border-radius: 14px;
@@ -240,24 +240,21 @@
 }
 
 .guide-completion-github:hover {
-    background: rgba(255, 255, 255, 0.12);
     transform: translateY(-2px);
 }
 
 .guide-completion-finish {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: white;
+    background: var(--color-text);
+    color: var(--color-background);
     border: none;
     padding: 14px 32px;
     border-radius: 14px;
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: 500;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
 }
 
 .guide-completion-finish:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.45);
 }
