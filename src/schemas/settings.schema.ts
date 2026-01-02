@@ -77,7 +77,8 @@ export const WidgetConfigSchema = z.object({
 
 export const QuickActionsSettingsSchema = z.object({
     openStickyNotes: z.boolean(),
-    openNotepad: z.boolean()
+    openNotepad: z.boolean(),
+    stickyNoteShortcut: z.string().max(20).optional()
 });
 
 export const BackgroundSchema = z.object({

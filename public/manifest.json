@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "HotPage - Customizable Homepage",
   "short_name": "HotPage",
-  "version": "0.1.0",
+  "version": "1.4.0",
   "description": "A fully customizable browser homepage with widgets, themes, sticky notes, todo list, and personalization options.",
   "minimum_chrome_version": "100",
   "icons": {
@@ -14,17 +14,40 @@
   },
   "action": {
     "default_title": "HotPage",
-    "default_icon": "img/White/White_32.png"
+    "default_icon": "img/White/White_32.png",
+    "default_popup": "src/popup/index.html"
   },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
   "permissions": [
     "geolocation",
-    "search"
+    "search",
+    "storage",
+    "notifications"
   ],
+  "commands": {
+    "toggle-sticky-notes": {
+      "suggested_key": {
+        "default": "Alt+N",
+        "mac": "Alt+N"
+      },
+      "description": "Toggle Sticky Notes panel"
+    }
+  },
   "optional_permissions": [
     "windows"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "assets/content.js"
+      ]
+    }
   ],
   "host_permissions": [
     "https://api.open-meteo.com/*",
@@ -35,10 +58,7 @@
     "https://ipapi.co/*"
   ],
   "background": {
-    "service_worker": "background.js",
-    "scripts": [
-      "background.js"
-    ]
+    "service_worker": "background.js"
   },
   "web_accessible_resources": [
     {
@@ -55,7 +75,12 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "hotpage@enesehs.dev",
-      "strict_min_version": "109.0"
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
     }
   }
 }

@@ -49,11 +49,14 @@ export const uiIcons = {
 
   plus: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
   minus: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+  star: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  github: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>',
+  globe: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
 };
 
 export const widgetIcons = {
   weather: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>',
-  currency: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path fill="currentColor" fill-rule="evenodd" d="M1.249 7.001a5.751 5.751 0 1 1 11.502 0a5.751 5.751 0 0 1-11.502 0M7 0a7.001 7.001 0 1 0 0 14.002A7.001 7.001 0 0 0 7 0m.625 3a.625.625 0 1 0-1.25 0v.709a1.815 1.815 0 0 0-.35 3.588l1.57.344a.709.709 0 0 1-.15 1.4h-.889a.71.71 0 0 1-.669-.471a.625.625 0 1 0-1.178.416a1.96 1.96 0 0 0 1.666 1.297V11a.625.625 0 0 0 1.25 0v-.716a1.96 1.96 0 0 0 .238-3.865l-1.571-.343a.565.565 0 0 1 .12-1.118h1.032a.705.705 0 0 1 .669.473a.625.625 0 1 0 1.178-.417a1.96 1.96 0 0 0-1.666-1.297z" clip-rule="evenodd"/></svg>',
+  currency: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.7 8a3 3 0 0 0-2.7-2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1-2.7-2"/><path d="M12 3v3m0 12v3"/></svg>',
   quotes: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>',
   rss: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>',
 };
@@ -383,23 +386,506 @@ export const iconLibrary: IconOption[] = [
 
 export const iconCategories = ['Social', 'Productivity', 'Media', 'Development', 'Other'];
 
-const weatherIconColor = 'var(--text-color, currentColor)';
-const weatherIconAttrs = `fill="currentColor" style="color: ${weatherIconColor};"`;
-
 export const weatherIcons: Record<string, string> = {
-  'clear-day': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M15.02,9.17c-3.22,0-5.83,2.62-5.83,5.83s2.62,5.83,5.83,5.83s5.83-2.62,5.83-5.83S18.24,9.17,15.02,9.17z M15.02,19.17 c-2.28,0-4.17-1.89-4.17-4.17s1.89-4.17,4.17-4.17s4.17,1.89,4.17,4.17S17.3,19.17,15.02,19.17z"/><path d="M15.02,3.83c0.46,0,0.83-0.37,0.83-0.83V0.83c0-0.46-0.37-0.83-0.83-0.83S14.19,0.37,14.19,0.83V3 C14.19,3.46,14.56,3.83,15.02,3.83z"/><path d="M15.02,26.17c-0.46,0-0.83,0.37-0.83,0.83v2.17c0,0.46,0.37,0.83,0.83,0.83s0.83-0.37,0.83-0.83V27 C15.85,26.54,15.48,26.17,15.02,26.17z"/><path d="M5.69,5.69c0.33,0.33,0.86,0.33,1.19,0L8.8,3.77c0.33-0.33,0.33-0.86,0-1.19s-0.86-0.33-1.19,0L5.69,4.49 C5.36,4.83,5.36,5.36,5.69,5.69z"/><path d="M24.35,24.35c-0.33-0.33-0.86-0.33-1.19,0l-1.92,1.92c-0.33,0.33-0.33,0.86,0,1.19c0.33,0.33,0.86,0.33,1.19,0l1.92-1.92 C24.68,25.21,24.68,24.68,24.35,24.35z"/><path d="M0.83,14.19H3c0.46,0,0.83-0.37,0.83-0.83S3.46,12.52,3,12.52H0.83C0.37,12.52,0,12.89,0,13.35S0.37,14.19,0.83,14.19z"/><path d="M29.19,12.52H27c-0.46,0-0.83,0.37-0.83,0.83S26.54,14.19,27,14.19h2.19c0.46,0,0.83-0.37,0.83-0.83 S29.65,12.52,29.19,12.52z"/><path d="M5.69,24.35l1.92-1.92c0.33-0.33,0.33-0.86,0-1.19c-0.33-0.33-0.86-0.33-1.19,0l-1.92,1.92c-0.33,0.33-0.33,0.86,0,1.19 C4.83,24.68,5.36,24.68,5.69,24.35z"/><path d="M24.35,5.69c0.33-0.33,0.33-0.86,0-1.19l-1.92-1.92c-0.33-0.33-0.86-0.33-1.19,0c-0.33,0.33-0.33,0.86,0,1.19l1.92,1.92 C23.49,6.02,24.02,6.02,24.35,5.69z"/></svg>`,
-  'clear-night': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M19.95,15.02c0-3.68-2.99-6.67-6.67-6.67c-1.35,0-2.6,0.4-3.66,1.07c-0.25,0.16-0.4,0.45-0.37,0.75s0.23,0.57,0.52,0.67 c2.67,0.88,4.48,3.39,4.48,6.21s-1.81,5.33-4.48,6.21c-0.29,0.1-0.49,0.37-0.52,0.67s0.12,0.59,0.37,0.75 c1.06,0.67,2.31,1.07,3.66,1.07C16.96,21.69,19.95,18.7,19.95,15.02z"/></svg>`,
-  'partly-cloudy-day': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M6.04,19.39c0,2.26,1.84,4.1,4.1,4.1h9.09c2.78,0,5.04-2.26,5.04-5.04s-2.26-5.04-5.04-5.04c-0.28,0-0.55,0.03-0.81,0.08 c-0.74-2.82-3.3-4.77-6.21-4.77c-3.56,0-6.44,2.89-6.44,6.44C6.04,15.71,6.04,19.39,6.04,19.39z"/></svg>`,
-  'partly-cloudy-night': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M9.3,19.39c0,2.26,1.84,4.1,4.1,4.1h5.83c2.78,0,5.04-2.26,5.04-5.04s-2.26-5.04-5.04-5.04c-0.28,0-0.55,0.03-0.81,0.08 c-0.74-2.82-3.29-4.77-6.21-4.77c-0.79,0-1.54,0.14-2.24,0.39c2.15,1.08,3.62,3.28,3.62,5.82C13.79,17.08,11.9,19.39,9.3,19.39z"/></svg>`,
-  'cloudy': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M6.04,19.39c0,2.26,1.84,4.1,4.1,4.1h9.09c2.78,0,5.04-2.26,5.04-5.04s-2.26-5.04-5.04-5.04c-0.28,0-0.55,0.03-0.81,0.08 c-0.74-2.82-3.3-4.77-6.21-4.77c-3.56,0-6.44,2.89-6.44,6.44C6.04,15.71,6.04,19.39,6.04,19.39z"/></svg>`,
-  'rain': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M16.3,25.35l1.09-2.57c0.13-0.29,0-0.63-0.29-0.76c-0.29-0.13-0.63,0-0.76,0.29l-1.09,2.57c-0.13,0.29,0,0.63,0.29,0.76 c0.08,0.04,0.17,0.05,0.25,0.05C16,25.72,16.21,25.58,16.3,25.35z"/><path d="M10.96,25.35l1.09-2.57c0.13-0.29,0-0.63-0.29-0.76c-0.29-0.13-0.63,0-0.76,0.29l-1.09,2.57c-0.13,0.29,0,0.63,0.29,0.76 c0.08,0.04,0.17,0.05,0.25,0.05C10.66,25.72,10.87,25.58,10.96,25.35z"/><path d="M6.04,19.39c0,2.26,1.84,4.1,4.1,4.1h9.09c2.78,0,5.04-2.26,5.04-5.04s-2.26-5.04-5.04-5.04c-0.28,0-0.55,0.03-0.81,0.08 c-0.74-2.82-3.3-4.77-6.21-4.77C9.07,8.72,6.19,11.61,6.19,15.17C6.19,15.17,6.04,19.39,6.04,19.39z"/></svg>`,
-  'drizzle': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M10,25h2v2h-2V25z M14,25h2v2h-2V25z M18,25h2v2h-2V25z M6.04,19.39c0,2.26,1.84,4.1,4.1,4.1h9.09 c2.78,0,5.04-2.26,5.04-5.04s-2.26-5.04-5.04-5.04c-0.28,0-0.55,0.03-0.81,0.08c-0.74-2.82-3.3-4.77-6.21-4.77 C9.07,8.72,6.19,11.61,6.19,15.17C6.19,15.17,6.04,19.39,6.04,19.39z"/></svg>`,
-  'snow': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M15,26l1.41-1.41L15,23.17l-1.41,1.42L15,26z M15,20.83l1.41-1.41L15,18l-1.41,1.41L15,20.83z"/><path d="M6.04,19.39c0,2.26,1.84,4.1,4.1,4.1h9.09c2.78,0,5.04-2.26,5.04-5.04s-2.26-5.04-5.04-5.04c-0.28,0-0.55,0.03-0.81,0.08 c-0.74-2.82-3.3-4.77-6.21-4.77c-3.56,0-6.44,2.89-6.44,6.44C6.04,15.71,6.04,19.39,6.04,19.39z"/></svg>`,
-  'thunderstorm': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M16,17h-2l1-4h-2l-2,6h2l-1,4l4-6h-2L16,17z"/><path d="M6.04,19.39c0,2.26,1.84,4.1,4.1,4.1h9.09c2.78,0,5.04-2.26,5.04-5.04s-2.26-5.04-5.04-5.04c-0.28,0-0.55,0.03-0.81,0.08 c-0.74-2.82-3.3-4.77-6.21-4.77c-3.56,0-6.44,2.89-6.44,6.44C6.04,15.71,6.04,19.39,6.04,19.39z"/></svg>`,
-  'fog': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M6,17h18v2H6V17z M8,21h14v2H8V21z M10,25h10v2H10V25z"/></svg>`,
-  'wind': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><path d="M5,15h15c1.66,0,3-1.34,3-3s-1.34-3-3-3c-1.1,0-2,0.9-2,2h-2c0-2.21,1.79-4,4-4s4,1.79,4,4s-1.79,4-4,4H5V15z"/><path d="M7,19h13c1.66,0,3,1.34,3,3s-1.34,3-3,3c-1.1,0-2-0.9-2-2h-2c0,2.21,1.79,4,4,4s4-1.79,4-4s-1.79-4-4-4H7V19z"/></svg>`,
-  'hail': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><circle cx="10" cy="25" r="1"/><circle cx="14" cy="25" r="1"/><circle cx="18" cy="25" r="1"/><path d="M6.04,19.39c0,2.26,1.84,4.1,4.1,4.1h9.09c2.78,0,5.04-2.26,5.04-5.04s-2.26-5.04-5.04-5.04c-0.28,0-0.55,0.03-0.81,0.08 c-0.74-2.82-3.3-4.77-6.21-4.77c-3.56,0-6.44,2.89-6.44,6.44C6.04,15.71,6.04,19.39,6.04,19.39z"/></svg>`,
-  'default': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" ${weatherIconAttrs}><text x="5" y="20" font-size="10">N/A</text></svg>`
+  'clear-day': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 375 375">
+            <!-- core -->
+            <circle cx="187.5" cy="187.5" r="84" fill="none" stroke="#fbbf24" stroke-miterlimit="10" stroke-width="15"/>
+            <!-- rays -->
+            <path d="M187.5,57.16V7.5m0,360V317.84M279.67,95.33l35.11-35.11M60.22,314.78l35.11-35.11m0-184.34L60.22,60.22M314.78,314.78l-35.11-35.11M57.16,187.5H7.5m360,0H317.84" fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="15">
+                <animateTransform
+                    attributeName="transform"
+                    additive="sum"
+                    type="rotate"
+                    values="0 187.5 187.5; 45 187.5 187.5"
+                    dur="6s"
+                    repeatCount="indefinite"/>
+            </path>
+        </symbol>
+    </defs>
+    <use width="375" height="375" transform="translate(68.5 68.5)" xlink:href="#a"/>
+</svg>`,
+  'clear-night': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 279 279" overflow="visible">
+            <!-- moon -->
+            <path d="M256.75,173.13c-74.12,0-134.21-59.28-134.21-132.42A130.48,130.48,0,0,1,127,7.5C59.79,14.75,7.5,70.87,7.5,139.08c0,73.13,60.09,132.42,134.21,132.42,62.48,0,114.83-42.18,129.79-99.21A135.56,135.56,0,0,1,256.75,173.13Z" fill="none" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="15">
+                <animateTransform
+                    attributeName="transform"
+                    additive="sum"
+                    type="rotate"
+                    values="-15 135 135; 9 135 135; -15 135 135"
+                    dur="6s"
+                    repeatCount="indefinite"/>
+            </path>
+        </symbol>
+    </defs>
+    <use width="279" height="279" transform="translate(116.5 116.5)" xlink:href="#a"/>
+</svg>`,
+  'partly-cloudy-day': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <clipPath id="a">
+            <path d="M288,148a83.84,83.84,0,0,0-71.4,39.92A55.91,55.91,0,0,0,132,236a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,84,304H0V0H288Z" fill="none"/>
+        </clipPath>
+        <symbol id="c" viewBox="0 0 193 193">
+            <!-- sun-core -->
+            <circle cx="96.5" cy="96.5" r="40" fill="none" stroke="#fbbf24" stroke-miterlimit="10" stroke-width="9"/>
+            <!-- sun-rays -->
+            <path d="M96.5,29.88V4.5m0,184V163.12M143.61,49.39l17.94-17.94M31.45,161.55l17.94-17.94m0-94.22L31.45,31.45m130.1,130.1-17.94-17.94M4.5,96.5H29.88m158.62,0H163.12" fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="9">
+                <animateTransform
+                    attributeName="transform"
+                    additive="sum"
+                    type="rotate"
+                    values="0 96.5 96.5; 45 96.5 96.5"
+                    dur="6s"
+                    repeatCount="indefinite"/>
+            </path>
+        </symbol>
+        <symbol id="d" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+        <symbol id="b" viewBox="0 0 435.5 371.5">
+            <g clip-path="url(#a)">
+                <use width="193" height="193" transform="translate(69.5 110.5)" xlink:href="#c"/>
+            </g>
+            <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#d"/>
+        </symbol>
+    </defs>
+    <use width="435.5" height="371.5" xlink:href="#b"/>
+</svg>`,
+  'partly-cloudy-night': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <clipPath id="a">
+            <path d="M288,148a83.84,83.84,0,0,0-71.4,39.92A55.91,55.91,0,0,0,132,236a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,84,304H0V0H288Z" fill="none"/>
+        </clipPath>
+        <symbol id="c" viewBox="0 0 178 178">
+            <path d="M163.62,110.4c-47.17,0-85.41-37.73-85.41-84.26A83.31,83.31,0,0,1,81,5C38.27,9.61,5,45.33,5,88.73,5,135.27,43.24,173,90.41,173A85.16,85.16,0,0,0,173,109.87,88,88,0,0,1,163.62,110.4Z" fill="none" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+        </symbol>
+        <symbol id="d" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+        <symbol id="b" viewBox="0 0 435.5 371.5">
+            <g clip-path="url(#a)">
+                <!-- moon -->
+                <use width="178" height="178" transform="translate(77 118)" xlink:href="#c">
+                    <animateTransform
+                        attributeName="transform"
+                        additive="sum"
+                        type="rotate"
+                        values="-15 86 86; 9 86 86; -15 86 86"
+                        dur="6s"
+                        repeatCount="indefinite"/>
+                </use>
+            </g>
+            <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#d"/>
+        </symbol>
+    </defs>
+    <use width="435.5" height="371.5" xlink:href="#b"/>
+</svg>`,
+  'cloudy': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+    </defs>
+    <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#a">
+        <animateTransform
+            attributeName="transform"
+            additive="sum"
+            type="translate"
+            values="-18 0; 18 0; -18 0"
+            dur="6s"
+            repeatCount="indefinite"/>
+    </use>
+</svg>`,
+  'rain': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+        <symbol id="b" viewBox="0 0 128 56" overflow="visible">
+            <!-- raindrop-1 -->
+            <path d="M8,56a8,8,0,0,1-8-8V8A8,8,0,0,1,16,8V48A8,8,0,0,1,8,56Z" fill="#0a5ad4" opacity="0">
+                <animateTransform
+                    id="x1"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -60; 0 60"
+                    begin="0s; x1.end+.33s"
+                    dur=".67s"/>
+
+                <animate
+                    id="y1"
+                    attributeName="opacity"
+                    values="0; 1; 0"
+                    begin="0s; y1.end+.33s"
+                    dur=".67s"
+                    keyTimes="0; .25; 1"/>
+            </path>
+
+            <!-- raindrop-2 -->
+            <path d="M64,56a8,8,0,0,1-8-8V8A8,8,0,0,1,72,8V48A8,8,0,0,1,64,56Z" fill="#0a5ad4" opacity="0">
+                <animateTransform
+                    id="x2"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -60; 0 60"
+                    begin=".33s; x2.end+.33s"
+                    dur=".67s"/>
+
+                <animate
+                    id="y2"
+                    attributeName="opacity"
+                    values="0; 1; 0"
+                    begin=".33s; y2.end+.33s"
+                    dur=".67s"
+                    keyTimes="0; .25; 1"/>
+            </path>
+
+            <!-- raindrop-3 -->
+            <path d="M120,56a8,8,0,0,1-8-8V8a8,8,0,0,1,16,0V48A8,8,0,0,1,120,56Z" fill="#0a5ad4" opacity="0">
+                <animateTransform
+                    id="x3"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -60; 0 60"
+                    begin="-.33s; x3.end+.33s"
+                    dur=".67s"/>
+
+                <animate
+                    id="y3"
+                    attributeName="opacity"
+                    values="0; 1; 0"
+                    begin="-.33s; y3.end+.33s"
+                    dur=".67s"
+                    keyTimes="0; .25; 1"/>
+            </path>
+        </symbol>
+    </defs>
+    <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#a"/>
+    <use width="128" height="56" transform="translate(192 344)" xlink:href="#b"/>
+</svg>`,
+  'drizzle': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+    </defs>
+
+    <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#a"/>
+
+    <!-- raindrop-1 -->
+    <path d="M200,376a8,8,0,0,1-8-8V356a8,8,0,0,1,16,0v12A8,8,0,0,1,200,376Z" fill="#0a5ad4" opacity="0">
+        <animateTransform
+            id="x1"
+            attributeName="transform"
+            additive="sum"
+            type="translate"
+            values="0 -32; 0 -32; 0 120;"
+            begin="0s; x1.end+1s"
+            dur="1s"
+            keyTimes="0; .25; 1"/>
+
+        <animate
+            id="y1"
+            attributeName="opacity"
+            values="0; 1; 0"
+            begin="0s; y1.end+1s"
+            dur="1s"
+            keyTimes="0; .25; 1"/>
+    </path>
+
+    <!-- raindrop-2 -->
+    <path d="M256,376a8,8,0,0,1-8-8V356a8,8,0,0,1,16,0v12A8,8,0,0,1,256,376Z" fill="#0a5ad4" opacity="0">
+        <animateTransform
+            id="x2"
+            attributeName="transform"
+            additive="sum"
+            type="translate"
+            values="0 -32; 0 -32; 0 120;"
+            begin="1.34s; x2.end+1s"
+            dur="1s"
+            keyTimes="0; .25; 1"/>
+
+        <animate
+            id="y2"
+            attributeName="opacity"
+            values="0; 1; 0"
+            begin="1.34s; y2.end+1s"
+            dur="1s"
+            keyTimes="0; .25; 1"/>
+    </path>
+
+    <!-- raindrop-3 -->
+    <path d="M312,376a8,8,0,0,1-8-8V356a8,8,0,0,1,16,0v12A8,8,0,0,1,312,376Z" fill="#0a5ad4" opacity="0">
+        <animateTransform
+            id="x3"
+            attributeName="transform"
+            additive="sum"
+            type="translate"
+            values="0 -32; 0 -32; 0 120;"
+            begin=".67s; x3.end+1s"
+            dur="1s"
+            keyTimes="0; .25; 1"/>
+
+        <animate
+            id="y3"
+            attributeName="opacity"
+            values="0; 1; 0"
+            begin=".67s; y3.end+1s"
+            dur="1s"
+            keyTimes="0; .25; 1"/>
+    </path>
+</svg>`,
+  'snow': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+        <symbol id="b" viewBox="0 0 155.2 48" overflow="visible">
+            <!-- snowflake-1 -->
+            <g>
+                <path d="M41.17,30.54l-5.78-3.3a13.74,13.74,0,0,0,0-6.47l5.79-3.31A4,4,0,0,0,42.66,12a4.08,4.08,0,0,0-5.54-1.46l-5.79,3.3a13.61,13.61,0,0,0-2.64-2,13.84,13.84,0,0,0-3-1.28V4a4.05,4.05,0,0,0-8.1,0v6.6a14.25,14.25,0,0,0-5.69,3.23L6.08,10.54A4.08,4.08,0,0,0,.54,12,4,4,0,0,0,2,17.46l5.78,3.3a13.74,13.74,0,0,0,0,6.47L2,30.54A4,4,0,0,0,.54,36a4.08,4.08,0,0,0,3.52,2,4,4,0,0,0,2-.54l5.79-3.3a13.61,13.61,0,0,0,2.64,2,13.8,13.8,0,0,0,3,1.27V44a4.05,4.05,0,0,0,8.1,0V37.39a14.22,14.22,0,0,0,5.68-3.23l5.79,3.3a4,4,0,0,0,2,.54,4.08,4.08,0,0,0,3.52-2A4,4,0,0,0,41.17,30.54ZM18.56,29.2A6,6,0,0,1,16.34,21a6.1,6.1,0,0,1,5.27-3,6.16,6.16,0,0,1,3,.8A6,6,0,0,1,26.86,27,6.12,6.12,0,0,1,18.56,29.2Z" fill="#86c3db" opacity="0">
+                    <animateTransform
+                        attributeName="transform"
+                        additive="sum"
+                        type="rotate"
+                        values="0 24 24; 360 24 24"
+                        dur="6s"
+                        repeatCount="indefinite"/>
+
+                    <animate
+                        id="t1"
+                        attributeName="opacity"
+                        values="0; 1; 1; 0"
+                        begin="0s; t1.end+1s"
+                        dur="2s"
+                        keyTimes="0; .17; .83; 1"/>
+                </path>
+
+                <animateTransform
+                    id="s1"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -36; 0 92;"
+                    begin="0s; s1.end+1s"
+                    dur="2s"/>
+            </g>
+
+            <!-- snowflake-2 -->
+            <g>
+                <path d="M97.17,30.54l-5.78-3.3a13.74,13.74,0,0,0,0-6.47l5.79-3.31A4,4,0,0,0,98.66,12a4.08,4.08,0,0,0-5.54-1.46l-5.79,3.3a13.61,13.61,0,0,0-2.64-2,13.84,13.84,0,0,0-3-1.28V4a4.05,4.05,0,0,0-8.1,0v6.6a14.25,14.25,0,0,0-5.69,3.23l-5.78-3.29A4.08,4.08,0,0,0,56.54,12,4,4,0,0,0,58,17.46l5.78,3.3a13.74,13.74,0,0,0,0,6.47L58,30.54A4,4,0,0,0,56.54,36a4.08,4.08,0,0,0,3.52,2,4,4,0,0,0,2-.54l5.79-3.3a13.61,13.61,0,0,0,2.64,2,13.8,13.8,0,0,0,3,1.27V44a4.05,4.05,0,0,0,8.1,0V37.39a14.22,14.22,0,0,0,5.68-3.23l5.79,3.3a4,4,0,0,0,2,.54,4.08,4.08,0,0,0,3.52-2A4,4,0,0,0,97.17,30.54ZM74.56,29.2A6,6,0,0,1,72.34,21a6.1,6.1,0,0,1,5.27-3,6.16,6.16,0,0,1,3,.8A6,6,0,0,1,82.86,27,6.12,6.12,0,0,1,74.56,29.2Z" fill="#86c3db" opacity="0">
+                    <animateTransform
+                        attributeName="transform"
+                        additive="sum"
+                        type="rotate"
+                        values="0 80 24; 360 80 24"
+                        dur="6s"
+                        repeatCount="indefinite"/>
+
+                    <animate
+                        id="t2"
+                        attributeName="opacity"
+                        values="0; 1; 1; 0"
+                        begin="-.83s; t2.end+1s"
+                        dur="2s"
+                        keyTimes="0; .17; .83; 1"/>
+                </path>
+
+                <animateTransform
+                    id="s2"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -36; 0 92;"
+                    begin="-.83s; s2.end+1s"
+                    dur="2s"/>
+            </g>
+
+            <!-- snowflake-3 -->
+            <g>
+                <path d="M153.17,30.54l-5.78-3.3a13.74,13.74,0,0,0,0-6.47l5.79-3.31A4,4,0,0,0,154.66,12a4.08,4.08,0,0,0-5.54-1.46l-5.79,3.3a13.61,13.61,0,0,0-2.64-2,13.84,13.84,0,0,0-3-1.28V4a4.05,4.05,0,0,0-8.1,0v6.6a14.25,14.25,0,0,0-5.69,3.23l-5.78-3.29A4.08,4.08,0,0,0,112.54,12,4,4,0,0,0,114,17.46l5.78,3.3a13.74,13.74,0,0,0,0,6.47L114,30.54A4,4,0,0,0,112.54,36a4.08,4.08,0,0,0,3.52,2,4,4,0,0,0,2-.54l5.79-3.3a13.61,13.61,0,0,0,2.64,2,13.8,13.8,0,0,0,3,1.27V44a4.05,4.05,0,0,0,8.1,0V37.39a14.22,14.22,0,0,0,5.68-3.23l5.79,3.3a4,4,0,0,0,2,.54,4.08,4.08,0,0,0,3.52-2A4,4,0,0,0,153.17,30.54ZM130.56,29.2a6,6,0,0,1-2.22-8.2,6.1,6.1,0,0,1,5.27-3,6.16,6.16,0,0,1,3,.8,6,6,0,0,1,2.22,8.2A6.12,6.12,0,0,1,130.56,29.2Z" fill="#86c3db" opacity="0">
+                    <animateTransform
+                        attributeName="transform"
+                        additive="sum"
+                        type="rotate"
+                        values="0 136 24; 360 136 24"
+                        dur="6s"
+                        repeatCount="indefinite"/>
+
+                    <animate
+                        id="t3"
+                        attributeName="opacity"
+                        values="0; 1; 1; 0"
+                        begin=".83s; t3.end+1s"
+                        dur="2s"
+                        keyTimes="0; .17; .83; 1"/>
+                </path>
+
+                <animateTransform
+                    id="s3"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -36; 0 92;"
+                    begin=".83s; s3.end+1s"
+                    dur="2s"/>
+            </g>
+        </symbol>
+    </defs>
+    <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#a"/>
+    <use width="155.2" height="48" transform="translate(178.4 338)" xlink:href="#b"/>
+</svg>`,
+  'thunderstorm': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+        <symbol id="b" viewBox="0 0 96 176">
+            <!-- lightning-bolt -->
+            <polygon points="32 0 0 96 32 96 16 176 96 64 48 64 80 0 32 0" fill="#f6a823">
+                <animate
+                    id="x1"
+                    attributeName="opacity"
+                    values="1; 1; 0; 1; 0; 1; 0; 1"
+                    begin="0s; x1.end+.67s"
+                    dur="1.33s"
+                    keyTimes="0; .38; .5; .63; .75; .86; .94; 1"/>
+            </polygon>
+        </symbol>
+    </defs>
+    <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#a"/>
+    <use width="96" height="176" transform="translate(208 293)" xlink:href="#b"/>
+</svg>`,
+  'fog': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+        <symbol id="b" viewBox="0 0 258 66" overflow="visible">
+            <line x1="9" y1="57" x2="249" y2="57" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-miterlimit="10" stroke-width="18">
+                <animateTransform
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="-24 0; 24 0; -24 0"
+                    dur="6s"
+                    repeatCount="indefinite"/>
+            </line>
+            <line x1="9" y1="9" x2="249" y2="9" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-miterlimit="10" stroke-width="18">
+                <animateTransform
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="24 0; -24 0; 24 0"
+                    dur="6s"
+                    repeatCount="indefinite"/>
+            </line>
+        </symbol>
+    </defs>
+    <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#a"/>
+    <use width="258" height="66" transform="translate(127 405)" xlink:href="#b"/>
+</svg>`,
+  'wind': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 342 234">
+            <!-- blow-1 -->
+            <path d="M264.16,21.29A40,40,0,1,1,293,89H9" fill="none" stroke-dasharray="148" stroke="#e2e8f0" stroke-linecap="round" stroke-miterlimit="10" stroke-width="18">
+                <animate attributeName="stroke-dashoffset" values="0; 2960" dur="6s" repeatCount="indefinite"/>
+            </path>
+            <!-- blow-2 -->
+            <path d="M148.16,212.71A40,40,0,1,0,177,145H9" fill="none" stroke-dasharray="110" stroke="#e2e8f0" stroke-linecap="round" stroke-miterlimit="10" stroke-width="18">
+                <animate attributeName="stroke-dashoffset" values="0; 1540" dur="6s" repeatCount="indefinite"/>
+            </path>
+        </symbol>
+    </defs>
+    <use width="342" height="234" transform="translate(85 139)" xlink:href="#a"/>
+</svg>`,
+  'hail': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 359 231">
+            <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+        </symbol>
+        <symbol id="b" viewBox="0 0 136 24" overflow="visible">
+            <!-- ice-pellet-1 -->
+            <path d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0Z" fill="#86c3db" opacity="0">
+                <animateTransform
+                    id="x1"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -46; 0 86; -18 74"
+                    begin="0s; x1.end+.42s"
+                    dur=".58s"
+                    keyTimes="0; .71; 1"/>
+
+                <animate
+                    id="y1"
+                    attributeName="opacity"
+                    values="0; 1; 1; 0"
+                    begin="0s; y1.end+.42s"
+                    dur=".58s"
+                    keyTimes="0; .14; .71; 1"/>
+            </path>
+            <!-- ice-pellet-2 -->
+            <path d="M68,0A12,12,0,1,0,80,12,12,12,0,0,0,68,0Z" fill="#86c3db" opacity="0">
+                <animateTransform
+                    id="x2"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -46; 0 86; 0 74"
+                    begin=".67s; x2.end+.42s"
+                    dur=".58s"
+                    keyTimes="0; .71; 1"/>
+
+                <animate
+                    id="y2"
+                    attributeName="opacity"
+                    values="0; 1; 1; 0"
+                    begin=".67s; y2.end+.42s"
+                    dur=".58s"
+                    keyTimes="0; .14; .71; 1"/>
+            </path>
+            <!-- ice-pellet-3 -->
+            <path d="M124,0a12,12,0,1,0,12,12A12,12,0,0,0,124,0Z" fill="#86c3db" opacity="0">
+                <animateTransform
+                    id="x3"
+                    attributeName="transform"
+                    additive="sum"
+                    type="translate"
+                    values="0 -46; 0 86; 18 74"
+                    begin=".33s; x3.end+.42s"
+                    dur=".58s"
+                    keyTimes="0; .71; 1"/>
+
+                <animate
+                    id="y3"
+                    attributeName="opacity"
+                    values="0; 1; 1; 0"
+                    begin=".33s; y3.end+.42s"
+                    dur=".58s"
+                    keyTimes="0; .14; .71; 1"/>
+            </path>
+        </symbol>
+    </defs>
+    <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#a"/>
+    <use width="136" height="24" transform="translate(188 350)" xlink:href="#b"/>
+</svg>`,
+  'default': `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <symbol id="a" viewBox="0 0 109.06 73.15">
+            <path d="M19.39,0A18.71,18.71,0,0,0,0,19.29,18.88,18.88,0,0,0,19.39,38.78a18.66,18.66,0,0,0,13.92-5.57,18.83,18.83,0,0,0,5.48-13.92A18.73,18.73,0,0,0,19.39,0Zm6.34,25.73a8.61,8.61,0,0,1-6.34,2.49,8.5,8.5,0,0,1-6.24-2.49,8.71,8.71,0,0,1-2.4-6.44A8.6,8.6,0,0,1,13.15,13a8.36,8.36,0,0,1,6.24-2.45,8.39,8.39,0,0,1,8.74,8.73A8.71,8.71,0,0,1,25.73,25.73Z" fill="#374151"/>
+            <path d="M78.82,58.46a13.37,13.37,0,0,1-11.48-5.61q-4.08-5.62-4.07-16,0-10,4.07-15.55a13.42,13.42,0,0,1,11.48-5.57,12.62,12.62,0,0,1,8.59,2.88,13.25,13.25,0,0,1,4.17,8.26h17.48q-1.35-12-9.51-19T78.34,1Q63.84,1,54.62,10.75T45.31,37q0,16.41,9.22,26.3t23.71,9.89q13.16,0,21.6-7.1,8.25-7,9.22-19.59H91.58Q90,58.46,78.82,58.46Z" fill="#374151"/>
+        </symbol>
+    </defs>
+    <use width="109.06" height="73.15" transform="translate(176.26 202.35) scale(1.46 1.47)" xlink:href="#a"/>
+</svg>`,
 };
 
 export const getWeatherIconKey = (code: number, isDay: boolean = true): string => {
@@ -415,3 +901,17 @@ export const getWeatherIconKey = (code: number, isDay: boolean = true): string =
   if (code >= 95 && code <= 99) return 'thunderstorm';
   return 'default';
 };
+
+export const googleIcons = {
+  gsettings: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M3.064 7.51A10 10 0 0 1 12 2c2.695 0 4.959.991 6.69 2.605l-2.867 2.868C14.786 6.482 13.468 5.977 12 5.977c-2.605 0-4.81 1.76-5.595 4.123c-.2.6-.314 1.24-.314 1.9s.114 1.3.314 1.9c.786 2.364 2.99 4.123 5.595 4.123c1.345 0 2.49-.355 3.386-.955a4.6 4.6 0 0 0 1.996-3.018H12v-3.868h9.418c.118.654.182 1.336.182 2.045c0 3.046-1.09 5.61-2.982 7.35C16.964 21.105 14.7 22 12 22A9.996 9.996 0 0 1 2 12c0-1.614.386-3.14 1.064-4.49"/></svg>',
+  gmail: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M1 6.5A2.5 2.5 0 0 1 3.5 4h.782a2.5 2.5 0 0 1 1.442.458l1.276.9v7.514L1 8.437zm0 3.802V20h6v-5.263zm16 4.435V20h6v-9.698zm6-6.3V6.5A2.5 2.5 0 0 0 20.5 4h-.782a2.5 2.5 0 0 0-1.442.458l-1.276.9v7.514zm-7.5-2.02L12 8.888l-3.5-2.47v7.562l3.5 2.587l3.5-2.587z" clip-rule="evenodd"/></svg>',
+  drive: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="m21.423 13.888l-6.09-10.55H8.668l6.09 10.55ZM8.09 4.338L2 14.888l3.334 5.774l6.089-10.55Zm1.733 10.55L6.49 20.662h12.178L22 14.887Z"/></svg>',
+  calendar: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M18.316 5.684H24v12.632h-5.684zM5.684 24h12.632v-5.684H5.684zM18.316 5.684V0H1.895A1.894 1.894 0 0 0 0 1.895v16.421h5.684V5.684zm-7.207 6.25v-.065q.407-.216.687-.617c.28-.401.279-.595.279-.982q0-.568-.3-1.025a2.05 2.05 0 0 0-.832-.714a2.7 2.7 0 0 0-1.197-.257q-.9 0-1.481.467q-.579.467-.793 1.078l1.085.452q.13-.374.413-.633q.284-.258.767-.257q.495 0 .816.264a.86.86 0 0 1 .322.703q0 .495-.36.778t-.886.284h-.567v1.085h.633q.611 0 1.02.327q.407.327.407.843q0 .505-.387.832c-.387.327-.565.327-.924.327q-.527 0-.897-.311q-.372-.312-.521-.881l-1.096.452q.268.923.977 1.401q.707.479 1.538.477a2.84 2.84 0 0 0 1.293-.291q.574-.29.902-.794q.327-.505.327-1.149q0-.643-.344-1.105a2.07 2.07 0 0 0-.881-.689m2.093-1.931l.602.913L15 10.045v5.744h1.187V8.446h-.827zM22.105 0h-3.289v5.184H24V1.895A1.894 1.894 0 0 0 22.105 0m-3.289 23.5l4.684-4.684h-4.684zM0 22.105C0 23.152.848 24 1.895 24h3.289v-5.184H0z"/></svg>',
+  maps: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M19.527 4.799c1.212 2.608.937 5.678-.405 8.173c-1.101 2.047-2.744 3.74-4.098 5.614c-.619.858-1.244 1.75-1.669 2.727c-.141.325-.263.658-.383.992c-.121.333-.224.673-.34 1.008c-.109.314-.236.684-.627.687h-.007c-.466-.001-.579-.53-.695-.887c-.284-.874-.581-1.713-1.019-2.525c-.51-.944-1.145-1.817-1.79-2.671zM8.545 7.705l-3.959 4.707c.724 1.54 1.821 2.863 2.871 4.18q.371.465.737.936l4.984-5.925l-.029.01c-1.741.601-3.691-.291-4.392-1.987a3.4 3.4 0 0 1-.209-.716c-.063-.437-.077-.761-.004-1.198zM5.492 3.149l-.003.004c-1.947 2.466-2.281 5.88-1.117 8.77l4.785-5.689l-.058-.05zM14.661.436l-3.838 4.563l.027-.01c1.6-.551 3.403.15 4.22 1.626c.176.319.323.683.377 1.045c.068.446.085.773.012 1.22l-.003.016l3.836-4.561A8.38 8.38 0 0 0 14.67.439zM9.466 5.868L14.162.285l-.047-.012A8.3 8.3 0 0 0 11.986 0a8.44 8.44 0 0 0-6.169 2.766l-.016.018z"/></svg>',
+  photos: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M12 11.5a5.5 5.5 0 1 0-11 0a.5.5 0 0 0 .5.5h10a5.5 5.5 0 1 0 0 11a.5.5 0 0 0 .5-.5v-10a5.5 5.5 0 1 0 11 0a.5.5 0 0 0-.5-.5h-10a5.5 5.5 0 1 0 0-11a.5.5 0 0 0-.5.5z"/></svg>',
+  meet: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M5.53 2.13L0 7.75h5.53zm.398 0v5.62h7.608v3.65l5.47-4.45c-.014-1.22.031-2.25-.025-3.46c-.148-1.09-1.287-1.47-2.236-1.36zM23.1 4.32c-.802.295-1.358.995-2.047 1.49c-2.506 2.05-4.982 4.12-7.468 6.19c3.025 2.59 6.04 5.18 9.065 7.76c1.218.671 1.428-.814 1.328-1.64v-13a.83.83 0 0 0-.877-.825zM.038 8.15v7.7h5.53v-7.7zm13.577 8.1H6.008v5.62c3.864-.006 7.737.011 11.58-.009c1.02-.07 1.618-1.12 1.468-2.07v-2.51l-5.47-4.68v3.65zm-13.577 0c.02 1.44-.041 2.88.033 4.31c.162.948 1.158 1.43 2.047 1.31h3.464v-5.62z"/></svg>',
+  translate: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M22.401 4.818h-9.927L10.927 0H1.599C.72 0 .002.719.002 1.599v16.275c0 .878.72 1.597 1.597 1.597h10L13.072 24H22.4c.878 0 1.597-.707 1.597-1.572V6.39c0-.865-.72-1.572-1.597-1.572zm-15.66 8.68c-2.07 0-3.75-1.68-3.75-3.75s1.68-3.75 3.75-3.75c1.012 0 1.86.375 2.512.976l-.99.952a2.2 2.2 0 0 0-1.522-.584c-1.305 0-2.363 1.08-2.363 2.409S5.436 12.16 6.74 12.16c1.507 0 2.13-1.08 2.19-1.808l-2.188-.002V9.066h3.51c.05.23.09.457.09.764c0 2.147-1.434 3.669-3.602 3.669zm16.757 8.93c0 .59-.492 1.072-1.097 1.072h-8.875l3.649-4.03h.005l-.74-2.302l.006-.005s.568-.488 1.277-1.24c.712.771 1.63 1.699 2.818 2.805l.771-.772c-1.272-1.154-2.204-2.07-2.89-2.805c.919-1.087 1.852-2.455 2.049-3.707h2.034v.002h.002v-.94h-4.532v-1.52h-1.471v1.52H14.3l-1.672-5.21l.006.022h9.767c.605 0 1.097.48 1.097 1.072zm-6.484-7.311c-.536.548-.943.873-.943.873l-.008.004l-1.46-4.548h4.764c-.307 1.084-.988 2.108-1.651 2.904c-1.176-1.392-1.18-1.844-1.18-1.844h-1.222s.05.678 1.7 2.61z"/></svg>',
+  grid: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z"/></svg>',
+  paint: '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M6 21q-1.125 0-2.225-.55T2 19q.65 0 1.325-.513T4 17q0-1.25.875-2.125T7 14t2.125.875T10 17q0 1.65-1.175 2.825T6 21m5.75-6L9 12.25l8.95-8.95q.275-.275.688-.288t.712.288l1.35 1.35q.3.3.3.7t-.3.7z"/></svg>'
+};
+

@@ -10,8 +10,8 @@
   -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
+  border: 2px solid var(--color-border);
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -56,17 +56,20 @@
   content: '';
   width: 5px;
   height: 5px;
-  background: rgba(74, 222, 128, 0.7);
+  background: rgba(var(--color-accent-rgb), 0.7);
   border-radius: 50%;
   animation: pulse 2s infinite;
-  box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
+  box-shadow: 0 0 6px rgba(var(--color-accent-rgb), 0.5);
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.5;
     transform: scale(0.9);
@@ -100,6 +103,7 @@
   0% {
     left: -100%;
   }
+
   100% {
     left: 100%;
   }
@@ -144,9 +148,9 @@
 }
 
 .currency-tab.active {
-  background: var(--color-primary);
-  color: #000;
-  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  border-color: var(--color-text);
   font-weight: 600;
 }
 
@@ -168,7 +172,7 @@
   gap: var(--spacing-sm);
 }
 
-.currency-grid > .currency-item {
+.currency-grid>.currency-item {
   flex: 0 0 calc(20% - var(--spacing-sm));
   max-width: calc(20% - var(--spacing-sm));
   min-width: 130px;
@@ -254,9 +258,9 @@
 }
 
 .currency-item-change.positive {
-  color: var(--color-text);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
 }
 
 .currency-item-change.negative {
@@ -378,7 +382,7 @@
 }
 
 @media (max-width: 700px) {
-  .currency-grid > .currency-item {
+  .currency-grid>.currency-item {
     flex: 0 0 calc(33.33% - var(--spacing-sm));
     max-width: calc(33.33% - var(--spacing-sm));
   }
@@ -417,7 +421,7 @@
     padding: 8px 14px;
     font-size: 0.8rem;
   }
-  
+
   .currency-header {
     flex-wrap: wrap;
     gap: var(--spacing-sm);
@@ -425,7 +429,7 @@
 }
 
 @media (max-width: 450px) {
-  .currency-grid > .currency-item {
+  .currency-grid>.currency-item {
     flex: 0 0 calc(50% - var(--spacing-sm));
     max-width: calc(50% - var(--spacing-sm));
   }

@@ -3,13 +3,13 @@ import type { Theme } from '../types/theme';
 export const lightTheme: Theme = {
   name: 'Light',
   colors: {
-    primary: '#3b82f6',
+    primary: '#1e293b',
     secondary: '#8b5cf6',
-    background: '#ffffff',
+    background: '#ebebebff',
     foreground: '#f8fafc',
     text: '#1e293b',
-    textSecondary: '#64748b',
-    border: '#e2e8f0',
+    textSecondary: '#6b6b6bff',
+    border: 'rgba(0, 0, 0, 0.10)',
     accent: '#10b981',
   },
   shadows: {
@@ -40,11 +40,11 @@ export const darkTheme: Theme = {
   colors: {
     primary: '#60a5fa',
     secondary: '#a78bfa',
-    background: '#1e293b',
+    background: '#212121',
     foreground: '#334155',
     text: '#f1f5f9',
     textSecondary: '#cbd5e1',
-    border: '#475569',
+    border: 'rgba(255, 255, 255, 0.15)',
     accent: '#34d399',
   },
   shadows: {
@@ -73,14 +73,14 @@ export const darkTheme: Theme = {
 export const oceanTheme: Theme = {
   name: 'Ocean',
   colors: {
-    primary: '#0ea5e9',
+    primary: '#0a72a2ff',
     secondary: '#06b6d4',
-    background: '#f0f9ff',
+    background: '#d3e1eaff',
     foreground: '#e0f2fe',
     text: '#0c4a6e',
-    textSecondary: '#075985',
-    border: '#bae6fd',
-    accent: '#0284c7',
+    textSecondary: '#064364ff',
+    border: 'rgba(43, 66, 77, 0.15)',
+    accent: '#03699cff',
   },
   shadows: {
     sm: '0 1px 2px 0 rgba(14, 165, 233, 0.1)',
@@ -108,13 +108,13 @@ export const oceanTheme: Theme = {
 export const forestTheme: Theme = {
   name: 'Forest',
   colors: {
-    primary: '#10b981',
+    primary: '#02754eff',
     secondary: '#059669',
-    background: '#f0fdf4',
+    background: '#d7fae2ff',
     foreground: '#dcfce7',
     text: '#064e3b',
     textSecondary: '#065f46',
-    border: '#bbf7d0',
+    border: 'rgba(4, 25, 7, 0.15)',
     accent: '#22c55e',
   },
   shadows: {
@@ -145,11 +145,11 @@ export const sunsetTheme: Theme = {
   colors: {
     primary: '#f97316',
     secondary: '#ea580c',
-    background: '#fff7ed',
+    background: '#f7e1c6ff',
     foreground: '#ffedd5',
     text: '#7c2d12',
     textSecondary: '#9a3412',
-    border: '#fed7aa',
+    border: 'rgba(249, 115, 22, 0.15)',
     accent: '#fb923c',
   },
   shadows: {
@@ -178,13 +178,13 @@ export const sunsetTheme: Theme = {
 export const purpleTheme: Theme = {
   name: 'Purple',
   colors: {
-    primary: '#a855f7',
+    primary: '#683697ff',
     secondary: '#9333ea',
-    background: '#faf5ff',
+    background: '#e5d7f4ff',
     foreground: '#f3e8ff',
-    text: '#581c87',
+    text: '#3f185dff',
     textSecondary: '#6b21a8',
-    border: '#e9d5ff',
+    border: 'rgba(132, 0, 255, 0.15)',
     accent: '#c084fc',
   },
   shadows: {
@@ -215,11 +215,11 @@ export const roseTheme: Theme = {
   colors: {
     primary: '#ec4899',
     secondary: '#db2777',
-    background: '#fdf2f8',
+    background: '#f8e1eeff',
     foreground: '#fce7f3',
     text: '#831843',
     textSecondary: '#9f1239',
-    border: '#fbcfe8',
+    border: 'rgba(236, 72, 153, 0.15)',
     accent: '#f472b6',
   },
   shadows: {
@@ -248,13 +248,13 @@ export const roseTheme: Theme = {
 export const midnightTheme: Theme = {
   name: 'Midnight',
   colors: {
-    primary: '#60a5fa',
+    primary: '#6e9cd3ff',
     secondary: '#818cf8',
     background: '#0f172a',
     foreground: '#1e293b',
     text: '#f1f5f9',
     textSecondary: '#cbd5e1',
-    border: '#334155',
+    border: 'rgba(255, 255, 255, 0.15)',
     accent: '#38bdf8',
   },
   shadows: {

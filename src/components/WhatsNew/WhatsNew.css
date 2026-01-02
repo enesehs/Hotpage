@@ -1,0 +1,188 @@
+html.no-scroll,
+body.no-scroll {
+    overflow: hidden !important;
+    height: 100%;
+}
+
+.whatsnew-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--primary-color);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.whatsnew-overlay.visible {
+    opacity: 1;
+}
+
+.whatsnew-modal {
+    position: relative;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 24px;
+    padding: 32px;
+    max-width: 440px;
+    width: 90%;
+    max-height: 85vh;
+    color: var(--color-text);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+}
+
+.whatsnew-overlay.visible .whatsnew-modal {
+    transform: scale(1);
+}
+
+.whatsnew-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 0, 0, 0.105);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.whatsnew-close:hover {
+    background: rgba(255, 0, 0, 0.429);
+}
+
+.whatsnew-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.whatsnew-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-background);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+}
+
+.whatsnew-header h2 {
+    margin: 0 0 8px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.whatsnew-header p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-secondary)
+}
+
+.whatsnew-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.whatsnew-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    transition: all 0.2s ease;
+}
+
+.whatsnew-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.whatsnew-item-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+}
+
+.whatsnew-item-content h4 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.whatsnew-item-content p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-textSecondary);
+    line-height: 1.4;
+}
+
+.whatsnew-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.whatsnew-github {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-primary);
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.whatsnew-github:hover {
+    background: color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+.whatsnew-continue {
+    flex: 1;
+    background: color-mix(in srgb, var(--color-primary) 60%, transparent);
+    border: none;
+    color: var(--color-text);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--primary-color) 35%, transparent);
+}
+
+.whatsnew-continue:hover {
+    background: color-mix(in srgb, var(--color-primary) 70%, transparent);
+}

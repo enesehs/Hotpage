@@ -155,10 +155,10 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
   }, [settings?.feeds]);
 
   const maxItems = settings?.maxItems ?? 150;
-  const refreshMinutes = settings?.refreshMinutes ?? 30;
+  const refreshMinutes = settings?.refreshMinutes ?? 15;
 
   const [items, setItems] = useState<RSSItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>(t.rss.categoryAll);
   const [hasError, setHasError] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<string>('');
@@ -183,6 +183,50 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
       chrome.runtime.id &&
       typeof chrome.runtime.sendMessage === 'function';
 
+    // Helper function for direct fetch with CORS proxy fallback
+    const fetchWithFallback = async (url: string): Promise<string> => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+      const doFetch = async (fetchUrl: string) => {
+        const res = await fetch(fetchUrl, {
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+          }
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const text = await res.text();
+        if (!text.trim().startsWith('<')) throw new Error('Invalid RSS format');
+        return text;
+      };
+
+      try {
+        // Try direct fetch first
+        const text = await doFetch(url);
+        clearTimeout(timeoutId);
+        return text;
+      } catch (err) {
+        const error = err as Error;
+        // Try CORS proxy as fallback
+        if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+          logger.debug('RSS', `Direct fetch failed, trying CORS proxy for ${url}...`);
+          try {
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+            const text = await doFetch(proxyUrl);
+            clearTimeout(timeoutId);
+            logger.success('RSS', `Fetched ${url} via proxy`);
+            return text;
+          } catch (proxyErr) {
+            clearTimeout(timeoutId);
+            throw proxyErr;
+          }
+        }
+        clearTimeout(timeoutId);
+        throw error;
+      }
+    };
+
     if (isExtension) {
       // Use background service worker for CORS-free fetching
       logger.info('RSS', `Using background worker for ${feedUrl}`);
@@ -191,16 +235,22 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
           { type: 'FETCH_RSS', url: feedUrl },
           (response: { success: boolean; data?: string; error?: string }) => {
             if (chrome.runtime.lastError) {
-              logger.error('RSS', `Background worker error: ${chrome.runtime.lastError.message}`);
-              reject(new Error(chrome.runtime.lastError.message));
+              // Background worker not available - fallback to direct fetch
+              logger.warning('RSS', `Background worker unavailable, using fallback for ${feedUrl}`);
+              fetchWithFallback(feedUrl)
+                .then(resolve)
+                .catch(reject);
               return;
             }
             if (response && response.success && response.data) {
               logger.success('RSS', `Fetched ${feedUrl} via background worker`);
               resolve(response.data);
             } else {
-              logger.error('RSS', `Background worker failed: ${response?.error || 'No response'}`);
-              reject(new Error(response?.error || 'Background worker failed'));
+              // Background worker failed - fallback to direct fetch
+              logger.warning('RSS', `Background worker failed, using fallback for ${feedUrl}`);
+              fetchWithFallback(feedUrl)
+                .then(resolve)
+                .catch(reject);
             }
           }
         );
@@ -209,50 +259,7 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
 
     // Fallback for dev mode (not in extension)
     logger.warning('RSS', `Not in extension context, using direct fetch for ${feedUrl}`);
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-    const doFetch = async (url: string) => {
-      const res = await fetch(url, {
-        signal: controller.signal,
-        headers: {
-          'Accept': 'application/rss+xml, application/xml, text/xml, */*',
-        }
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const text = await res.text();
-      if (!text.trim().startsWith('<')) throw new Error('Invalid RSS format');
-      return text;
-    };
-
-    try {
-      logger.debug('RSS', `Fetching ${feedUrl} directly (dev mode)...`);
-      const text = await doFetch(feedUrl);
-      clearTimeout(timeoutId);
-      logger.success('RSS', `Fetched ${feedUrl} successfully`);
-      return text;
-    } catch (err) {
-      const error = err as Error;
-      if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
-        logger.debug('RSS', `Direct fetch failed, trying CORS proxy for ${feedUrl}...`);
-        try {
-          const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`;
-          const text = await doFetch(proxyUrl);
-          clearTimeout(timeoutId);
-          logger.success('RSS', `Fetched ${feedUrl} via proxy`);
-          return text;
-        } catch (proxyErr) {
-          clearTimeout(timeoutId);
-          const proxyError = proxyErr as Error;
-          logger.error('RSS', `Proxy also failed for ${feedUrl}: ${proxyError.message}`);
-          throw proxyError;
-        }
-      }
-      clearTimeout(timeoutId);
-      const errorMsg = error.name === 'AbortError' ? 'Request timeout' : error.message;
-      logger.error('RSS', `Failed to fetch ${feedUrl}: ${errorMsg}`);
-      throw error;
-    }
+    return fetchWithFallback(feedUrl);
   }, []);
 
   const refresh = useCallback(async () => {
@@ -265,7 +272,10 @@ export const RSS = ({ locale = 'en-US', settings, onStatsUpdate }: RSSProps) => 
 
     logger.time('RSS refresh');
     logger.widget('RSS', `Refreshing ${feeds.length} feeds...`);
-    setLoading(true);
+    // Only show loading if no cached data
+    if (items.length === 0) {
+      setLoading(true);
+    }
     const allItems: RSSItem[] = [];
     let errors = 0;
     let empties = 0;

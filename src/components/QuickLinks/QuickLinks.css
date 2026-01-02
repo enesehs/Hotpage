@@ -63,7 +63,7 @@
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   text-decoration: none;
   color: var(--color-text);
@@ -215,6 +215,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -238,6 +239,7 @@
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;

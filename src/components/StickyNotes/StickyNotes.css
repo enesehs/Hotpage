@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-lg);
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   pointer-events: auto;
@@ -45,7 +45,7 @@
 }
 
 .sticky-note:hover {
-  box-shadow: 
+  box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
@@ -140,6 +140,11 @@
 .sticky-note-action-btn.active {
   background: rgba(255, 255, 255, 0.25);
   color: var(--color-text);
+}
+
+.sticky-note-close-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
 }
 
 .sticky-note-settings-panel {
@@ -658,12 +663,6 @@
 }
 
 .pomodoro-timer.running {
-  animation: pulse 1s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
 }
 
 .pomodoro-controls {

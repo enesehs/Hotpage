@@ -6,6 +6,7 @@ interface StickyNotesProps {
   note: StickyNote | null;
   onNoteChange: (note: StickyNote | null) => void;
   defaultTodos?: TodoItem[];
+  shortcut?: string;
 }
 
 let hasInitializedNote = false;
@@ -44,7 +45,7 @@ const DEFAULT_POMODORO: PomodoroState = {
   sessionsCompleted: 0,
 };
 
-export const StickyNotes = ({ note, onNoteChange, defaultTodos = [] }: StickyNotesProps) => {
+export const StickyNotes = ({ note, onNoteChange, defaultTodos = [], shortcut = 'Alt+N' }: StickyNotesProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -577,6 +578,20 @@ export const StickyNotes = ({ note, onNoteChange, defaultTodos = [] }: StickyNot
                 <line x1="12" y1="4" x2="12" y2="20" />
               </svg>
             </button>
+
+            <button
+              className="sticky-note-action-btn sticky-note-close-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                onNoteChange(null);
+              }}
+              title="Close sticky note"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -659,7 +674,7 @@ export const StickyNotes = ({ note, onNoteChange, defaultTodos = [] }: StickyNot
               className="sticky-note-textarea"
               value={migratedNote.content}
               onChange={(e) => updateContent(e.target.value)}
-              placeholder="Write your note here... (Press N to toggle)"
+              placeholder={`Write your note here... (Press ${shortcut} to toggle)`}
               style={{
                 fontSize: `${migratedNote.fontSize}px`,
                 fontFamily: migratedNote.fontFamily,

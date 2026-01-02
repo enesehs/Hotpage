@@ -75,6 +75,13 @@ export interface RSSWidgetSettings {
 export interface QuickActionsSettings {
   openStickyNotes: boolean;
   openNotepad: boolean;
+  stickyNoteShortcut?: string;
+}
+
+export interface GoogleShortcutsSettings {
+  enabled: boolean;
+  showGmail: boolean;
+  showAppsMenu: boolean;
 }
 
 export interface Settings {
@@ -85,6 +92,7 @@ export interface Settings {
   widgetOrder?: string[];
   secretLinks?: SecretLinksSettings;
   quickActions?: QuickActionsSettings;
+  googleShortcuts?: GoogleShortcutsSettings;
   widgets: {
     quotes: WidgetConfig;
     weather: WidgetConfig;

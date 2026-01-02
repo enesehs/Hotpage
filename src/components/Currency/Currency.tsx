@@ -33,6 +33,7 @@ interface CurrencyProps {
     enabledCurrencies?: string[];
     enabledCryptos?: string[];
     showSparkline?: boolean;
+    refreshMinutes?: number;
   };
   onSettingsChange?: (settings: Record<string, unknown>) => void;
 }
@@ -63,6 +64,7 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
   const enabledCurrencies = settings?.enabledCurrencies || (isTurkish ? ['USD', 'EUR', 'GBP', 'XAU'] : ['EUR', 'GBP', 'JPY']);
   const enabledCryptos = settings?.enabledCryptos || ['bitcoin', 'ethereum', 'avalanche', 'polkadot'];
   const showSparkline = settings?.showSparkline ?? false;
+  const refreshMinutes = settings?.refreshMinutes ?? 15;
 
   const hasCurrencies = enabledCurrencies.length > 0;
   const hasCryptos = enabledCryptos.length > 0;
@@ -183,7 +185,9 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
       logger.success('Currency', `Loaded ${currencyData.length} currency rates`);
     } catch (err) {
       logger.error('Currency', 'Failed to fetch exchange rates', err);
-      setError(t.currency.errorCurrency);
+      if (currencies.length === 0) {
+        setError(t.currency.errorCurrency);
+      }
     }
   }, [baseCurrency, enabledCurrencies, isTurkish, locale, t.currency.errorCurrency]);
 
@@ -218,13 +222,17 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
       logger.success('Currency', `Loaded ${cryptoData.length} crypto prices`);
     } catch (err) {
       logger.error('Currency', 'Failed to fetch crypto prices', err);
-      setError(t.currency.errorCrypto);
+      if (cryptos.length === 0) {
+        setError(t.currency.errorCrypto);
+      }
     }
   }, [baseCurrency, enabledCryptos, isTurkish, locale, showSparkline]);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      if (currencies.length === 0 && cryptos.length === 0) {
+        setLoading(true);
+      }
       setError(null);
 
       if (activeTab === 'currency') {
@@ -238,9 +246,9 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
 
     fetchData();
 
-    const interval = setInterval(fetchData, 5 * 60 * 1000);
+    const interval = setInterval(fetchData, refreshMinutes * 60 * 1000);
     return () => clearInterval(interval);
-  }, [activeTab, fetchCurrencies, fetchCryptos]);
+  }, [activeTab, fetchCurrencies, fetchCryptos, refreshMinutes]);
 
   const handleTabChange = (tab: 'currency' | 'crypto') => {
     setActiveTab(tab);

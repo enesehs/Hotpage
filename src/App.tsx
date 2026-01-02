@@ -1,3 +1,5 @@
+declare const chrome: any;
+
 import { useState, useEffect, useRef } from 'react';
 import { Clock } from './components/Clock/Clock';
 import { SearchBar } from './components/SearchBar/SearchBar';
@@ -10,7 +12,10 @@ import { Currency } from './components/Currency/Currency';
 import { StickyNotes } from './components/StickyNotes/StickyNotes';
 import { RSS } from './components/RSS/RSS';
 import { SecretLinks } from './components/SecretLinks/SecretLinks';
+import { GoogleShortcuts } from './components/GoogleShortcuts/GoogleShortcuts';
 import { IntroModal } from './components/IntroModal/IntroModal';
+import { UserGuide } from './components/UserGuide/UserGuide';
+import { WhatsNew } from './components/WhatsNew/WhatsNew';
 import { loadSettings, saveSettings } from './services/storage';
 import { applyTheme, getTheme } from './utils/themeUtils';
 import { imageStorage } from './services/imageStorage';
@@ -24,9 +29,12 @@ function App() {
     logger.info('App', 'Settings loaded from localStorage');
     return loadedSettings;
   });
+
+  const [isTourOpen, setIsTourOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isStickyNotesOpen, setIsStickyNotesOpen] = useState(false);
   const [isSecretLinksOpen, setIsSecretLinksOpen] = useState(false);
+  const [showWhatsNew, setShowWhatsNew] = useState(false);
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
   const [themeReady, setThemeReady] = useState(false);
   const [rssStats, setRssStats] = useState<{
@@ -131,6 +139,54 @@ function App() {
     };
   }, [settings]);
 
+  const CURRENT_VERSION = 'v1.4.0';
+  useEffect(() => {
+    const lastSeenVersion = localStorage.getItem('hotpage-last-seen-version');
+    if (lastSeenVersion !== CURRENT_VERSION && settings.introSeen) {
+      setShowWhatsNew(true);
+    }
+  }, [settings.introSeen]);
+
+  useEffect(() => {
+    if (typeof chrome === 'undefined' || !chrome.storage?.onChanged) return;
+
+
+    const handleStorageChange = (changes: { [key: string]: { oldValue?: unknown; newValue?: unknown } }, areaName: string) => {
+      if (areaName !== 'local') return;
+
+
+
+      const STORAGE_KEY = 'hotpage-settings';
+      if (changes[STORAGE_KEY]?.newValue) {
+        const newSettings = changes[STORAGE_KEY].newValue as Settings;
+        if (newSettings.stickyNote) {
+          logger.debug('App', 'Syncing stickyNote from chrome.storage');
+          setSettings(prev => ({
+            ...prev,
+            stickyNote: newSettings.stickyNote
+          }));
+        }
+      }
+    };
+
+    chrome.storage.onChanged.addListener(handleStorageChange);
+    return () => chrome.storage.onChanged.removeListener(handleStorageChange);
+  }, []);
+
+  useEffect(() => {
+    if (typeof chrome === 'undefined' || !chrome.runtime?.onMessage) return;
+
+    const messageListener = (message: any) => {
+      if (message.type === 'TOGGLE_STICKY') {
+        logger.info('App', 'Toggle Sticky Notes command received');
+        setIsStickyNotesOpen(prev => !prev);
+      }
+    };
+
+    chrome.runtime.onMessage.addListener(messageListener);
+    return () => chrome.runtime.onMessage.removeListener(messageListener);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement ||
@@ -138,7 +194,21 @@ function App() {
         return;
       }
 
-      if (e.key === 'n' || e.key === 'N') {
+      const shortcut = settings.quickActions?.stickyNoteShortcut || 'Alt+N';
+      const parts = shortcut.split('+').map(p => p.trim().toLowerCase());
+      const key = parts[parts.length - 1];
+      const needsShift = parts.includes('shift');
+      const needsCtrl = parts.includes('ctrl') || parts.includes('control');
+      const needsAlt = parts.includes('alt');
+
+      const keyMatches = e.key.toLowerCase() === key;
+      const modifiersMatch =
+        e.shiftKey === needsShift &&
+        e.ctrlKey === needsCtrl &&
+        e.altKey === needsAlt;
+
+      if (keyMatches && modifiersMatch) {
+        e.preventDefault();
         setIsStickyNotesOpen(prev => !prev);
       }
 
@@ -150,7 +220,7 @@ function App() {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isStickyNotesOpen, isSecretLinksOpen]);
+  }, [isStickyNotesOpen, isSecretLinksOpen, settings.quickActions?.stickyNoteShortcut]);
 
   useEffect(() => {
     if (!settings.secretLinks?.enabled) return;
@@ -192,63 +262,8 @@ function App() {
     };
   }, [settings.secretLinks?.enabled, settings.secretLinks?.triggerKeyword, isSettingsOpen, isStickyNotesOpen]);
 
-  useEffect(() => {
-    const stickyNote = settings.stickyNote;
-    if (!stickyNote?.pomodoro?.isRunning || stickyNote.pomodoro.timeLeft <= 0) {
-      return;
-    }
 
-    const interval = setInterval(() => {
-      setSettings(prev => {
-        const note = prev.stickyNote;
-        if (!note?.pomodoro?.isRunning) return prev;
 
-        const newTimeLeft = note.pomodoro.timeLeft - 1;
-
-        if (newTimeLeft <= 0) {
-
-          const nextMode = note.pomodoro.mode === 'work'
-            ? (note.pomodoro.sessionsCompleted + 1) % 4 === 0 ? 'longBreak' : 'shortBreak'
-            : 'work';
-
-          const nextDuration = nextMode === 'work'
-            ? note.pomodoro.workDuration * 60
-            : nextMode === 'shortBreak'
-              ? note.pomodoro.shortBreakDuration * 60
-              : note.pomodoro.longBreakDuration * 60;
-
-          return {
-            ...prev,
-            stickyNote: {
-              ...note,
-              pomodoro: {
-                ...note.pomodoro,
-                isRunning: false,
-                mode: nextMode,
-                timeLeft: nextDuration,
-                sessionsCompleted: note.pomodoro.mode === 'work'
-                  ? note.pomodoro.sessionsCompleted + 1
-                  : note.pomodoro.sessionsCompleted,
-              },
-            },
-          };
-        }
-
-        return {
-          ...prev,
-          stickyNote: {
-            ...note,
-            pomodoro: {
-              ...note.pomodoro,
-              timeLeft: newTimeLeft,
-            },
-          },
-        };
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [settings.stickyNote?.pomodoro?.isRunning, settings.stickyNote?.pomodoro?.timeLeft]);
 
   const updateSettings = (updates: Partial<Settings>) => {
     setSettings((prev) => {
@@ -274,47 +289,57 @@ function App() {
     updateSettings({ quickLinks: links });
   };
 
-  const handleStickyNoteChange = (stickyNote: StickyNote | null) => {
-    updateSettings({ stickyNote });
-  };
-
   const handleIntroSkip = () => {
     updateSettings({ introSeen: true });
   };
 
+  const handleStartTour = () => {
+    setIsTourOpen(true);
+  };
+
+  const handleTourComplete = () => {
+    setIsTourOpen(false);
+    updateSettings({ introSeen: true });
+  };
+
+  const handleStickyNoteChange = (note: StickyNote | null) => {
+    updateSettings({ stickyNote: note || undefined });
+  };
+
+
+
   const getBackgroundStyle = (): React.CSSProperties => {
     const { background } = settings;
 
-    switch (background.type) {
-      case 'solid':
-        return { backgroundColor: background.value };
-      case 'gradient':
-        return { backgroundImage: background.value };
-      case 'image':
-        if (backgroundUrl) {
-          return {
-            backgroundImage: `url(${backgroundUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          };
-        }
-        return {};
-      case 'unsplash':
-      case 'nasa':
-      case 'picsum':
-      case 'istanbul':
-      case 'space':
-      case 'ocean':
-        return {
-          backgroundImage: `url(${background.value})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        };
-      default:
-        return {};
+    if (background.type === 'solid') {
+      return { backgroundColor: background.value };
     }
+
+    if (background.type === 'gradient') {
+      return { background: background.value };
+    }
+
+    if (background.type === 'image' && backgroundUrl) {
+      return {
+        backgroundImage: `url(${backgroundUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      };
+    }
+
+    const hasWallpaper = background.type === 'image' || background.type === 'unsplash' || background.type === 'nasa' || background.type === 'picsum' || background.type === 'istanbul' || background.type === 'space' || background.type === 'ocean';
+
+    if (hasWallpaper && backgroundUrl) {
+      return {
+        backgroundImage: `url(${backgroundUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      };
+    }
+
+    return {};
   };
 
   const getOverlayStyle = (): React.CSSProperties => {
@@ -372,6 +397,13 @@ function App() {
       <div className="app-content" style={getContentStyle()}>
         <SettingsButton onOpenSettings={() => setIsSettingsOpen(true)} />
 
+        {settings.googleShortcuts?.enabled && (
+          <GoogleShortcuts
+            showGmail={settings.googleShortcuts?.showGmail ?? true}
+            showAppsMenu={settings.googleShortcuts?.showAppsMenu ?? true}
+          />
+        )}
+
         <SettingsPanel
           isOpen={isSettingsOpen}
           onClose={() => setIsSettingsOpen(false)}
@@ -389,6 +421,7 @@ function App() {
             note={settings.stickyNote || null}
             onNoteChange={handleStickyNoteChange}
             defaultTodos={settings.todos}
+            shortcut={settings.quickActions?.stickyNoteShortcut || 'Alt+N'}
           />
         )}
 
@@ -475,10 +508,30 @@ function App() {
       </div>
 
       <IntroModal
-        isOpen={!settings.introSeen}
+        isOpen={!settings.introSeen && !isTourOpen}
         locale={settings.locale}
         onSkip={handleIntroSkip}
+        onStartTour={handleStartTour}
       />
+
+      <UserGuide
+        isOpen={isTourOpen}
+        onComplete={handleTourComplete}
+        locale={settings.locale || ''}
+        onOpenStickyNotes={() => setIsStickyNotesOpen(true)}
+        onCloseStickyNotes={() => setIsStickyNotesOpen(false)}
+      />
+
+      {showWhatsNew && (
+        <WhatsNew
+          currentVersion={CURRENT_VERSION}
+          locale={settings.locale || 'en'}
+          onClose={() => {
+            setShowWhatsNew(false);
+            localStorage.setItem('hotpage-last-seen-version', CURRENT_VERSION);
+          }}
+        />
+      )}
 
       {isSecretLinksOpen && settings.secretLinks && (
         <SecretLinks

@@ -46,12 +46,39 @@ const getWeatherCondition = (code: number | string, locale: string): string => {
   return t.weather.conditions.unknown;
 };
 
-export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 }: WeatherProps) => {
+export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 15 }: WeatherProps) => {
   const t = getTranslations(locale);
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  const getCachedWeather = (): WeatherData | null => {
+    try {
+      const cached = localStorage.getItem('hotpage_weather_cache');
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < 30 * 60 * 1000) {
+          return data;
+        }
+      }
+    } catch (e) {
+    }
+    return null;
+  };
+
+  const getCachedLastUpdated = (): string => {
+    try {
+      const cached = localStorage.getItem('hotpage_weather_cache');
+      if (cached) {
+        const { lastUpdated } = JSON.parse(cached);
+        return lastUpdated || '';
+      }
+    } catch (e) {
+    }
+    return '';
+  };
+
+  const [weather, setWeather] = useState<WeatherData | null>(getCachedWeather);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<string>('');
+  const [lastUpdated, setLastUpdated] = useState<string>(getCachedLastUpdated);
   const [debouncedLocation, setDebouncedLocation] = useState(manualLocation);
 
   useEffect(() => {
@@ -64,7 +91,9 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
 
   useEffect(() => {
     const fetchWeather = async () => {
-      setLoading(true);
+      if (!weather) {
+        setLoading(true);
+      }
       setError(null);
 
       if (debouncedLocation && debouncedLocation.trim()) {
@@ -115,7 +144,9 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
           }
         } catch (ipErr) {
           logger.error('Weather', 'All location methods failed', ipErr);
-          setError(locale === 'tr' ? 'Konum alınamadı' : 'Could not get location');
+          if (!weather) {
+            setError(locale === 'tr' ? 'Konum alınamadı' : 'Could not get location');
+          }
           setLoading(false);
         }
       }
@@ -168,10 +199,22 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
 
         logger.success('Weather', `Weather data loaded: ${weatherData.temperature}°C in ${locationName}`);
         setWeather(weatherData);
-        setLastUpdated(new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
+        const newLastUpdated = new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+        setLastUpdated(newLastUpdated);
+
+        try {
+          localStorage.setItem('hotpage_weather_cache', JSON.stringify({
+            data: weatherData,
+            lastUpdated: newLastUpdated,
+            timestamp: Date.now()
+          }));
+        } catch (e) {
+        }
       } catch (err) {
         logger.error('Weather', 'Failed to fetch weather data', err);
-        setError(t.weather.error);
+        if (!weather) {
+          setError(t.weather.error);
+        }
       }
       setLoading(false);
     };
@@ -183,7 +226,7 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
     return () => clearInterval(interval);
   }, [locale, debouncedLocation, refreshMinutes]);
 
-  if (loading) {
+  if (loading && !weather) {
     return (
       <div className="weather-widget loading">
         <div className="widget-header">
@@ -206,11 +249,8 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 10 
   if (error) {
     return (
       <div className="weather-widget error">
-        <svg className="weather-error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-          <line x1="12" y1="9" x2="12" y2="13" />
-          <line x1="12" y1="17" x2="12.01" y2="17" />
-        </svg>
+        <svg className="weather-error-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path fill="currentColor" d="M12.884 2.532c-.346-.654-1.422-.654-1.768 0l-9 17A1 1 0 0 0 3 21h18a.998.998 0 0 0 .883-1.467zM13 18h-2v-2h2zm-2-4V9h2l.001 5z" /></svg>
         <span className="weather-error-text">{error || t.weather.error}</span>
       </div>
     );

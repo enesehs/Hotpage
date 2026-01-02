@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { googleIcons } from '../../data/icons';
 import './SettingsPanel.css';
 import type { Settings } from '../../types/settings';
 import { imageStorage } from '../../services/imageStorage';
@@ -153,7 +154,10 @@ export const SettingsPanel = ({
         <div className="settings-header">
           <h2>Settings</h2>
           <button className="close-btn" onClick={onClose} aria-label="Close settings">
-            ×
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 18L18 6" />
+              <path d="M6 6L18 18" />
+            </svg>
           </button>
         </div>
 
@@ -957,7 +961,7 @@ export const SettingsPanel = ({
                 <>
                   <h3 style={{ marginTop: 'var(--spacing-xl)' }}>Uploaded Images</h3>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--spacing-sm)', marginBottom: 'var(--spacing-md)' }}>
-                    <label className="widget-toggle" style={{ flex: '1 1 100%', marginBottom: 0, minWidth: '200px' }}>
+                    <label className="random-toggle" style={{ flex: '1 1 100%', marginBottom: 0, minWidth: '200px' }}>
                       <input
                         type="checkbox"
                         checked={settings.background.randomMode || false}
@@ -970,7 +974,7 @@ export const SettingsPanel = ({
                           });
                         }}
                       />
-                      <span className="widget-name">
+                      <span>
                         Auto-Randomize
                       </span>
                     </label>
@@ -1135,6 +1139,66 @@ export const SettingsPanel = ({
               </p>
 
               <div className="widgets-grid">
+                <div className={`widget-card ${settings.googleShortcuts?.enabled ? 'widget-card-active' : ''}`}>
+                  <div className="widget-card-header">
+                    <div className="widget-card-icon">
+                      <div
+                        style={{ width: '24px', height: '24px', color: 'var(--color-primary)' }}
+                        dangerouslySetInnerHTML={{ __html: googleIcons.grid }}
+                      />
+                    </div>
+                    <div className="widget-card-info">
+                      <h4>Top Bar Shortcuts</h4>
+                      <p>Quick access to Google services</p>
+                    </div>
+                    <label className="widget-card-toggle">
+                      <input
+                        type="checkbox"
+                        checked={settings.googleShortcuts?.enabled ?? true}
+                        onChange={(e) => onSettingsChange({
+                          googleShortcuts: {
+                            enabled: e.target.checked,
+                            showGmail: settings.googleShortcuts?.showGmail ?? true,
+                            showAppsMenu: settings.googleShortcuts?.showAppsMenu ?? true
+                          }
+                        })}
+                      />
+                    </label>
+                  </div>
+
+                  {settings.googleShortcuts?.enabled && (
+                    <div className="widget-card-settings">
+                      <label className="widget-setting-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={settings.googleShortcuts?.showGmail ?? true}
+                          onChange={(e) => onSettingsChange({
+                            googleShortcuts: {
+                              enabled: true,
+                              showAppsMenu: settings.googleShortcuts?.showAppsMenu ?? true,
+                              showGmail: e.target.checked
+                            }
+                          })}
+                        />
+                        <span>Show Gmail Shortcut</span>
+                      </label>
+                      <label className="widget-setting-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={settings.googleShortcuts?.showAppsMenu ?? true}
+                          onChange={(e) => onSettingsChange({
+                            googleShortcuts: {
+                              enabled: true,
+                              showGmail: settings.googleShortcuts?.showGmail ?? true,
+                              showAppsMenu: e.target.checked
+                            }
+                          })}
+                        />
+                        <span>Show Google Apps Menu</span>
+                      </label>
+                    </div>
+                  )}
+                </div>
                 <div className={`widget-card ${settings.quickLinksSpacingWidget ? 'widget-card-active' : ''}`}>
                   <div className="widget-card-header">
                     <div className="widget-card-icon">
@@ -1237,10 +1301,8 @@ export const SettingsPanel = ({
                 <div className={`widget-card ${settings.widgets.currency?.enabled ? 'widget-card-active' : ''}`}>
                   <div className="widget-card-header">
                     <div className="widget-card-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M12 6v12" />
-                        <path d="M15 9.5c-.5-1-1.5-1.5-3-1.5s-2.5.5-3 1.5S6 12 9 13s3 2.5 3 3.5-1 1.5-3 1.5" />
+                      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="currentColor" stroke="none" strokeWidth="0">
+                        <path fillRule="evenodd" d="M1.249 7.001a5.751 5.751 0 1 1 11.502 0a5.751 5.751 0 0 1-11.502 0M7 0a7.001 7.001 0 1 0 0 14.002A7.001 7.001 0 0 0 7 0m.625 3a.625.625 0 1 0-1.25 0v.709a1.815 1.815 0 0 0-.35 3.588l1.57.344a.709.709 0 0 1-.15 1.4h-.889a.71.71 0 0 1-.669-.471a.625.625 0 1 0-1.178.416a1.96 1.96 0 0 0 1.666 1.297V11a.625.625 0 0 0 1.25 0v-.716a1.96 1.96 0 0 0 .238-3.865l-1.571-.343a.565.565 0 0 1 .12-1.118h1.032a.705.705 0 0 1 .669.473a.625.625 0 1 0 1.178-.417a1.96 1.96 0 0 0-1.666-1.297z" clipRule="evenodd" />
                       </svg>
                     </div>
                     <div className="widget-card-info">
@@ -1683,7 +1745,9 @@ export const SettingsPanel = ({
                                   });
                                 }}
                               >
-                                ×
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <path d="M6 18L18 6M6 6l12 12" />
+                                </svg>
                               </button>
                             </div>
                           );
@@ -1730,7 +1794,7 @@ export const SettingsPanel = ({
                     </div>
                     <div className="widget-card-info">
                       <h4>Sticky Notes</h4>
-                      <p>Quick notes · Shortcut: N</p>
+                      <p>Quick notes · Shortcut: {settings.quickActions?.stickyNoteShortcut || 'Shift+N'}</p>
                     </div>
                     <div className="widget-card-toggle" style={{ display: 'flex', gap: 'var(--spacing-sm)', alignItems: 'center' }}>
                       <button className="settings-btn ghost" onClick={onOpenStickyNotes}>Open</button>
@@ -1743,11 +1807,51 @@ export const SettingsPanel = ({
                               ...settings.quickActions,
                               openStickyNotes: e.target.checked,
                               openNotepad: settings.quickActions?.openNotepad ?? true,
+                              stickyNoteShortcut: settings.quickActions?.stickyNoteShortcut || 'Shift+N',
                             }
                           })}
                         />
                       </label>
                     </div>
+                  </div>
+                  <div className="widget-card-settings">
+                    <label className="widget-setting-label">
+                      <span>Keyboard Shortcut</span>
+                      <div
+                        className="shortcut-input-glass"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                          const parts: string[] = [];
+                          if (e.ctrlKey) parts.push('Ctrl');
+                          if (e.altKey) parts.push('Alt');
+                          if (e.shiftKey) parts.push('Shift');
+
+                          const key = e.key;
+                          if (key !== 'Control' && key !== 'Alt' && key !== 'Shift' && key !== 'Meta') {
+                            parts.push(key.length === 1 ? key.toUpperCase() : key);
+                          }
+
+                          if (parts.length > 0 && parts[parts.length - 1] !== 'Ctrl' &&
+                            parts[parts.length - 1] !== 'Alt' && parts[parts.length - 1] !== 'Shift') {
+                            const shortcut = parts.join('+');
+                            onSettingsChange({
+                              quickActions: {
+                                ...settings.quickActions,
+                                openStickyNotes: settings.quickActions?.openStickyNotes ?? true,
+                                openNotepad: settings.quickActions?.openNotepad ?? true,
+                                stickyNoteShortcut: shortcut,
+                              }
+                            });
+                          }
+                        }}
+                      >
+                        <span className="shortcut-key-display">
+                          {settings.quickActions?.stickyNoteShortcut || 'Shift+N'}
+                        </span>
+                        <span className="shortcut-hint">Click & press keys</span>
+                      </div>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -1772,9 +1876,8 @@ export const SettingsPanel = ({
                       </svg>
                     ),
                     currency: (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M12 6v12m-3-9.5c.5-1 1.5-1.5 3-1.5s2.5.5 3 1.5S12 12 9 13s3 2.5 3 3.5" />
+                      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="currentColor">
+                        <path fillRule="evenodd" d="M1.249 7.001a5.751 5.751 0 1 1 11.502 0a5.751 5.751 0 0 1-11.502 0M7 0a7.001 7.001 0 1 0 0 14.002A7.001 7.001 0 0 0 7 0m.625 3a.625.625 0 1 0-1.25 0v.709a1.815 1.815 0 0 0-.35 3.588l1.57.344a.709.709 0 0 1-.15 1.4h-.889a.71.71 0 0 1-.669-.471a.625.625 0 1 0-1.178.416a1.96 1.96 0 0 0 1.666 1.297V11a.625.625 0 0 0 1.25 0v-.716a1.96 1.96 0 0 0 .238-3.865l-1.571-.343a.565.565 0 0 1 .12-1.118h1.032a.705.705 0 0 1 .669.473a.625.625 0 1 0 1.178-.417a1.96 1.96 0 0 0-1.666-1.297z" clipRule="evenodd" />
                       </svg>
                     ),
                     rss: (

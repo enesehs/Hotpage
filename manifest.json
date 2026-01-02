@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "HotPage - Customizable Homepage",
   "short_name": "HotPage",
-  "version": "0.1.3.2",
+  "version": "1.3.2",
   "description": "A fully customizable browser homepage with widgets, themes, sticky notes, todo list, and personalization options.",
   "minimum_chrome_version": "100",
   "icons": {
@@ -21,10 +21,22 @@
   },
   "permissions": [
     "geolocation",
-    "search"
+    "search",
+    "storage"
   ],
-  "optional_permissions": [
-    "windows"
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "assets/main.js",
+        "assets/content.js"
+      ],
+      "css": [
+        "assets/main.css"
+      ]
+    }
   ],
   "host_permissions": [
     "https://api.open-meteo.com/*",
@@ -38,7 +50,8 @@
     "service_worker": "background.js",
     "scripts": [
       "background.js"
-    ]
+    ],
+    "type": "module"
   },
   "web_accessible_resources": [
     {
@@ -55,7 +68,12 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "hotpage@enesehs.dev",
-      "strict_min_version": "109.0"
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
     }
   }
 }

@@ -1,0 +1,85 @@
+{
+    "manifest_version": 3,
+    "name": "HotPage - Customizable Homepage",
+    "short_name": "HotPage",
+    "version": "1.4.0",
+    "description": "A fully customizable browser homepage with widgets, themes, sticky notes, todo list, and personalization options.",
+    "icons": {
+        "32": "img/White/White_32.png",
+        "48": "img/White/White_48.png",
+        "128": "img/White/White_128.png",
+        "256": "img/White/White_256.png",
+        "512": "img/White/White_512.png"
+    },
+    "action": {
+        "default_title": "HotPage",
+        "default_icon": "img/White/White_32.png",
+        "default_popup": "src/popup/index.html"
+
+    },
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    "permissions": [
+        "geolocation",
+        "search",
+        "storage",
+        "notifications"
+    ],
+    "commands": {
+        "toggle-sticky-notes": {
+            "suggested_key": {
+                "default": "Alt+N",
+                "mac": "Alt+N"
+            },
+            "description": "Toggle Sticky Notes panel"
+        }
+    },
+    "optional_permissions": [],
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "js": [
+                "assets/content.js"
+            ]
+        }
+    ],
+    "host_permissions": [
+        "https://api.open-meteo.com/*",
+        "https://api.exchangerate-api.com/*",
+        "https://api.coingecko.com/*",
+        "https://nominatim.openstreetmap.org/*",
+        "https://api.nbp.pl/*",
+        "https://ipapi.co/*"
+    ],
+    "background": {
+        "page": "background.html"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "assets/*",
+                "fonts/*",
+                "img/*"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "hotpage@enesehs.dev",
+            "strict_min_version": "109.0",
+            "data_collection_permissions": {
+                "types": [
+                    "input_url",
+                    "data_content"
+                ]
+            }
+        }
+    }
+}

@@ -2,6 +2,8 @@ import type { Settings } from '../types/settings';
 import { SettingsSchema } from '../schemas/settings.schema';
 import { sanitizeSVG } from '../utils/sanitize';
 
+declare let chrome: any;
+
 const STORAGE_KEY = 'hotpage-settings';
 
 const defaultTheme = (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches)
@@ -47,7 +49,7 @@ export const defaultSettings: Settings = {
       iconType: 'svg'
     }
   ],
-  quickLinksSpacingWidget: true,
+  quickLinksSpacingWidget: false,
   introSeen: false,
   widgetOrder: ['weather', 'currency', 'rss'],
   secretLinks: {
@@ -60,16 +62,22 @@ export const defaultSettings: Settings = {
   quickActions: {
     openStickyNotes: true,
     openNotepad: true,
+    stickyNoteShortcut: 'Alt+N',
+  },
+  googleShortcuts: {
+    enabled: true,
+    showGmail: true,
+    showAppsMenu: true,
   },
   widgets: {
     quotes: {
       enabled: true,
       settings: {
         autoRefresh: false,
-        refreshInterval: 30,
+        refreshInterval: 15,
       }
     },
-    weather: { enabled: true, settings: { manualLocation: '', refreshMinutes: 10 } },
+    weather: { enabled: true, settings: { manualLocation: '', refreshMinutes: 15 } },
     currency: {
       enabled: true,
       settings: {
@@ -87,7 +95,7 @@ export const defaultSettings: Settings = {
           { url: 'https://github.blog/feed/', category: 'Technology' },
         ],
         maxItems: 150,
-        refreshMinutes: 30,
+        refreshMinutes: 15,
       }
     },
     pomodoro: { enabled: true },
@@ -98,7 +106,7 @@ export const defaultSettings: Settings = {
   background: {
     type: 'solid',
     value: '#ffffff',
-    opacity: 10,
+    opacity: 15,
     blur: 0,
   },
   shortcuts: {},
@@ -155,10 +163,53 @@ export const saveSettings = (settings: Settings): void => {
       settingsToSave.background.value = '';
     }
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settingsToSave));
+    const json = JSON.stringify(settingsToSave);
+    localStorage.setItem(STORAGE_KEY, json);
+
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.set({ [STORAGE_KEY]: settingsToSave });
+    }
   } catch (error) {
     console.error('Failed to save settings:', error);
   }
+};
+
+export const syncWithChromeStorage = (onUpdate: (settings: Settings) => void) => {
+  if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) {
+    return () => { };
+  }
+
+  chrome.storage.local.get([STORAGE_KEY], (result: any) => {
+    if (result[STORAGE_KEY]) {
+      const merged = { ...defaultSettings, ...result[STORAGE_KEY] };
+      merged.widgets = {
+        ...defaultSettings.widgets,
+        ...merged.widgets,
+      };
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(result[STORAGE_KEY]));
+      onUpdate(merged);
+    }
+  });
+
+  const listener = (changes: any, areaName: string) => {
+    if (areaName === 'local' && changes[STORAGE_KEY]) {
+      const newValue = changes[STORAGE_KEY].newValue;
+      if (newValue) {
+        const merged = { ...defaultSettings, ...newValue };
+        merged.widgets = {
+          ...defaultSettings.widgets,
+          ...merged.widgets,
+        };
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(newValue));
+        onUpdate(merged);
+      }
+    }
+  };
+
+  chrome.storage.onChanged.addListener(listener);
+  return () => chrome.storage.onChanged.removeListener(listener);
 };
 
 export const exportSettings = (settings: Settings): string => {

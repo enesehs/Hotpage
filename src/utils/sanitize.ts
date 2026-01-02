@@ -1,9 +1,5 @@
 import DOMPurify from 'dompurify';
 
-/**
- * Sanitizes SVG content to prevent XSS attacks
- * Removes potentially dangerous elements and attributes
- */
 export const sanitizeSVG = (svg: string): string => {
     return DOMPurify.sanitize(svg, {
         USE_PROFILES: { svg: true, svgFilters: true },
@@ -17,9 +13,6 @@ export const sanitizeSVG = (svg: string): string => {
     });
 };
 
-/**
- * Sanitizes HTML content - stricter than SVG sanitization
- */
 export const sanitizeHTML = (html: string): string => {
     return DOMPurify.sanitize(html, {
         ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],

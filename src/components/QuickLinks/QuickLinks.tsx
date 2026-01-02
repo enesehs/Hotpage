@@ -152,8 +152,6 @@ export const QuickLinks = ({ links, onLinksChange, spacingWidgetEnabled = true }
                             key={link.id}
                             href={link.url}
                             className={`quick-link ${draggedItem === link.id ? 'dragging' : ''}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             draggable={isEditing}
                             onDragStart={(e) => handleDragStart(e, link.id)}
                             onDragOver={handleDragOver}
