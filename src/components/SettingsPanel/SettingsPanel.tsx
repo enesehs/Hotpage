@@ -639,15 +639,20 @@ export const SettingsPanel = ({
                     setIsLoadingCity(true);
                     const cityPhotos = [
                       'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=3044&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                      'https://images.unsplash.com/photo-1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=2400',
-                      'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                      'https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg',
+                      'https://images.pexels.com/photos/380283/pexels-photo-380283.jpeg',
+                      'https://images.pexels.com/photos/40142/new-york-skyline-manhattan-hudson-40142.jpeg',
+                      'https://images.pexels.com/photos/22804/pexels-photo.jpg',
+                      'https://images.pexels.com/photos/597909/pexels-photo-597909.jpeg',
+                      'https://images.pexels.com/photos/1398003/pexels-photo-1398003.jpeg',
+                      'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee',
+                      'https://images.unsplash.com/photo-1531219572328-a0171b4448a3',
+                      'https://images.unsplash.com/photo-1507752533523-5186b0bc4c43',
+                      'https://images.unsplash.com/photo-1422393462206-207b0fbd8d6b',
+                      'https://images.unsplash.com/photo-1499678329028-101435549a4e',
                       'https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=2400&q=80',
-                      'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=2400&q=80',
-                      'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=2400&q=80',
                       'https://images.unsplash.com/photo-1444084316824-dc26d6657664?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                      'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=2400&q=80',
-                      'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=2400&q=80',
                       'https://images.pexels.com/photos/1105766/pexels-photo-1105766.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/169647/pexels-photo-169647.jpeg?auto=compress&cs=tinysrgb&w=2400',
@@ -655,7 +660,6 @@ export const SettingsPanel = ({
                       'https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/2416653/pexels-photo-2416653.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.unsplash.com/photo-1465447142348-e9952c393450?w=2400&q=80',
-                      'https://images.pexels.com/photos/1647120/pexels-photo-1647120.jpeg?auto=compress&cs=tinysrgb&w=2400',
                     ];
 
                     const randomPhoto = cityPhotos[Math.floor(Math.random() * cityPhotos.length)];
@@ -697,6 +701,25 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingNature(true);
                     const naturePhotos = [
+                      'https://images.pexels.com/photos/2325447/pexels-photo-2325447.jpeg',
+                      'https://images.pexels.com/photos/2101187/pexels-photo-2101187.jpeg',
+                      'https://images.pexels.com/photos/1048039/pexels-photo-1048039.jpeg',
+                      'https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg',
+                      'https://images.pexels.com/photos/1029604/pexels-photo-1029604.jpeg',
+                      'https://images.pexels.com/photos/1408221/pexels-photo-1408221.jpeg',
+                      'https://images.pexels.com/photos/38136/pexels-photo-38136.jpeg',
+                      'https://images.pexels.com/photos/757292/pexels-photo-757292.jpeg',
+                      'https://images.pexels.com/photos/1374295/pexels-photo-1374295.jpeg',
+                      'https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd',
+                      'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843',
+                      'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d',
+                      'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8',
+                      'https://images.unsplash.com/photo-1493246507139-91e8fad9978e',
+                      'https://images.unsplash.com/photo-1516821371801-280cf8069a4e',
+                      'https://images.unsplash.com/photo-1493166228553-4fa0fdb916e8', 
+                      'https://images.unsplash.com/photo-1542856391-010fb87dcfed',
+                      'https://images.unsplash.com/photo-1477346611705-65d1883cee1e',
+                      'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/709552/pexels-photo-709552.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?auto=compress&cs=tinysrgb&w=2400',
@@ -742,6 +765,16 @@ export const SettingsPanel = ({
                     setIsLoadingCats(true);
                     const catPhotos = [
                       'https://images.pexels.com/photos/1404819/pexels-photo-1404819.jpeg?auto=compress&cs=tinysrgb&w=2400',
+                      'https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg',
+                      'https://images.pexels.com/photos/20787/pexels-photo.jpg',
+                      'https://images.pexels.com/photos/57416/cat-sweet-kitty-animals-57416.jpeg',
+                      'https://images.pexels.com/photos/2558605/pexels-photo-2558605.jpeg',
+                      'https://images.pexels.com/photos/1472999/pexels-photo-1472999.jpeg',
+                      'https://images.pexels.com/photos/257532/pexels-photo-257532.jpeg',
+                      'https://images.pexels.com/photos/225406/pexels-photo-225406.jpeg',
+                      'https://images.pexels.com/photos/909916/pexels-photo-909916.jpeg',
+                      'https://images.pexels.com/photos/290164/pexels-photo-290164.jpeg',
+                      'https://images.pexels.com/photos/720684/pexels-photo-720684.jpeg',
                       'https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1741205/pexels-photo-1741205.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1643457/pexels-photo-1643457.jpeg?auto=compress&cs=tinysrgb&w=2400',
@@ -788,6 +821,11 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingIstanbul(true);
                     const istanbulPhotos = [
+                      'https://images.pexels.com/photos/7386650/pexels-photo-7386650.jpeg',
+                      'https://images.pexels.com/photos/5877909/pexels-photo-5877909.jpeg',
+                      'https://images.pexels.com/photos/35394857/pexels-photo-35394857.jpeg',
+                      'https://images.pexels.com/photos/35431611/pexels-photo-35431611.jpeg',
+                      'https://images.pexels.com/photos/35431614/pexels-photo-35431614.jpeg',
                       'https://images.pexels.com/photos/1549326/pexels-photo-1549326.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/2042109/pexels-photo-2042109.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/3684396/pexels-photo-3684396.jpeg?auto=compress&cs=tinysrgb&w=2400',
@@ -832,6 +870,13 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingSpace(true);
                     const spacePhotos = [
+                      'https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg',
+                      'https://images.pexels.com/photos/998641/pexels-photo-998641.jpeg',
+                      'https://images.pexels.com/photos/2150/sky-space-dark-galaxy.jpg',
+                      'https://images.pexels.com/photos/2085998/pexels-photo-2085998.jpeg',
+                      'https://images.pexels.com/photos/1421903/pexels-photo-1421903.jpeg',
+                      'https://images.pexels.com/photos/1938348/pexels-photo-1938348.jpeg',
+                      'https://images.pexels.com/photos/1694000/pexels-photo-1694000.jpeg',
                       'https://images.pexels.com/photos/2150/sky-space-dark-galaxy.jpg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&w=2400',
@@ -875,6 +920,17 @@ export const SettingsPanel = ({
                   onClick={() => {
                     setIsLoadingOcean(true);
                     const oceanPhotos = [
+                      'https://images.pexels.com/photos/932638/pexels-photo-932638.jpeg',
+                      'https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg',
+                      'https://images.pexels.com/photos/847393/pexels-photo-847393.jpeg',
+                      'https://images.pexels.com/photos/1350197/pexels-photo-1350197.jpeg',
+                      'https://images.pexels.com/photos/1646311/pexels-photo-1646311.jpeg',
+                      'https://images.pexels.com/photos/7321/sea-water-ocean-horizon.jpg',
+                      'https://images.pexels.com/photos/635279/pexels-photo-635279.jpeg',
+                      'https://images.pexels.com/photos/590178/pexels-photo-590178.jpeg',
+                      'https://images.pexels.com/photos/918642/pexels-photo-918642.jpeg',
+                      'https://images.pexels.com/photos/127160/pexels-photo-127160.jpeg',
+                      'https://images.pexels.com/photos/4751260/pexels-photo-4751260.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg?auto=compress&cs=tinysrgb&w=2400',
                       'https://images.pexels.com/photos/1024967/pexels-photo-1024967.jpeg?auto=compress&cs=tinysrgb&w=2400',

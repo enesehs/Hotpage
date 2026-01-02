@@ -319,6 +319,7 @@ function App() {
       return { background: background.value };
     }
 
+    // Local images from IndexedDB
     if (background.type === 'image' && backgroundUrl) {
       return {
         backgroundImage: `url(${backgroundUrl})`,
@@ -328,11 +329,17 @@ function App() {
       };
     }
 
-    const hasWallpaper = background.type === 'image' || background.type === 'unsplash' || background.type === 'nasa' || background.type === 'picsum' || background.type === 'istanbul' || background.type === 'space' || background.type === 'ocean';
+    // Online images (URL stored in background.value)
+    const isOnlineWallpaper = background.type === 'unsplash' || 
+      background.type === 'nasa' || 
+      background.type === 'picsum' || 
+      background.type === 'istanbul' || 
+      background.type === 'space' || 
+      background.type === 'ocean';
 
-    if (hasWallpaper && backgroundUrl) {
+    if (isOnlineWallpaper && background.value) {
       return {
-        backgroundImage: `url(${backgroundUrl})`,
+        backgroundImage: `url(${background.value})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
