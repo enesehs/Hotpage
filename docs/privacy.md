@@ -206,7 +206,6 @@ For questions, concerns, or complaints regarding this Privacy Policy or the Exte
 - **Official Repository:** https://github.com/enesehs/Hotpage
 - **Issue Tracker:** https://github.com/enesehs/Hotpage/issues
 - **Official Website:** https://enesehs.dev/Hotpage
-- **Demo Website:** https://enesehs.dev/Hotpage-Demo
 
 ### 10.2 Response Time
 

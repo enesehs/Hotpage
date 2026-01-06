@@ -367,8 +367,7 @@ For questions or concerns regarding this Content Policy:
 
 **Email:** enesehs@protonmail.com  
 **GitHub:** https://github.com/enesehs/Hotpage  
-**Website:** https://enesehs.dev/Hotpage
-**Demo Website:** https://enesehs.dev/Hotpage-Demo
+**Website:** https://enesehs.dev/Hotpage  
 
 ---
 
