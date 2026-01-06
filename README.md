@@ -43,11 +43,15 @@ Designed for productivity-focused users who want a clean, customizable start pag
 ## Live Demo & Screenshots
 
 <p align="left">
-  <a href="https://enesehs.dev/Hotpage">
+  <a href="https://enesehs.dev/Hotpage-Demo">
     <img src="https://img.shields.io/badge/Live_Demo-Visit_Now-blue?logo=google-chrome&logoColor=white" alt="Live Demo">
   </a>
 </p>
-
+<p align="left">
+  <a href="https://enesehs.dev/Hotpage">
+    <img src="https://img.shields.io/badge/Landing_Page-Visit_Now-blue?logo=google-chrome&logoColor=white" alt="Landing Page">
+  </a>
+</p>
 <p align="center">
   <video src="https://github.com/user-attachments/assets/6563dd57-e3a8-4e03-b885-f4646a584d7e" width="100%" style="border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);" autoplay loop muted>
   </video>
