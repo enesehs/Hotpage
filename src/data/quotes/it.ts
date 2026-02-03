@@ -4,7 +4,6 @@ export interface Quote {
 }
 
 export const quotes: Quote[] = [
-  // Motivazionale
   { text: "L'unico modo per fare un ottimo lavoro è amare quello che fai.", author: "Steve Jobs" },
   { text: "Il successo non è definitivo, il fallimento non è fatale: è il coraggio di continuare che conta.", author: "Winston Churchill" },
   { text: "Credi di poterlo fare e sei già a metà strada.", author: "Theodore Roosevelt" },
@@ -16,7 +15,6 @@ export const quotes: Quote[] = [
   { text: "Non sei mai troppo vecchio per fissare un altro obiettivo o sognare un nuovo sogno.", author: "C.S. Lewis" },
   { text: "Ciò che è dietro di noi e ciò che è davanti a noi sono piccole cose rispetto a ciò che è dentro di noi.", author: "Ralph Waldo Emerson" },
   
-  // Saggezza
   { text: "L'unica vera saggezza è sapere di non sapere nulla.", author: "Socrate" },
   { text: "Nel mezzo della difficoltà risiede l'opportunità.", author: "Albert Einstein" },
   { text: "La vita è quello che ti succede mentre sei impegnato a fare altri piani.", author: "John Lennon" },
@@ -28,7 +26,6 @@ export const quotes: Quote[] = [
   { text: "Ieri è storia, domani è un mistero, oggi è un dono di Dio, ecco perché lo chiamiamo presente.", author: "Bil Keane" },
   { text: "Quando cambi i tuoi pensieri, ricorda di cambiare anche il tuo mondo.", author: "Norman Vincent Peale" },
   
-  // Letteratura Italiana
   { text: "Nel mezzo del cammin di nostra vita mi ritrovai per una selva oscura.", author: "Dante Alighieri" },
   { text: "Amor, ch'a nullo amato amar perdona.", author: "Dante Alighieri" },
   { text: "E quindi uscimmo a riveder le stelle.", author: "Dante Alighieri" },
@@ -40,7 +37,6 @@ export const quotes: Quote[] = [
   { text: "Chi sa fare fa, chi non sa fare insegna, chi non sa insegnare insegna educazione fisica.", author: "Woody Allen" },
   { text: "La cultura è l'unico bene dell'umanità che, diviso fra tutti, anziché diminuire diventa più grande.", author: "Hans Georg Gadamer" },
   
-  // Poesia
   { text: "M'illumino d'immenso.", author: "Giuseppe Ungaretti" },
   { text: "Si sta come d'autunno sugli alberi le foglie.", author: "Giuseppe Ungaretti" },
   { text: "Ed è subito sera.", author: "Salvatore Quasimodo" },

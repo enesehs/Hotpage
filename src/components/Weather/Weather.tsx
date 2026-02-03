@@ -79,6 +79,27 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 15,
     return '';
   };
 
+  const getCachedLocation = (): { latitude: number; longitude: number } | null => {
+    try {
+      const cached = localStorage.getItem('hotpage_location_cache');
+      if (cached) {
+        const { latitude, longitude } = JSON.parse(cached);
+        if (latitude && longitude) {
+          return { latitude, longitude };
+        }
+      }
+    } catch (e) {
+    }
+    return null;
+  };
+
+  const setCachedLocation = (latitude: number, longitude: number) => {
+    try {
+      localStorage.setItem('hotpage_location_cache', JSON.stringify({ latitude, longitude }));
+    } catch (e) {
+    }
+  };
+
   const [weather, setWeather] = useState<WeatherData | null>(getCachedWeather);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -111,6 +132,7 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 15,
           if (geoData && geoData.length > 0) {
             const { lat, lon } = geoData[0];
             logger.success('Weather', `Geocoded ${debouncedLocation} to ${lat}, ${lon}`);
+            setCachedLocation(parseFloat(lat), parseFloat(lon));
             await fetchOpenMeteoWeather(parseFloat(lat), parseFloat(lon), debouncedLocation.trim());
             return;
           } else {
@@ -119,6 +141,13 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 15,
         } catch (err) {
           logger.error('Weather', 'Geocoding failed', err);
         }
+      }
+
+      const cachedLocation = getCachedLocation();
+      if (cachedLocation) {
+        logger.info('Weather', `Using cached location: ${cachedLocation.latitude}, ${cachedLocation.longitude}`);
+        await fetchOpenMeteoWeather(cachedLocation.latitude, cachedLocation.longitude);
+        return;
       }
 
       try {
@@ -133,6 +162,7 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 15,
 
         const { latitude, longitude } = position.coords;
         logger.success('Weather', `Geolocation: ${latitude}, ${longitude}`);
+        setCachedLocation(latitude, longitude);
         await fetchOpenMeteoWeather(latitude, longitude);
       } catch (geoErr) {
         logger.debug('Weather', 'Geolocation failed, trying IP-based location');
@@ -142,6 +172,7 @@ export const Weather = ({ locale = 'en-US', manualLocation, refreshMinutes = 15,
 
           if (ipData.latitude && ipData.longitude) {
             logger.success('Weather', `IP-based location: ${ipData.city}, ${ipData.country}`);
+            setCachedLocation(ipData.latitude, ipData.longitude);
             await fetchOpenMeteoWeather(ipData.latitude, ipData.longitude);
           } else {
             throw new Error('Could not determine location');

@@ -4,7 +4,6 @@ export interface Quote {
 }
 
 export const quotes: Quote[] = [
-  // Motivasyonel
   { text: "Büyük işler yapmak için yapabileceğiniz en iyi şey sevdiğiniz işi yapmaktır.", author: "Steve Jobs" },
   { text: "Başarı kesin değildir, başarısızlık ölümcül değildir: Önemli olan devam etme cesaretidir.", author: "Winston Churchill" },
   { text: "Yapabileceğine inan ve yolun yarısını gittin demektir.", author: "Theodore Roosevelt" },
@@ -16,7 +15,6 @@ export const quotes: Quote[] = [
   { text: "Yeni bir hedef belirlemek veya yeni bir hayal kurmak için asla çok yaşlı değilsiniz.", author: "C.S. Lewis" },
   { text: "Arkamızda ve önümüzde olanlar, içimizde olanlara kıyasla çok küçük şeylerdir.", author: "Ralph Waldo Emerson" },
   
-  // Bilgelik
   { text: "Tek gerçek bilgelik, hiçbir şey bilmediğini bilmektir.", author: "Sokrates" },
   { text: "Zorluğun ortasında fırsat yatar.", author: "Albert Einstein" },
   { text: "Hayat, başka planlar yaparken başınıza gelen şeydir.", author: "John Lennon" },
@@ -28,7 +26,6 @@ export const quotes: Quote[] = [
   { text: "Dün tarihtir, yarın bir sırdır, bugün ise bir hediyedir, bu yüzden ona şimdi diyoruz.", author: "Bil Keane" },
   { text: "Düşüncelerini değiştirdiğinde, dünyanı da değiştirmeyi unutma.", author: "Norman Vincent Peale" },
   
-  // Türk Edebiyatı
   { text: "Hayat bir tren yolculuğu gibidir; bazen raylarda gidersin, bazen istasyonda beklersin.", author: "Orhan Pamuk" },
   { text: "İnsan ruhu bir kitaptır, okumadan anlaşılmaz.", author: "Sabahattin Ali" },
   { text: "Yaşamak, başkalarıyla birlikte yaşamaktır.", author: "Nazım Hikmet" },
@@ -40,7 +37,6 @@ export const quotes: Quote[] = [
   { text: "İnsanı yaşat ki devlet yaşasın.", author: "Yunus Emre" },
   { text: "Dünyada her şey için, medeniyet için, hayat için, muvaffakiyet için en hakiki mürşit ilimdir.", author: "Mustafa Kemal Atatürk" },
   
-  // Şiirden
   { text: "Güzel günler göreceğiz, çocuklar büyüyecek.", author: "Nazım Hikmet" },
   { text: "Gel, gel, ne olursan ol yine gel.", author: "Mevlana" },
   { text: "Ben bir çınar idim, ben bir dal idim; yaprak yaprak dökülüp soldum.", author: "Aşık Veysel" },

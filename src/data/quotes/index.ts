@@ -25,10 +25,8 @@ const quotesByLocale: Record<string, Quote[]> = {
 };
 
 export const getRandomQuote = (locale: string = 'en'): Quote => {
-  // Extract language code from locale (e.g., 'en-US' -> 'en')
   const langCode = locale.split('-')[0];
   
-  // Try full locale first, then language code, then fallback to English
   const quotes = quotesByLocale[locale] || quotesByLocale[langCode] || enQuotes;
   
   return quotes[Math.floor(Math.random() * quotes.length)];

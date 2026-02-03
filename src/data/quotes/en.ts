@@ -4,7 +4,6 @@ export interface Quote {
 }
 
 export const quotes: Quote[] = [
-  // Motivational
   { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
   { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" },
   { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
@@ -16,7 +15,6 @@ export const quotes: Quote[] = [
   { text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
   { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
   
-  // Wisdom
   { text: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
   { text: "In the middle of difficulty lies opportunity.", author: "Albert Einstein" },
   { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
@@ -28,7 +26,6 @@ export const quotes: Quote[] = [
   { text: "Yesterday is history, tomorrow is a mystery, today is a gift of God, which is why we call it the present.", author: "Bil Keane" },
   { text: "When you change your thoughts, remember to also change your world.", author: "Norman Vincent Peale" },
   
-  // Humorous
   { text: "I'm not superstitious, but I am a little stitious.", author: "Michael Scott" },
   { text: "The road to success is always under construction.", author: "Lily Tomlin" },
   { text: "I have not failed. I've just found 10,000 ways that won't work.", author: "Thomas Edison" },
@@ -40,7 +37,6 @@ export const quotes: Quote[] = [
   { text: "Light travels faster than sound. This is why some people appear bright until you hear them speak.", author: "Alan Dundes" },
   { text: "I never forget a face, but in your case, I'll be glad to make an exception.", author: "Groucho Marx" },
   
-  // Literary
   { text: "It is our choices that show what we truly are, far more than our abilities.", author: "J.K. Rowling" },
   { text: "Not all those who wander are lost.", author: "J.R.R. Tolkien" },
   { text: "So we beat on, boats against the current, borne back ceaselessly into the past.", author: "F. Scott Fitzgerald" },

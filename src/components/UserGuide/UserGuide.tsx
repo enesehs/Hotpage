@@ -127,7 +127,6 @@ export const UserGuide = ({ isOpen, onComplete, locale, onOpenStickyNotes, onClo
         }, 100);
     }, [onOpenStickyNotes, steps.length]);
 
-    // Disable body scroll when guide is open
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';

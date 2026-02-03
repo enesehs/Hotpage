@@ -319,7 +319,6 @@ function App() {
       return { background: background.value };
     }
 
-    // Local images from IndexedDB
     if (background.type === 'image' && backgroundUrl) {
       return {
         backgroundImage: `url(${backgroundUrl})`,
@@ -329,7 +328,6 @@ function App() {
       };
     }
 
-    // Online images (URL stored in background.value)
     const isOnlineWallpaper = background.type === 'unsplash' ||
       background.type === 'nasa' ||
       background.type === 'picsum' ||

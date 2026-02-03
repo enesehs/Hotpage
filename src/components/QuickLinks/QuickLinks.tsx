@@ -24,7 +24,7 @@ const getFaviconUrl = (url: string): string => {
     }
 };
 
-export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMode = 'standard', scale = 1, onScaleChange, onHide }: QuickLinksProps) => {
+export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMode = 'standard', scale = 1, onScaleChange, onHide: _onHide }: QuickLinksProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editingLink, setEditingLink] = useState<QuickLink | null>(null);
     const [draggedItem, setDraggedItem] = useState<string | null>(null);
@@ -156,18 +156,16 @@ export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMo
                 const remainingChildren = parentFolder.children.filter(child => child.id !== id);
 
                 if (remainingChildren.length <= 1) {
-                    // Dissolve folder: move remaining child (if any) to root level replacing the folder
                     const newLinks = links.map(link => {
                         if (link.id === parentId) {
-                            return remainingChildren[0] || null; // Return child or null if 0 left
+                            return remainingChildren[0] || null;
                         }
                         return link;
                     }).filter(Boolean) as QuickLink[];
 
                     onLinksChange(newLinks);
-                    setExpandedFolder(null); // Close folder since it's gone
+                    setExpandedFolder(null);
                 } else {
-                    // Just update folder
                     const updatedLinks = links.map(link => {
                         if (link.id === parentId) {
                             return { ...link, children: remainingChildren };
@@ -207,7 +205,6 @@ export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMo
 
         const { id: draggedId, parentId: draggedParentId } = JSON.parse(data);
 
-        // Case 1: Dragging out of a folder (onto the overlay background or root container)
         if (targetType === 'container' && draggedParentId && !targetParentId) {
             const parentFolder = links.find(l => l.id === draggedParentId);
             const draggedLink = parentFolder?.children?.find(c => c.id === draggedId);
@@ -215,11 +212,9 @@ export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMo
             if (parentFolder && draggedLink) {
                 const remainingChildren = parentFolder.children?.filter(c => c.id !== draggedId) || [];
 
-                // Remove from folder logic with Dissolve check
                 let newLinks: QuickLink[] = [];
 
                 if (remainingChildren.length <= 1) {
-                    // Dissolve: Replace folder with remaining child (if any)
                     newLinks = links.map(l => {
                         if (l.id === draggedParentId) {
                             return remainingChildren[0] || null;
@@ -227,12 +222,10 @@ export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMo
                         return l;
                     }).filter(Boolean) as QuickLink[];
                 } else {
-                    // Update folder
                     const updatedFolder = { ...parentFolder, children: remainingChildren };
                     newLinks = links.map(l => l.id === draggedParentId ? updatedFolder : l);
                 }
 
-                // Add dragged link to root
                 newLinks.push(draggedLink);
 
                 newLinks = cleanLinks(newLinks);
@@ -243,17 +236,14 @@ export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMo
             return;
         }
 
-        if (!targetId) return; // If not dropping on a specific item and not handled above, return.
+        if (!targetId) return;
 
         if (draggedId === targetId) return;
 
-        // Special case: Dropping into an existing folder
         if (targetType === 'folder' && !draggedParentId) {
             const draggedLink = links.find(l => l.id === draggedId);
             if (!draggedLink) return;
 
-            // Only allow dropping into folder if the dragged item is NOT a folder
-            // If it IS a folder, we skip this block so it falls through to the reordering logic below
             if (draggedLink.type !== 'folder') {
                 const updatedLinks = links.filter(l => l.id !== draggedId).map(link => {
                     if (link.id === targetId) {
@@ -270,34 +260,28 @@ export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMo
             }
         }
 
-        // Folder Creation: Dropping a top-level link onto another top-level link
         if (!draggedParentId && !targetParentId && targetType === 'link') {
             const draggedIndex = links.findIndex(l => l.id === draggedId);
             const targetIndex = links.findIndex(l => l.id === targetId);
 
             if (draggedIndex === -1 || targetIndex === -1) return;
 
-            // Strict Folder Creation Logic: Only if dropped in center
-            // Otherwise, treat as reorder
             const targetElement = e.currentTarget as HTMLElement;
             const rect = targetElement.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            // Define central zone (inner 30%, margins 35%)
             const boundaryX = rect.width * 0.35;
             const boundaryY = rect.height * 0.35;
 
             const isCentral = x > boundaryX && x < rect.width - boundaryX &&
                 y > boundaryY && y < rect.height - boundaryY;
 
-            // If NOT central, fall through to reordering logic (insert)
             if (isCentral) {
                 const folderId = Date.now().toString();
                 const draggedLink = links[draggedIndex];
                 const targetLink = links[targetIndex];
 
-                // Prevent nesting if dragged item is a folder
                 if (draggedLink.type === 'folder') return;
                 if (targetLink.type === 'folder') return;
 
@@ -318,16 +302,10 @@ export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMo
                 setDraggedItem(null);
                 return;
             }
-            // If we are here, it's a reorder operation implicitly handled below or needs handling here.
-            // But wait, the below logic handles `draggedParentId === targetParentId`.
-            // Here both are undefined (top level), so it matches the condition below!
-            // So we just let it fall through to lines 279+
         }
 
-        // Reordering within the same context
         if (draggedParentId === targetParentId) {
             if (draggedParentId) {
-                // Reorder inside folder
                 const updatedLinks = links.map(link => {
                     if (link.id === draggedParentId && link.children) {
                         const newChildren = [...link.children];
@@ -345,7 +323,6 @@ export const QuickLinks = ({ links, onLinksChange, bottomSpacing = false, viewMo
                 });
                 onLinksChange(updatedLinks);
             } else {
-                // Reorder top level
                 const draggedIndex = links.findIndex(link => link.id === draggedId);
                 const targetIndex = links.findIndex(link => link.id === targetId);
 

@@ -4,7 +4,6 @@ export interface Quote {
 }
 
 export const quotes: Quote[] = [
-  // Motivationnel
   { text: "La seule façon de faire du bon travail est d'aimer ce que vous faites.", author: "Steve Jobs" },
   { text: "Le succès n'est pas définitif, l'échec n'est pas fatal : c'est le courage de continuer qui compte.", author: "Winston Churchill" },
   { text: "Croyez que vous pouvez et vous êtes à mi-chemin.", author: "Theodore Roosevelt" },
@@ -16,7 +15,6 @@ export const quotes: Quote[] = [
   { text: "Vous n'êtes jamais trop vieux pour fixer un autre objectif ou rêver un nouveau rêve.", author: "C.S. Lewis" },
   { text: "Ce qui est derrière nous et ce qui est devant nous sont de petites choses comparées à ce qui est en nous.", author: "Ralph Waldo Emerson" },
   
-  // Sagesse
   { text: "La seule vraie sagesse est de savoir que vous ne savez rien.", author: "Socrate" },
   { text: "Au milieu de la difficulté se trouve l'opportunité.", author: "Albert Einstein" },
   { text: "La vie, c'est ce qui arrive quand vous êtes occupé à faire d'autres projets.", author: "John Lennon" },
@@ -28,7 +26,6 @@ export const quotes: Quote[] = [
   { text: "Hier est histoire, demain est un mystère, aujourd'hui est un cadeau de Dieu, c'est pourquoi nous l'appelons le présent.", author: "Bil Keane" },
   { text: "Quand vous changez vos pensées, n'oubliez pas de changer aussi votre monde.", author: "Norman Vincent Peale" },
   
-  // Littérature Française
   { text: "L'enfer, c'est les autres.", author: "Jean-Paul Sartre" },
   { text: "Je pense, donc je suis.", author: "René Descartes" },
   { text: "La vie est un sommeil, l'amour en est le rêve.", author: "Alfred de Musset" },
@@ -40,7 +37,6 @@ export const quotes: Quote[] = [
   { text: "Il n'y a qu'un bonheur dans la vie, c'est d'aimer et d'être aimé.", author: "George Sand" },
   { text: "Rien n'est permanent sauf le changement.", author: "Héraclite" },
   
-  // Poésie
   { text: "Demain, dès l'aube, à l'heure où blanchit la campagne, je partirai.", author: "Victor Hugo" },
   { text: "Là où vos talents et les besoins du monde se rencontrent, là se trouve votre vocation.", author: "Aristote" },
   { text: "La vie est un songe.", author: "Pedro Calderón de la Barca" },
