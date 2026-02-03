@@ -57,6 +57,10 @@ const WarningIcon = (
   </svg>
 );
 
+const CURRENCY_CACHE_KEY = 'hotpage_currency_cache';
+const CRYPTO_CACHE_KEY = 'hotpage_crypto_cache';
+const CACHE_VALIDITY_MS = 30 * 60 * 1000;
+
 export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: CurrencyProps) => {
   const t = getTranslations(locale);
   const isTurkish = locale === 'tr-TR' || locale === 'tr';
@@ -83,12 +87,54 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
     return hasCurrencies ? 'currency' : 'crypto';
   };
 
+  const getCachedCurrencies = (): CurrencyData[] => {
+    try {
+      const cached = localStorage.getItem(CURRENCY_CACHE_KEY);
+      if (cached) {
+        const { data, timestamp, base } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_VALIDITY_MS && base === baseCurrency) {
+          logger.info('Currency', `Loaded ${data.length} currencies from cache`);
+          return data;
+        }
+      }
+    } catch { }
+    return [];
+  };
+
+  const getCachedCryptos = (): CryptoData[] => {
+    try {
+      const cached = localStorage.getItem(CRYPTO_CACHE_KEY);
+      if (cached) {
+        const { data, timestamp, base } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_VALIDITY_MS && base === baseCurrency) {
+          logger.info('Currency', `Loaded ${data.length} cryptos from cache`);
+          return data;
+        }
+      }
+    } catch { }
+    return [];
+  };
+
+  const getCachedLastUpdated = (): string => {
+    try {
+      const cacheKey = getInitialTab() === 'currency' ? CURRENCY_CACHE_KEY : CRYPTO_CACHE_KEY;
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const { lastUpdated, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_VALIDITY_MS) {
+          return lastUpdated || '';
+        }
+      }
+    } catch { }
+    return '';
+  };
+
   const [activeTab, setActiveTab] = useState<'currency' | 'crypto'>(getInitialTab());
-  const [currencies, setCurrencies] = useState<CurrencyData[]>([]);
-  const [cryptos, setCryptos] = useState<CryptoData[]>([]);
+  const [currencies, setCurrencies] = useState<CurrencyData[]>(getCachedCurrencies);
+  const [cryptos, setCryptos] = useState<CryptoData[]>(getCachedCryptos);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<string>('');
+  const [lastUpdated, setLastUpdated] = useState<string>(getCachedLastUpdated);
 
   useEffect(() => {
     if (!hasCurrencies && activeTab === 'currency' && hasCryptos) {
@@ -180,8 +226,15 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
         });
       }
 
+      const newLastUpdated = new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
       setCurrencies(currencyData);
-      setLastUpdated(new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
+      setLastUpdated(newLastUpdated);
+      localStorage.setItem(CURRENCY_CACHE_KEY, JSON.stringify({
+        data: currencyData,
+        timestamp: Date.now(),
+        base: baseCurrency,
+        lastUpdated: newLastUpdated
+      }));
       logger.success('Currency', `Loaded ${currencyData.length} currency rates`);
     } catch (err) {
       logger.error('Currency', 'Failed to fetch exchange rates', err);
@@ -217,8 +270,15 @@ export const Currency = ({ locale = 'en-US', settings, onSettingsChange }: Curre
         lastUpdated: new Date().toLocaleTimeString(locale),
       }));
 
+      const newLastUpdated = new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
       setCryptos(cryptoData);
-      setLastUpdated(new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }));
+      setLastUpdated(newLastUpdated);
+      localStorage.setItem(CRYPTO_CACHE_KEY, JSON.stringify({
+        data: cryptoData,
+        timestamp: Date.now(),
+        base: baseCurrency,
+        lastUpdated: newLastUpdated
+      }));
       logger.success('Currency', `Loaded ${cryptoData.length} crypto prices`);
     } catch (err) {
       logger.error('Currency', 'Failed to fetch crypto prices', err);

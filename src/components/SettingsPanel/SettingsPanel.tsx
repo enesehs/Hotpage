@@ -209,6 +209,32 @@ export const SettingsPanel = ({
                 </button>
               </div>
 
+              <h3 style={{ marginTop: 'var(--spacing-xl)' }}>Quick Links View</h3>
+              <div className="theme-selector">
+                <button
+                  className={`theme-btn ${settings.quickLinksViewMode !== 'logo' ? 'active' : ''}`}
+                  onClick={() => onSettingsChange({ quickLinksViewMode: 'standard' })}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <line x1="3" y1="9" x2="21" y2="9" />
+                    <line x1="9" y1="21" x2="9" y2="9" />
+                  </svg>
+                  Standard
+                </button>
+                <button
+                  className={`theme-btn ${settings.quickLinksViewMode === 'logo' ? 'active' : ''}`}
+                  onClick={() => onSettingsChange({ quickLinksViewMode: 'logo' })}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 8v8" />
+                    <path d="M8 12h8" />
+                  </svg>
+                  Logo Only
+                </button>
+              </div>
+
               <h3 style={{ marginTop: 'var(--spacing-xl)' }}>Language / Locale</h3>
               <select
                 className="settings-select"
@@ -716,7 +742,7 @@ export const SettingsPanel = ({
                       'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8',
                       'https://images.unsplash.com/photo-1493246507139-91e8fad9978e',
                       'https://images.unsplash.com/photo-1516821371801-280cf8069a4e',
-                      'https://images.unsplash.com/photo-1493166228553-4fa0fdb916e8', 
+                      'https://images.unsplash.com/photo-1493166228553-4fa0fdb916e8',
                       'https://images.unsplash.com/photo-1542856391-010fb87dcfed',
                       'https://images.unsplash.com/photo-1477346611705-65d1883cee1e',
                       'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=2400',
@@ -1189,7 +1215,38 @@ export const SettingsPanel = ({
 
           {activeTab === 'widgets' && (
             <div className="settings-section">
-              <h3>Available Widgets</h3>
+              <h3>Display Options</h3>
+              <div className="toggle-group">
+                <label className="toggle-item">
+                  <span>Show Clock</span>
+                  <input
+                    type="checkbox"
+                    checked={settings.showClock ?? true}
+                    onChange={() => onSettingsChange({ showClock: !(settings.showClock ?? true) })}
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
+                <label className="toggle-item">
+                  <span>Show Date</span>
+                  <input
+                    type="checkbox"
+                    checked={settings.showDate ?? true}
+                    onChange={() => onSettingsChange({ showDate: !(settings.showDate ?? true) })}
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
+                <label className="toggle-item">
+                  <span>Show Quick Links</span>
+                  <input
+                    type="checkbox"
+                    checked={settings.showQuickLinks ?? true}
+                    onChange={() => onSettingsChange({ showQuickLinks: !(settings.showQuickLinks ?? true) })}
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
+              </div>
+
+              <h3 style={{ marginTop: 'var(--spacing-xl)' }}>Available Widgets</h3>
               <p style={{ fontSize: '0.875rem', color: 'var(--color-textSecondary)', marginBottom: 'var(--spacing-lg)' }}>
                 Enable widgets to customize your homepage experience
               </p>
@@ -1255,26 +1312,50 @@ export const SettingsPanel = ({
                     </div>
                   )}
                 </div>
-                <div className={`widget-card ${settings.quickLinksSpacingWidget ? 'widget-card-active' : ''}`}>
+                <div className={`widget-card ${settings.showQuickLinks ? 'widget-card-active' : ''}`}>
                   <div className="widget-card-header">
                     <div className="widget-card-icon">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 6h16v4H4z" />
-                        <path d="M4 14h16v4H4z" />
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                       </svg>
                     </div>
                     <div className="widget-card-info">
-                      <h4>Spacing Widget</h4>
-                      <p>Keeps Away From Cluttered Appearance</p>
+                      <h4>Quick Links</h4>
+                      <p>Access your favorite sites</p>
                     </div>
                     <label className="widget-card-toggle">
                       <input
                         type="checkbox"
-                        checked={settings.quickLinksSpacingWidget ?? true}
-                        onChange={(e) => onSettingsChange({ quickLinksSpacingWidget: e.target.checked })}
+                        checked={settings.showQuickLinks ?? true}
+                        onChange={(e) => onSettingsChange({ showQuickLinks: e.target.checked })}
                       />
                     </label>
                   </div>
+
+                  {settings.showQuickLinks && (
+                    <div className="widget-card-settings">
+                      <label className="widget-setting-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={settings.quickLinksViewMode === 'logo'}
+                          onChange={(e) => onSettingsChange({
+                            quickLinksViewMode: e.target.checked ? 'logo' : 'standard'
+                          })}
+                        />
+                        <span>Logo Mode (Clean Look)</span>
+                      </label>
+
+                      <label className="widget-setting-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={settings.quickLinksSpacingWidget ?? false}
+                          onChange={(e) => onSettingsChange({ quickLinksSpacingWidget: e.target.checked })}
+                        />
+                        <span>Add Extra Bottom Spacing</span>
+                      </label>
+                    </div>
+                  )}
                 </div>
 
                 <div className={`widget-card ${settings.widgets.weather?.enabled ? 'widget-card-active' : ''}`}>
@@ -1299,6 +1380,29 @@ export const SettingsPanel = ({
 
                   {settings.widgets.weather?.enabled && (
                     <div className="widget-card-settings">
+                      <label className="widget-setting-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={(settings.widgets.weather?.settings as any)?.viewMode === 'minimal'}
+                          onChange={(e) => {
+                            const currentWidget = settings.widgets.weather || { enabled: true };
+                            onSettingsChange({
+                              widgets: {
+                                ...settings.widgets,
+                                weather: {
+                                  ...currentWidget,
+                                  settings: {
+                                    ...(currentWidget.settings || {}),
+                                    viewMode: e.target.checked ? 'minimal' : 'widget',
+                                  },
+                                },
+                              },
+                            });
+                          }}
+                        />
+                        <span>Minimal View (Top Left)</span>
+                      </label>
+
                       <label className="widget-setting-label">
                         <span>Location</span>
                         <input

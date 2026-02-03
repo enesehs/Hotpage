@@ -36,20 +36,50 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: var(--spacing-lg);
+  padding: 200px var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
   transition: backdrop-filter 0.3s ease;
   gap: var(--spacing-xl);
 }
 
 .widgets-top {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: var(--spacing-md);
-  flex-shrink: 0;
-  padding-top: var(--spacing-xl);
-  min-height: 160px;
+  padding: var(--spacing-lg);
+  z-index: 50;
+  pointer-events: none;
+  /* Allows clicking through the empty space */
+}
+
+.widgets-top-left {
+  position: fixed;
+  top: var(--spacing-lg);
+  left: var(--spacing-lg);
+  z-index: 60;
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+}
+
+.widgets-top-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: var(--spacing-lg);
+  z-index: 60;
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+}
+
+.widgets-top-right {
+  margin-right: 0;
 }
 
 .spacer {
@@ -59,6 +89,7 @@
 .container {
   width: 100%;
   max-width: 1200px;
+  padding-top: 50px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

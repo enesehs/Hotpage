@@ -14,10 +14,10 @@ interface StoredImage {
   compressedSize: number;
 }
 
-const MAX_WIDTH = 1920;
-const MAX_HEIGHT = 1080;
-const THUMBNAIL_SIZE = 100;
-const COMPRESSION_QUALITY = 0.85;
+const MAX_WIDTH = Math.max(window.screen.width, 1920); // Use screen width or at least 1920
+const MAX_HEIGHT = Math.max(window.screen.height, 1080); // Use screen height or at least 1080
+const THUMBNAIL_SIZE = 150; // Increased slightly for better quality previews
+const COMPRESSION_QUALITY = 0.8; // WebP handles 0.8 very well
 
 async function compressImage(file: File): Promise<{ compressed: Blob; thumbnail: Blob }> {
   return new Promise((resolve, reject) => {
@@ -75,11 +75,11 @@ async function compressImage(file: File): Promise<{ compressed: Blob; thumbnail:
               }
               resolve({ compressed: compressedBlob, thumbnail: thumbnailBlob });
             },
-            'image/jpeg',
+            'image/webp',
             0.7
           );
         },
-        'image/jpeg',
+        'image/webp',
         COMPRESSION_QUALITY
       );
     };

@@ -15,9 +15,9 @@ interface Change {
 
 const CHANGES: Change[] = [
     {
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>',
-        title: { tr: 'Interaktif Kullanım Kılavuzu', en: 'Interactive User Guide' },
-        description: { tr: 'Yeni başlayanlar için adım adım tur', en: 'Step-by-step tour for new users' }
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+        title: { tr: 'Arama Motoru Seçici', en: 'Search Engine Selector' },
+        description: { tr: 'Google, DuckDuckGo, Brave, Yandex, Baidu, Wikipedia', en: 'Google, DuckDuckGo, Brave, Yandex, Baidu, Wikipedia' }
     },
     {
         icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
@@ -25,7 +25,7 @@ const CHANGES: Change[] = [
         description: { tr: 'Gmail, Drive, Photos ve daha fazlası', en: 'Gmail, Drive, Photos and more' }
     },
     {
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/></svg>',
         title: { tr: 'Hesap Makinesi', en: 'Calculator' },
         description: { tr: 'Arama çubuğunda matematik işlemleri', en: 'Math operations in search bar' }
     },
@@ -35,9 +35,9 @@ const CHANGES: Change[] = [
         description: { tr: 'Hava durumu, döviz, RSS güncelleme zamanı', en: 'Weather, currency, RSS update time' }
     },
     {
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
-        title: { tr: 'Sticky Notes Senkronizasyon', en: 'Sticky Notes Sync' },
-        description: { tr: 'Tüm sekmelerde gerçek zamanlı senkronizasyon', en: 'Real-time sync across all tabs' }
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+        title: { tr: 'Hız Optimizasyonu', en: 'Speed Optimization' },
+        description: { tr: 'Daha hızlı yükleme ve performans iyileştirmeleri', en: 'Faster loading and performance improvements' }
     }
 ];
 

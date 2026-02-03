@@ -139,7 +139,7 @@ function App() {
     };
   }, [settings]);
 
-  const CURRENT_VERSION = 'v1.4.0';
+  const CURRENT_VERSION = 'v1.4.1';
   useEffect(() => {
     const lastSeenVersion = localStorage.getItem('hotpage-last-seen-version');
     if (lastSeenVersion !== CURRENT_VERSION && settings.introSeen) {
@@ -330,11 +330,11 @@ function App() {
     }
 
     // Online images (URL stored in background.value)
-    const isOnlineWallpaper = background.type === 'unsplash' || 
-      background.type === 'nasa' || 
-      background.type === 'picsum' || 
-      background.type === 'istanbul' || 
-      background.type === 'space' || 
+    const isOnlineWallpaper = background.type === 'unsplash' ||
+      background.type === 'nasa' ||
+      background.type === 'picsum' ||
+      background.type === 'istanbul' ||
+      background.type === 'space' ||
       background.type === 'ocean';
 
     if (isOnlineWallpaper && background.value) {
@@ -432,27 +432,91 @@ function App() {
           />
         )}
 
-        {settings.widgets.quotes?.enabled && (
-          <div className="widgets-top">
-            <Quotes locale={settings.locale} />
+        <div className="widgets-top">
+          <div className="widgets-top-left">
+            {settings.widgets.weather?.enabled &&
+              (settings.widgets.weather.settings as any)?.viewMode === 'minimal' && (
+                <Weather
+                  key="weather-minimal"
+                  locale={settings.locale}
+                  manualLocation={(settings.widgets.weather?.settings as any)?.manualLocation}
+                  refreshMinutes={(settings.widgets.weather?.settings as any)?.refreshMinutes}
+                  viewMode="minimal"
+                  scale={settings.widgets.weather.scale || 1}
+                  onScaleChange={(newScale) => {
+                    updateSettings({
+                      widgets: {
+                        ...settings.widgets,
+                        weather: { ...settings.widgets.weather, scale: newScale }
+                      }
+                    });
+                  }}
+                  onHide={() => {
+                    updateSettings({
+                      widgets: {
+                        ...settings.widgets,
+                        weather: { ...settings.widgets.weather, enabled: false }
+                      }
+                    });
+                  }}
+                />
+              )}
           </div>
-        )}
-
-        <div className="spacer" />
-
-        <div className="container">
-          <Clock locale={settings.locale} />
-
-          <SearchBar />
-
-          <QuickLinks
-            links={settings.quickLinks}
-            onLinksChange={handleLinksChange}
-            spacingWidgetEnabled={settings.quickLinksSpacingWidget ?? true}
-          />
+          <div className="widgets-top-center">
+            {settings.widgets.quotes?.enabled && (
+              <Quotes
+                locale={settings.locale}
+                scale={settings.widgets.quotes.scale || 1}
+                onScaleChange={(newScale) => {
+                  updateSettings({
+                    widgets: {
+                      ...settings.widgets,
+                      quotes: { ...settings.widgets.quotes, scale: newScale }
+                    }
+                  });
+                }}
+                onHide={() => {
+                  updateSettings({
+                    widgets: {
+                      ...settings.widgets,
+                      quotes: { ...settings.widgets.quotes, enabled: false }
+                    }
+                  });
+                }}
+              />
+            )}
+          </div>
+          <div className="widgets-top-right">
+            {/* Right side filler if needed, currently empty as Settings is fixed */}
+          </div>
         </div>
 
-        <div className="spacer" />
+
+
+        <div className="container">
+          {(settings.showClock ?? true) && (
+            <Clock locale={settings.locale} showDate={settings.showDate ?? true} />
+          )}
+
+          <SearchBar
+            engine={settings.searchEngine || 'default'}
+            onEngineChange={(engine) => updateSettings({ searchEngine: engine })}
+          />
+
+          {(settings.showQuickLinks ?? true) && (
+            <QuickLinks
+              links={settings.quickLinks}
+              onLinksChange={handleLinksChange}
+              bottomSpacing={settings.quickLinksSpacingWidget ?? false}
+              viewMode={settings.quickLinksViewMode || 'standard'}
+              scale={settings.quickLinksScale || 1}
+              onScaleChange={(newScale) => updateSettings({ quickLinksScale: newScale })}
+              onHide={() => updateSettings({ showQuickLinks: false })}
+            />
+          )}
+        </div>
+
+
 
         <div className="widgets-bottom">
           {(settings.widgetOrder || ['weather', 'currency', 'rss']).filter(id => id !== 'quotes').map((widgetId) => {
@@ -467,13 +531,32 @@ function App() {
               );
             }
 
-            if (widgetId === 'weather' && settings.widgets.weather?.enabled) {
+            if (widgetId === 'weather' &&
+              settings.widgets.weather?.enabled &&
+              (settings.widgets.weather.settings as any)?.viewMode !== 'minimal') {
               return (
                 <Weather
                   key="weather"
                   locale={settings.locale}
                   manualLocation={(settings.widgets.weather?.settings as { manualLocation?: string; refreshMinutes?: number })?.manualLocation}
                   refreshMinutes={(settings.widgets.weather?.settings as { manualLocation?: string; refreshMinutes?: number })?.refreshMinutes}
+                  scale={settings.widgets.weather.scale || 1}
+                  onScaleChange={(newScale) => {
+                    updateSettings({
+                      widgets: {
+                        ...settings.widgets,
+                        weather: { ...settings.widgets.weather, scale: newScale }
+                      }
+                    });
+                  }}
+                  onHide={() => {
+                    updateSettings({
+                      widgets: {
+                        ...settings.widgets,
+                        weather: { ...settings.widgets.weather, enabled: false }
+                      }
+                    });
+                  }}
                 />
               );
             }

@@ -3,9 +3,10 @@ import './Clock.css';
 
 interface ClockProps {
   locale?: string;
+  showDate?: boolean;
 }
 
-export const Clock = ({ locale = 'system' }: ClockProps) => {
+export const Clock = ({ locale = 'system', showDate = true }: ClockProps) => {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export const Clock = ({ locale = 'system' }: ClockProps) => {
   return (
     <div className="clock">
       <div className="clock-time">{formatTime(time)}</div>
-      <div className="clock-date">{formatDate(time)}</div>
+      {showDate && <div className="clock-date">{formatDate(time)}</div>}
     </div>
   );
 };

@@ -143,6 +143,7 @@ export const SettingsSchema = z.object({
     quickLinksSpacingWidget: z.boolean().optional(),
     introSeen: z.boolean().optional(),
     locale: z.string().optional(),
+    searchEngine: z.string().optional(),
     widgetOrder: z.array(z.string()).optional(),
     secretLinks: SecretLinksSettingsSchema.optional(),
     quickActions: QuickActionsSettingsSchema.optional(),

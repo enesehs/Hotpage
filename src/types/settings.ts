@@ -3,6 +3,8 @@ export interface QuickLink {
   id: string;
   title: string;
   url: string;
+  type?: 'link' | 'folder';
+  children?: QuickLink[];
   icon?: string;
   iconType?: 'favicon' | 'svg' | 'custom' | 'none';
   hidden?: boolean;
@@ -35,6 +37,7 @@ export interface WidgetConfig {
   enabled: boolean;
   position?: number;
   settings?: Record<string, unknown>;
+  scale?: number;
 }
 
 export interface QuotesWidgetSettings {
@@ -48,6 +51,7 @@ export interface QuotesWidgetSettings {
 export interface WeatherWidgetSettings {
   manualLocation?: string;
   refreshMinutes?: number;
+  viewMode?: 'minimal' | 'widget';
   [key: string]: unknown;
 }
 
@@ -86,13 +90,19 @@ export interface GoogleShortcutsSettings {
 
 export interface Settings {
   quickLinks: QuickLink[];
+  quickLinksViewMode?: 'standard' | 'logo';
   quickLinksSpacingWidget?: boolean;
+  quickLinksScale?: number;
   introSeen?: boolean;
   locale?: string;
+  searchEngine?: string;
   widgetOrder?: string[];
   secretLinks?: SecretLinksSettings;
   quickActions?: QuickActionsSettings;
   googleShortcuts?: GoogleShortcutsSettings;
+  showClock?: boolean;
+  showDate?: boolean;
+  showQuickLinks?: boolean;
   widgets: {
     quotes: WidgetConfig;
     weather: WidgetConfig;
